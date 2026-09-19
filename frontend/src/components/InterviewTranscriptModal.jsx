@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, Copy, Check, Clock, MessageSquare, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react'
+import { X, Copy, Check, Clock, MessageSquare, AlertCircle, ChevronDown, ChevronUp, Mic } from 'lucide-react'
 
 export default function InterviewTranscriptModal({ interview, onClose }) {
   const [copied, setCopied] = useState(false)
@@ -85,8 +85,8 @@ export default function InterviewTranscriptModal({ interview, onClose }) {
               marginBottom: 20
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--brand-primary)' }}>
-                  🎙️ Phase 7 Communication Scorecard
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--brand-primary)' }}>
+                  <Mic size={14} /> Communication Scorecard
                 </span>
                 <span style={{
                   fontSize: '0.9rem',

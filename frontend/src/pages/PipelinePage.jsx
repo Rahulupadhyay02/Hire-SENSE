@@ -1,16 +1,26 @@
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import { useNavigate } from 'react-router-dom'
+import {
+  Briefcase,
+  ClipboardList,
+  FileText,
+  Target,
+  Mic,
+  BarChart2,
+  Scale,
+  CheckCircle2,
+} from 'lucide-react'
 
 const stages = [
-  { label: 'Job Posted', icon: '💼', count: 8, color: '#3d6eff' },
-  { label: 'Applied', icon: '📋', count: 140, color: '#06b6d4' },
-  { label: 'Resume AI', icon: '📄', count: 120, color: '#8b5cf6' },
-  { label: 'Matched', icon: '🎯', count: 98, color: '#ec4899' },
-  { label: 'Interview', icon: '🎙️', count: 52, color: '#f59e0b' },
-  { label: 'AI Report', icon: '📊', count: 41, color: '#10b981' },
-  { label: 'Human Review', icon: '⚖️', count: 35, color: '#14b8a6' },
-  { label: 'Decision', icon: '✅', count: 28, color: '#10b981' },
+  { label: 'Job Posted', icon: Briefcase, count: 8, color: '#3d6eff' },
+  { label: 'Applied', icon: ClipboardList, count: 140, color: '#06b6d4' },
+  { label: 'Resume AI', icon: FileText, count: 120, color: '#8b5cf6' },
+  { label: 'Matched', icon: Target, count: 98, color: '#ec4899' },
+  { label: 'Interview', icon: Mic, count: 52, color: '#f59e0b' },
+  { label: 'AI Report', icon: BarChart2, count: 41, color: '#10b981' },
+  { label: 'Human Review', icon: Scale, count: 35, color: '#14b8a6' },
+  { label: 'Decision', icon: CheckCircle2, count: 28, color: '#10b981' },
 ]
 
 const pipelineCandidates = [
@@ -52,9 +62,12 @@ export default function PipelinePage() {
               {stages.map((s, i) => {
                 const pct = (s.count / 140) * 100
                 const w = 30 + (s.count / 140) * 70
-                return (
-                  <div key={s.label} className="flex items-center gap-4">
-                    <div style={{ width: 28, textAlign: 'center', fontSize: '1rem' }}>{s.icon}</div>
+                  const Icon = s.icon
+                  return (
+                    <div key={s.label} className="flex items-center gap-4">
+                      <div style={{ width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Icon size={16} color={s.color} />
+                      </div>
                     <div style={{ width: 110, fontSize: '0.82rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{s.label}</div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{
@@ -94,26 +107,33 @@ export default function PipelinePage() {
                 return (
                   <div key={stage} style={{
                     flex: 1, minWidth: 200,
-                    background: 'var(--bg-glass)',
-                    border: '1px solid var(--border-subtle)',
+                    background: '#f1f5f9',
+                    border: '1px solid #e2e8f0',
                     borderRadius: 'var(--radius-xl)',
                     padding: '16px'
                   }}>
                     <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
                       <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)' }}>{stage}</div>
-                      <span className="badge badge-muted">{inStage.length || Math.floor(Math.random() * 12) + 5}</span>
+                      <span className="badge badge-muted">{inStage.length || 8}</span>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                       {inStage.map(c => (
                         <div key={c.name} style={{
-                          padding: '12px', background: 'rgba(255,255,255,0.03)',
-                          border: '1px solid var(--border-subtle)',
+                          padding: '12px', background: '#ffffff',
+                          border: '1px solid #e2e8f0',
                           borderRadius: 'var(--radius-lg)',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
                           cursor: 'pointer', transition: 'all 0.2s'
                         }}
-                          onMouseOver={e => e.currentTarget.style.borderColor = 'var(--border-brand)'}
-                          onMouseOut={e => e.currentTarget.style.borderColor = 'var(--border-subtle)'}
+                          onMouseOver={e => {
+                            e.currentTarget.style.borderColor = '#93c5fd'
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)'
+                          }}
+                          onMouseOut={e => {
+                            e.currentTarget.style.borderColor = '#e2e8f0'
+                            e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.03)'
+                          }}
                           onClick={() => navigate('/recruiter/report')}
                         >
                           <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>

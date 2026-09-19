@@ -5,7 +5,7 @@ import Topbar from '../components/Topbar'
 import { StatusBadge, ScoreRing } from '../components/Charts'
 import InterviewTranscriptModal from '../components/InterviewTranscriptModal'
 import client from '../api/client'
-import { Search, Filter, X, Check, XCircle, Clock, Eye, Briefcase, GraduationCap, Phone, Mail, Download, FileText, ExternalLink, Sparkles, Sliders, AlertCircle, CheckCircle, RefreshCw, ShieldCheck, Video, Mic, Trash2, PlayCircle, Loader } from 'lucide-react'
+import { Search, Filter, X, Check, XCircle, Clock, Eye, Briefcase, GraduationCap, Phone, Mail, Download, FileText, ExternalLink, Sparkles, Sliders, AlertCircle, CheckCircle, RefreshCw, ShieldCheck, Video, Mic, Trash2, PlayCircle, Loader, BarChart2 } from 'lucide-react'
 
 export default function CandidatesPage() {
   const navigate = useNavigate()
@@ -735,7 +735,7 @@ export default function CandidatesPage() {
                         <span style={{ color: 'var(--text-secondary)' }}>Skills Match (45%)</span>
                         <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.skills_score}%</strong>
                       </div>
-                      <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.skills_score)}%`, background: 'var(--brand-400)', borderRadius: 3 }} />
                       </div>
                     </div>
@@ -746,7 +746,7 @@ export default function CandidatesPage() {
                         <span style={{ color: 'var(--text-secondary)' }}>Experience Match (20%)</span>
                         <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.experience_score}%</strong>
                       </div>
-                      <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.experience_score)}%`, background: '#10b981', borderRadius: 3 }} />
                       </div>
                     </div>
@@ -757,7 +757,7 @@ export default function CandidatesPage() {
                         <span style={{ color: 'var(--text-secondary)' }}>Project Evidence (20%)</span>
                         <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.projects_score}%</strong>
                       </div>
-                      <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.projects_score)}%`, background: '#8b5cf6', borderRadius: 3 }} />
                       </div>
                     </div>
@@ -768,7 +768,7 @@ export default function CandidatesPage() {
                         <span style={{ color: 'var(--text-secondary)' }}>Requirement Coverage (15%)</span>
                         <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.coverage_score}%</strong>
                       </div>
-                      <div style={{ height: 6, background: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' }}>
+                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
                         <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.coverage_score)}%`, background: '#06b6d4', borderRadius: 3 }} />
                       </div>
                     </div>
@@ -794,7 +794,7 @@ export default function CandidatesPage() {
                           const bg = isMatched ? 'rgba(16,185,129,0.12)' : (isUnclear ? 'rgba(245,158,11,0.12)' : 'rgba(244,63,94,0.12)')
                           const border = isMatched ? 'rgba(16,185,129,0.3)' : (isUnclear ? 'rgba(245,158,11,0.3)' : 'rgba(244,63,94,0.3)')
                           const textCol = isMatched ? '#10b981' : (isUnclear ? '#f59e0b' : '#f43f5e')
-                          const icon = isMatched ? '✓' : (isUnclear ? '⚠' : '✕')
+                          const icon = isMatched ? <Check size={13} /> : (isUnclear ? <AlertCircle size={13} /> : <X size={13} />)
 
                           return (
                             <div key={idx} style={{
@@ -809,14 +809,14 @@ export default function CandidatesPage() {
                             }}>
                               <div style={{ flex: 1 }}>
                                 <div className="flex items-center gap-2" style={{ marginBottom: 2 }}>
-                                  <span style={{ fontWeight: 700, fontSize: '0.8rem', color: textCol }}>
+                                  <span style={{ fontWeight: 700, fontSize: '0.8rem', color: textCol, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                                     {icon} {item.skill}
                                   </span>
                                   <span style={{
                                     fontSize: '0.65rem',
                                     textTransform: 'uppercase',
                                     color: 'var(--text-muted)',
-                                    background: 'rgba(255,255,255,0.06)',
+                                    background: '#f1f5f9',
                                     padding: '1px 5px',
                                     borderRadius: 3
                                   }}>
@@ -988,8 +988,26 @@ export default function CandidatesPage() {
             {/* Decision Bar */}
             <div style={{
               borderTop: '1px solid var(--border-subtle)',
-              paddingTop: 20, display: 'flex', gap: 10, justifyContent: 'flex-end'
+              paddingTop: 20, display: 'flex', gap: 10, justifyContent: 'flex-end', flexWrap: 'wrap'
             }}>
+              {/* Phase 8: Navigate to unified report */}
+              <button
+                id={`view-report-${selectedApp?.id}`}
+                className="btn btn-sm"
+                style={{
+                  marginRight: 'auto',
+                  background: 'rgba(61,110,255,0.12)',
+                  border: '1px solid rgba(61,110,255,0.35)',
+                  color: 'var(--brand-400)',
+                  fontWeight: 600,
+                }}
+                onClick={() => navigate(`/recruiter/report?applicationId=${selectedApp.id}`)}
+              >
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <BarChart2 size={15} />
+                  <span>View Full AI Report</span>
+                </span>
+              </button>
               <button
                 className="btn btn-secondary btn-sm"
                 onClick={() => handleStatusChange(selectedApp.id, 'Hold')}
@@ -1010,6 +1028,7 @@ export default function CandidatesPage() {
                 Shortlist Candidate
               </button>
             </div>
+
 
             {/* ── Phase 6: Interview Panel ─────────────────────────── */}
             <div className="iv-section-card" style={{ marginTop: 24 }}>
@@ -1103,8 +1122,9 @@ export default function CandidatesPage() {
                     </div>
                     <div className="iv-item-actions">
                       {iv.status === 'completed' && iv.communication_score != null && (
-                        <span className="iv-comm-badge" title="AI Communication Quality Score (Phase 7)">
-                          🎙️ {iv.communication_score}%
+                        <span className="iv-comm-badge" title="AI Communication Quality Score (Phase 7)" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Mic size={12} />
+                          <span>{iv.communication_score}%</span>
                         </span>
                       )}
                       <span className={`iv-status-badge ${iv.status}`}>

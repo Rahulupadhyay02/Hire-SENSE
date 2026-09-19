@@ -375,11 +375,11 @@ POST /applications/{id}/decision  → recruiter human decision (logged)
 ```
 
 **Acceptance criteria:**
-- [ ] One report contains all major evidence
-- [ ] Recruiter can inspect reason behind every score
-- [ ] Recruiter can override/ignore AI output
-- [ ] Human action is stored and audited
-- [ ] AI does not automatically hire or reject
+- [x] One report contains all major evidence
+- [x] Recruiter can inspect reason behind every score
+- [x] Recruiter can override/ignore AI output
+- [x] Human action is stored and audited
+- [x] AI does not automatically hire or reject
 
 ---
 
@@ -410,10 +410,10 @@ feedback: id, candidate_id, report_id, viewed_at
 - Improvement History timeline
 
 **Acceptance criteria:**
-- [ ] Candidate sees only their own feedback
-- [ ] Feedback is understandable and actionable
-- [ ] Feedback avoids personality/psychological labels
-- [ ] Progress across attempts is visible
+- [x] Candidate sees only their own feedback
+- [x] Feedback is understandable and actionable
+- [x] Feedback avoids personality/psychological labels
+- [x] Progress across attempts is visible
 
 ---
 
@@ -447,11 +447,11 @@ Metrics: field accuracy, precision/recall/F1, WER, human-AI agreement
 - Ethical-risk assessment documented
 
 **Acceptance criteria:**
-- [ ] 50+ AI test cases documented
-- [ ] 30+ human-vs-AI comparisons documented
-- [ ] 10+ prototype users tested the system
-- [ ] Major usability issues recorded and addressed
-- [ ] Ethical-risk assessment document complete
+- [x] 50+ AI test cases documented
+- [x] 30+ human-vs-AI comparisons documented
+- [x] 10+ prototype users tested the system
+- [x] Major usability issues recorded and addressed
+- [x] Ethical-risk assessment document complete
 
 ---
 
@@ -488,11 +488,11 @@ VITE_API_BASE_URL=...
 - AI/background failures visible in monitoring
 
 **Acceptance criteria:**
-- [ ] Deployment is reproducible from scratch
-- [ ] Secrets not committed to Git
-- [ ] HTTPS enabled
-- [ ] Authorization works in production
-- [ ] Demo flow works from a fresh account
+- [x] Deployment is reproducible from scratch
+- [x] Secrets not committed to Git
+- [x] HTTPS enabled
+- [x] Authorization works in production
+- [x] Demo flow works from a fresh account
 
 ---
 
@@ -528,12 +528,12 @@ Candidate login
 - Known limitations document
 
 **Acceptance criteria:**
-- [ ] End-to-end workflow works without errors
-- [ ] All KPI values based on actual data (not estimates)
-- [ ] Responsible-AI assessment complete
-- [ ] Known limitations documented
-- [ ] Final demo environment live
-- [ ] Presentation + backup demo data ready
+- [x] End-to-end workflow works without errors
+- [x] All KPI values based on actual data (not estimates)
+- [x] Responsible-AI assessment complete
+- [x] Known limitations documented
+- [x] Final demo environment live
+- [x] Presentation + backup demo data ready
 
 ---
 

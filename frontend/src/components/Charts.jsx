@@ -4,15 +4,15 @@ import { useTheme } from '../context/ThemeContext'
 export function useChartColors() {
   const { isDark } = useTheme()
   return {
-    tickFill:      isDark ? '#5a6a94' : '#4a5a8a',
-    labelFill:     isDark ? '#a8b4d4' : '#2d3f7a',
-    gridStroke:    isDark ? 'rgba(255,255,255,0.05)' : 'rgba(61,110,255,0.08)',
-    polarGrid:     isDark ? 'rgba(255,255,255,0.08)' : 'rgba(61,110,255,0.15)',
-    ringText:      isDark ? '#ffffff' : '#0d1640',
-    tooltipBg:     isDark ? 'rgba(10,15,46,0.97)' : 'rgba(255,255,255,0.97)',
-    tooltipBorder: isDark ? 'var(--border-default)' : 'rgba(61,110,255,0.25)',
-    tooltipText:   isDark ? '#f8faff' : '#0d1640',
-    tooltipSub:    isDark ? '#a8b4d4' : '#2d3f7a',
+    tickFill:      isDark ? '#a8b4d4' : '#64748b',
+    labelFill:     isDark ? '#cbd5e1' : '#334155',
+    gridStroke:    isDark ? 'rgba(255,255,255,0.08)' : '#e2e8f0',
+    polarGrid:     isDark ? 'rgba(255,255,255,0.12)' : '#e2e8f0',
+    ringText:      isDark ? '#f8faff' : '#0f172a',
+    tooltipBg:     isDark ? 'rgba(15,22,66,0.98)' : '#ffffff',
+    tooltipBorder: isDark ? 'rgba(255,255,255,0.15)' : '#e2e8f0',
+    tooltipText:   isDark ? '#f8faff' : '#0f172a',
+    tooltipSub:    isDark ? '#94a3b8' : '#64748b',
   }
 }
 
@@ -28,23 +28,23 @@ export function ScoreRing({ score, size = 120, strokeWidth = 10, label }) {
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <defs>
           <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3d6eff" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="#2563eb" />
+            <stop offset="100%" stopColor="#1d4ed8" />
           </linearGradient>
           <linearGradient id="scoreGradGreen" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#10b981" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="100%" stopColor="#059669" />
           </linearGradient>
           <linearGradient id="scoreGradAmber" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#f59e0b" />
-            <stop offset="100%" stopColor="#f43f5e" />
+            <stop offset="100%" stopColor="#d97706" />
           </linearGradient>
         </defs>
         {/* Background track */}
         <circle
           cx={size / 2} cy={size / 2} r={radius}
           fill="none"
-          stroke="rgba(128,128,200,0.15)"
+          stroke="#e2e8f0"
           strokeWidth={strokeWidth}
         />
         {/* Filled arc */}
@@ -63,8 +63,8 @@ export function ScoreRing({ score, size = 120, strokeWidth = 10, label }) {
           x={size / 2} y={size / 2}
           textAnchor="middle" dominantBaseline="middle"
           fill={ringText}
-          fontSize={size * 0.2}
-          fontFamily="Outfit, sans-serif"
+          fontSize={size * 0.22}
+          fontFamily="Inter, -apple-system, sans-serif"
           fontWeight="800"
         >
           {score}%

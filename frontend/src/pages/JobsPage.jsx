@@ -186,10 +186,12 @@ export default function JobsPage() {
                       <div className="flex items-center gap-3" style={{ marginBottom: 8 }}>
                         <div style={{
                           width: 42, height: 42, borderRadius: 'var(--radius-md)',
-                          background: 'rgba(61,110,255,0.15)',
+                          background: 'rgba(37, 99, 235, 0.12)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '1.2rem'
-                        }}>💼</div>
+                          color: '#2563eb'
+                        }}>
+                          <Briefcase size={20} />
+                        </div>
                         <div>
                           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
                             {job.title}

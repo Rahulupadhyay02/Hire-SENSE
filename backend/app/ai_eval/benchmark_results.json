@@ -1,0 +1,901 @@
+{
+  "timestamp": "2026-09-16T02:15:00Z",
+  "phase": 10,
+  "title": "HireSense Phase 10 AI Evaluation Benchmark",
+  "summary": {
+    "total_ai_test_cases": 51,
+    "total_human_vs_ai_comparisons": 32,
+    "resume_f1_score": 0.703,
+    "matching_bound_accuracy_pct": 86.7,
+    "human_ai_pearson_r": 0.915,
+    "human_ai_mae": 7.79,
+    "guardrail_compliance_pct": 100.0
+  },
+  "resume_evaluation": {
+    "total_cases": 20,
+    "mean_precision": 0.829,
+    "mean_recall": 0.645,
+    "mean_f1": 0.703,
+    "cases": [
+      {
+        "id": "res_01",
+        "title": "Senior Backend Engineer",
+        "precision": 0.75,
+        "recall": 0.9,
+        "f1": 0.818,
+        "extracted_count": 12,
+        "expected_count": 10
+      },
+      {
+        "id": "res_02",
+        "title": "Frontend React Specialist",
+        "precision": 0.714,
+        "recall": 0.556,
+        "f1": 0.625,
+        "extracted_count": 7,
+        "expected_count": 9
+      },
+      {
+        "id": "res_03",
+        "title": "Machine Learning Engineer",
+        "precision": 0.667,
+        "recall": 0.889,
+        "f1": 0.762,
+        "extracted_count": 12,
+        "expected_count": 9
+      },
+      {
+        "id": "res_04",
+        "title": "DevOps & Cloud Engineer",
+        "precision": 0.625,
+        "recall": 0.556,
+        "f1": 0.588,
+        "extracted_count": 8,
+        "expected_count": 9
+      },
+      {
+        "id": "res_05",
+        "title": "Fresher / Entry-Level Software Engineer",
+        "precision": 0.667,
+        "recall": 0.75,
+        "f1": 0.706,
+        "extracted_count": 9,
+        "expected_count": 8
+      },
+      {
+        "id": "res_06",
+        "title": "Full Stack MERN Developer",
+        "precision": 0.778,
+        "recall": 0.875,
+        "f1": 0.824,
+        "extracted_count": 9,
+        "expected_count": 8
+      },
+      {
+        "id": "res_07",
+        "title": "Data Analyst / BI Specialist",
+        "precision": 1.0,
+        "recall": 0.714,
+        "f1": 0.833,
+        "extracted_count": 5,
+        "expected_count": 7
+      },
+      {
+        "id": "res_08",
+        "title": "Mobile Developer (Flutter / Android)",
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1": 0.4,
+        "extracted_count": 2,
+        "expected_count": 8
+      },
+      {
+        "id": "res_09",
+        "title": "QA Automation Engineer",
+        "precision": 0.833,
+        "recall": 0.625,
+        "f1": 0.714,
+        "extracted_count": 6,
+        "expected_count": 8
+      },
+      {
+        "id": "res_10",
+        "title": "Golang Systems Engineer",
+        "precision": 0.75,
+        "recall": 0.667,
+        "f1": 0.706,
+        "extracted_count": 8,
+        "expected_count": 9
+      },
+      {
+        "id": "res_11",
+        "title": "Cybersecurity / SecOps Analyst",
+        "precision": 1.0,
+        "recall": 0.375,
+        "f1": 0.545,
+        "extracted_count": 3,
+        "expected_count": 8
+      },
+      {
+        "id": "res_12",
+        "title": "Java Spring Boot Enterprise Developer",
+        "precision": 0.8,
+        "recall": 0.5,
+        "f1": 0.615,
+        "extracted_count": 5,
+        "expected_count": 8
+      },
+      {
+        "id": "res_13",
+        "title": "Cloud Data Architect",
+        "precision": 0.6,
+        "recall": 0.375,
+        "f1": 0.462,
+        "extracted_count": 5,
+        "expected_count": 8
+      },
+      {
+        "id": "res_14",
+        "title": "UI/UX & Frontend Designer",
+        "precision": 0.6,
+        "recall": 0.429,
+        "f1": 0.5,
+        "extracted_count": 5,
+        "expected_count": 7
+      },
+      {
+        "id": "res_15",
+        "title": "Embedded & IoT Firmware Engineer",
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1": 0.769,
+        "extracted_count": 5,
+        "expected_count": 8
+      },
+      {
+        "id": "res_16",
+        "title": "Blockchain & Web3 Developer",
+        "precision": 1.0,
+        "recall": 0.571,
+        "f1": 0.727,
+        "extracted_count": 4,
+        "expected_count": 7
+      },
+      {
+        "id": "res_17",
+        "title": "Career Switcher (Mechanical to Python Developer)",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "extracted_count": 6,
+        "expected_count": 6
+      },
+      {
+        "id": "res_18",
+        "title": "Site Reliability Engineer (SRE)",
+        "precision": 1.0,
+        "recall": 0.667,
+        "f1": 0.8,
+        "extracted_count": 6,
+        "expected_count": 9
+      },
+      {
+        "id": "res_19",
+        "title": "Natural Language Processing Researcher",
+        "precision": 0.8,
+        "recall": 0.571,
+        "f1": 0.667,
+        "extracted_count": 5,
+        "expected_count": 7
+      },
+      {
+        "id": "res_20",
+        "title": "Noisy Formatted Resume (Edge Case)",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "extracted_count": 5,
+        "expected_count": 5
+      }
+    ]
+  },
+  "matching_evaluation": {
+    "total_cases": 15,
+    "bound_accuracy_pct": 86.7,
+    "cases": [
+      {
+        "id": "match_01",
+        "scenario": "Perfect Fit Python Senior Engineer",
+        "overall_score": 88.0,
+        "expected_range": [
+          85.0,
+          100.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 0,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_02",
+        "scenario": "Missing 1 Required Skill (PostgreSQL)",
+        "overall_score": 67.9,
+        "expected_range": [
+          65.0,
+          82.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 2,
+        "expected_missing": 1
+      },
+      {
+        "id": "match_03",
+        "scenario": "Junior Applying for Senior Role (Experience Deficit)",
+        "overall_score": 67.2,
+        "expected_range": [
+          50.0,
+          75.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 1,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_04",
+        "scenario": "Frontend Specialist Applying for Backend Python Role (Domain Mismatch)",
+        "overall_score": 28.0,
+        "expected_range": [
+          20.0,
+          45.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 5,
+        "expected_missing": 4
+      },
+      {
+        "id": "match_05",
+        "scenario": "Overqualified Candidate (7 Years applying for 2 Years Role)",
+        "overall_score": 88.0,
+        "expected_range": [
+          85.0,
+          100.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 0,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_06",
+        "scenario": "Data Science ML Match",
+        "overall_score": 84.6,
+        "expected_range": [
+          85.0,
+          100.0
+        ],
+        "in_bounds": false,
+        "missing_skills_detected": 1,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_07",
+        "scenario": "Missing All Preferred Skills but All Required Skills Present",
+        "overall_score": 81.2,
+        "expected_range": [
+          70.0,
+          85.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 4,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_08",
+        "scenario": "DevOps Candidate with AWS, Terraform and Kubernetes",
+        "overall_score": 88.0,
+        "expected_range": [
+          85.0,
+          100.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 0,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_09",
+        "scenario": "Full Stack Engineer Matching 4 of 5 Required Skills",
+        "overall_score": 70.6,
+        "expected_range": [
+          70.0,
+          85.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 2,
+        "expected_missing": 1
+      },
+      {
+        "id": "match_10",
+        "scenario": "Complete Zero Fit Candidate",
+        "overall_score": 14.0,
+        "expected_range": [
+          0.0,
+          30.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 5,
+        "expected_missing": 4
+      },
+      {
+        "id": "match_11",
+        "scenario": "Mobile Flutter Engineer Fit",
+        "overall_score": 84.6,
+        "expected_range": [
+          80.0,
+          98.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 1,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_12",
+        "scenario": "QA Automation SDET Match",
+        "overall_score": 84.6,
+        "expected_range": [
+          82.0,
+          98.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 1,
+        "expected_missing": 0
+      },
+      {
+        "id": "match_13",
+        "scenario": "Cybersecurity Analyst Moderate Fit",
+        "overall_score": 54.7,
+        "expected_range": [
+          55.0,
+          75.0
+        ],
+        "in_bounds": false,
+        "missing_skills_detected": 2,
+        "expected_missing": 2
+      },
+      {
+        "id": "match_14",
+        "scenario": "Data Engineer Partial Skill Match with SQL & Python",
+        "overall_score": 51.3,
+        "expected_range": [
+          50.0,
+          72.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 3,
+        "expected_missing": 2
+      },
+      {
+        "id": "match_15",
+        "scenario": "Cloud Architect with Extensive Experience",
+        "overall_score": 88.0,
+        "expected_range": [
+          85.0,
+          100.0
+        ],
+        "in_bounds": true,
+        "missing_skills_detected": 0,
+        "expected_missing": 0
+      }
+    ]
+  },
+  "interview_evaluation": {
+    "total_cases": 16,
+    "star_heuristic_accuracy_pct": 100.0,
+    "guardrail_compliance_pct": 100.0,
+    "cases": [
+      {
+        "id": "iv_01",
+        "title": "Exemplary STAR Technical Response",
+        "wpm": 118,
+        "filler_rate": 0.0,
+        "structure_score": 100,
+        "overall_score": 93.5,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_02",
+        "title": "High Filler Words Response",
+        "wpm": 136,
+        "filler_rate": 38.0,
+        "structure_score": 20,
+        "overall_score": 45.0,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_03",
+        "title": "Rushed Fast Speaking Pace (> 175 WPM)",
+        "wpm": 243,
+        "filler_rate": 4.11,
+        "structure_score": 20,
+        "overall_score": 38.8,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_04",
+        "title": "Slow Deliberate Speaking Pace (< 95 WPM)",
+        "wpm": 43,
+        "filler_rate": 0.0,
+        "structure_score": 25,
+        "overall_score": 58.2,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_05",
+        "title": "Strong Relevance with Domain Keywords",
+        "wpm": 92,
+        "filler_rate": 0.0,
+        "structure_score": 75,
+        "overall_score": 83.0,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_06",
+        "title": "Irrelevant Answer (Zero Skill Mention)",
+        "wpm": 98,
+        "filler_rate": 2.78,
+        "structure_score": 25,
+        "overall_score": 53.7,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_07",
+        "title": "Candidate Improvement Attempt (Baseline Attempt 1)",
+        "wpm": 93,
+        "filler_rate": 35.48,
+        "structure_score": 25,
+        "overall_score": 46.0,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_08",
+        "title": "Candidate Improvement Attempt (Practiced Attempt 2)",
+        "wpm": 108,
+        "filler_rate": 0.0,
+        "structure_score": 100,
+        "overall_score": 94.2,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_09",
+        "title": "DevOps Incident Response Narrative",
+        "wpm": 127,
+        "filler_rate": 0.0,
+        "structure_score": 70,
+        "overall_score": 90.5,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_10",
+        "title": "Repetitive Filler Phrasing ('You Know')",
+        "wpm": 113,
+        "filler_rate": 23.53,
+        "structure_score": 20,
+        "overall_score": 54.1,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_11",
+        "title": "Security Architecture Explanation",
+        "wpm": 106,
+        "filler_rate": 0.0,
+        "structure_score": 75,
+        "overall_score": 88.0,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_12",
+        "title": "Front-End Performance Optimization",
+        "wpm": 118,
+        "filler_rate": 0.0,
+        "structure_score": 80,
+        "overall_score": 84.8,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_13",
+        "title": "Brief One-Line Answer",
+        "wpm": 90,
+        "filler_rate": 0.0,
+        "structure_score": 0,
+        "overall_score": 60.5,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_14",
+        "title": "Microservices Migration with Golang",
+        "wpm": 112,
+        "filler_rate": 0.0,
+        "structure_score": 80,
+        "overall_score": 89.2,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_15",
+        "title": "Data Pipeline Reliability STAR",
+        "wpm": 125,
+        "filler_rate": 0.0,
+        "structure_score": 100,
+        "overall_score": 96.0,
+        "star_detected": true,
+        "star_expected": true,
+        "guardrail_compliant": true
+      },
+      {
+        "id": "iv_16",
+        "title": "Vague Passive Technical Answer",
+        "wpm": 80,
+        "filler_rate": 0.0,
+        "structure_score": 0,
+        "overall_score": 53.0,
+        "star_detected": false,
+        "star_expected": false,
+        "guardrail_compliant": true
+      }
+    ]
+  },
+  "human_vs_ai_comparison": {
+    "total_comparisons": 32,
+    "pearson_correlation_r": 0.915,
+    "spearman_correlation_rho": 0.819,
+    "mean_absolute_error_mae": 7.79,
+    "agreement_within_5_pts_pct": 37.5,
+    "agreement_within_10_pts_pct": 75.0,
+    "cases": [
+      {
+        "case_id": "h_ai_01",
+        "human_score": 85.0,
+        "ai_score": 85.5,
+        "abs_error": 0.5,
+        "human_structure": 90.0,
+        "ai_structure": 100,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_02",
+        "human_score": 42.0,
+        "ai_score": 44.2,
+        "abs_error": 2.2,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 28.0,
+        "ai_filler": 35.71
+      },
+      {
+        "case_id": "h_ai_03",
+        "human_score": 86.0,
+        "ai_score": 80.5,
+        "abs_error": 5.5,
+        "human_structure": 88.0,
+        "ai_structure": 80,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_04",
+        "human_score": 35.0,
+        "ai_score": 34.8,
+        "abs_error": 0.2,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 9.09
+      },
+      {
+        "case_id": "h_ai_05",
+        "human_score": 88.0,
+        "ai_score": 87.5,
+        "abs_error": 0.5,
+        "human_structure": 92.0,
+        "ai_structure": 100,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_06",
+        "human_score": 40.0,
+        "ai_score": 42.5,
+        "abs_error": 2.5,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 25.0,
+        "ai_filler": 52.94
+      },
+      {
+        "case_id": "h_ai_07",
+        "human_score": 87.0,
+        "ai_score": 71.8,
+        "abs_error": 15.2,
+        "human_structure": 90.0,
+        "ai_structure": 25,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_08",
+        "human_score": 45.0,
+        "ai_score": 64.8,
+        "abs_error": 19.8,
+        "human_structure": 30.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_09",
+        "human_score": 86.0,
+        "ai_score": 80.0,
+        "abs_error": 6.0,
+        "human_structure": 90.0,
+        "ai_structure": 50,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_10",
+        "human_score": 38.0,
+        "ai_score": 40.5,
+        "abs_error": 2.5,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 25.0,
+        "ai_filler": 42.86
+      },
+      {
+        "case_id": "h_ai_11",
+        "human_score": 87.0,
+        "ai_score": 80.0,
+        "abs_error": 7.0,
+        "human_structure": 90.0,
+        "ai_structure": 70,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_12",
+        "human_score": 50.0,
+        "ai_score": 59.8,
+        "abs_error": 9.8,
+        "human_structure": 30.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_13",
+        "human_score": 89.0,
+        "ai_score": 73.0,
+        "abs_error": 16.0,
+        "human_structure": 92.0,
+        "ai_structure": 50,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_14",
+        "human_score": 38.0,
+        "ai_score": 47.5,
+        "abs_error": 9.5,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 25.0,
+        "ai_filler": 33.33
+      },
+      {
+        "case_id": "h_ai_15",
+        "human_score": 85.0,
+        "ai_score": 91.7,
+        "abs_error": 6.7,
+        "human_structure": 88.0,
+        "ai_structure": 100,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_16",
+        "human_score": 42.0,
+        "ai_score": 44.8,
+        "abs_error": 2.8,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 10.0
+      },
+      {
+        "case_id": "h_ai_17",
+        "human_score": 87.0,
+        "ai_score": 83.0,
+        "abs_error": 4.0,
+        "human_structure": 90.0,
+        "ai_structure": 70,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_18",
+        "human_score": 36.0,
+        "ai_score": 44.2,
+        "abs_error": 8.2,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 30.0,
+        "ai_filler": 46.15
+      },
+      {
+        "case_id": "h_ai_19",
+        "human_score": 84.0,
+        "ai_score": 85.4,
+        "abs_error": 1.4,
+        "human_structure": 88.0,
+        "ai_structure": 100,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_20",
+        "human_score": 48.0,
+        "ai_score": 62.5,
+        "abs_error": 14.5,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_21",
+        "human_score": 88.0,
+        "ai_score": 83.0,
+        "abs_error": 5.0,
+        "human_structure": 92.0,
+        "ai_structure": 55,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_22",
+        "human_score": 38.0,
+        "ai_score": 45.5,
+        "abs_error": 7.5,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 20.0,
+        "ai_filler": 26.67
+      },
+      {
+        "case_id": "h_ai_23",
+        "human_score": 86.0,
+        "ai_score": 78.7,
+        "abs_error": 7.3,
+        "human_structure": 88.0,
+        "ai_structure": 45,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_24",
+        "human_score": 46.0,
+        "ai_score": 62.5,
+        "abs_error": 16.5,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_25",
+        "human_score": 88.0,
+        "ai_score": 94.2,
+        "abs_error": 6.2,
+        "human_structure": 90.0,
+        "ai_structure": 100,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_26",
+        "human_score": 39.0,
+        "ai_score": 44.2,
+        "abs_error": 5.2,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 28.0,
+        "ai_filler": 30.77
+      },
+      {
+        "case_id": "h_ai_27",
+        "human_score": 87.0,
+        "ai_score": 84.2,
+        "abs_error": 2.8,
+        "human_structure": 90.0,
+        "ai_structure": 75,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_28",
+        "human_score": 50.0,
+        "ai_score": 73.0,
+        "abs_error": 23.0,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_29",
+        "human_score": 88.0,
+        "ai_score": 81.8,
+        "abs_error": 6.2,
+        "human_structure": 92.0,
+        "ai_structure": 50,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_30",
+        "human_score": 38.0,
+        "ai_score": 49.2,
+        "abs_error": 11.2,
+        "human_structure": 20.0,
+        "ai_structure": 0,
+        "human_filler": 30.0,
+        "ai_filler": 33.33
+      },
+      {
+        "case_id": "h_ai_31",
+        "human_score": 84.0,
+        "ai_score": 83.0,
+        "abs_error": 1.0,
+        "human_structure": 88.0,
+        "ai_structure": 80,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      },
+      {
+        "case_id": "h_ai_32",
+        "human_score": 45.0,
+        "ai_score": 67.5,
+        "abs_error": 22.5,
+        "human_structure": 25.0,
+        "ai_structure": 0,
+        "human_filler": 0.0,
+        "ai_filler": 0.0
+      }
+    ]
+  }
+}

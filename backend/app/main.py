@@ -10,7 +10,9 @@ from app.routers import (
     applications_router,
     candidates_router,
     resumes_router,
-    interviews_router
+    interviews_router,
+    reports_router,       # Phase 8
+    feedback_router,      # Phase 9
 )
 
 @asynccontextmanager
@@ -23,7 +25,7 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-    lifespan=lifespan,
+    lifespan=lifespan
 )
 
 # CORS middleware
@@ -52,6 +54,8 @@ app.include_router(applications_router, prefix=settings.API_V1_STR)
 app.include_router(candidates_router, prefix=settings.API_V1_STR)
 app.include_router(resumes_router, prefix=settings.API_V1_STR)
 app.include_router(interviews_router, prefix=settings.API_V1_STR)
+app.include_router(reports_router, prefix=settings.API_V1_STR)   # Phase 8
+app.include_router(feedback_router, prefix=settings.API_V1_STR)  # Phase 9
 
 if __name__ == "__main__":
     import uvicorn

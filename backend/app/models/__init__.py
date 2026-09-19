@@ -5,6 +5,9 @@ from app.models.application import Application, ApplicationStatus
 from app.models.resume_analysis import ResumeAnalysis
 from app.models.match_score import MatchScore
 from app.models.interview import Interview, InterviewStatus
+from app.models.report import Report               # Phase 8
+from app.models.audit_log import AuditLog          # Phase 8
+from app.models.feedback import Feedback           # Phase 9
 
 __all__ = [
     "User",
@@ -17,5 +20,8 @@ __all__ = [
     "ResumeAnalysis",
     "MatchScore",
     "Interview",
-    "InterviewStatus"
+    "InterviewStatus",
+    "Report",       # Phase 8
+    "AuditLog",     # Phase 8
+    "Feedback",     # Phase 9
 ]

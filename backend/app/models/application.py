@@ -29,6 +29,9 @@ class Application(Base):
     candidate = relationship("Candidate", back_populates="applications")
     match_score_detail = relationship("MatchScore", back_populates="application", uselist=False, cascade="all, delete-orphan")
     interviews = relationship("Interview", back_populates="application", cascade="all, delete-orphan", order_by="Interview.created_at.desc()")
+    report     = relationship("Report", back_populates="application", uselist=False, cascade="all, delete-orphan")  # Phase 8
+    feedbacks  = relationship("Feedback", back_populates="application", cascade="all, delete-orphan", order_by="Feedback.created_at.desc()")  # Phase 9
+
 
     def __repr__(self):
         return f"<Application id={self.id} job_id={self.job_id} candidate_id={self.candidate_id} status={self.status}>"

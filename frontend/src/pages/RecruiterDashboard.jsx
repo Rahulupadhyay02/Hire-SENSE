@@ -7,7 +7,7 @@ import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import { ScoreRing, Sparkline, StatusBadge, useChartColors } from '../components/Charts'
 import { useNavigate } from 'react-router-dom'
-import { TrendingUp, Users, Briefcase, CheckCircle, Clock, ArrowUpRight } from 'lucide-react'
+import { TrendingUp, Users, Briefcase, CheckCircle, Clock, ArrowUpRight, ClipboardList, CheckCircle2, Target } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import client from '../api/client'
 
@@ -130,7 +130,7 @@ export default function RecruiterDashboard() {
       value: String(stats.totalApps),
       change: '+18%',
       up: true,
-      icon: '📋',
+      icon: ClipboardList,
       grad: 'var(--grad-brand)',
       data: sparkData,
       sparkColor: '#3d6eff'
@@ -140,7 +140,7 @@ export default function RecruiterDashboard() {
       value: String(stats.shortlisted),
       change: '+24%',
       up: true,
-      icon: '✅',
+      icon: CheckCircle2,
       grad: 'var(--grad-emerald)',
       data: [4,7,5,11,9,14,12,18],
       sparkColor: '#10b981'
@@ -150,7 +150,7 @@ export default function RecruiterDashboard() {
       value: String(stats.activeJobs),
       change: '+2',
       up: true,
-      icon: '💼',
+      icon: Briefcase,
       grad: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
       data: [3,4,5,5,6,7,7,8],
       sparkColor: '#8b5cf6'
@@ -160,7 +160,7 @@ export default function RecruiterDashboard() {
       value: `${stats.avgMatch}%`,
       change: '-2%',
       up: false,
-      icon: '🎯',
+      icon: Target,
       grad: 'var(--grad-amber)',
       data: [71,74,78,75,73,76,78,76],
       sparkColor: '#f59e0b'
@@ -177,7 +177,7 @@ export default function RecruiterDashboard() {
           {/* Header */}
           <div className="flex items-center justify-between" style={{ marginBottom: 28 }}>
             <div>
-              <h1 className="page-title">Good morning, {user?.name ? user.name.split(' ')[0] : 'Recruiter'} 👋</h1>
+              <h1 className="page-title">Good morning, {user?.name ? user.name.split(' ')[0] : 'Recruiter'}</h1>
               <p className="page-subtitle">You have <strong style={{ color: 'var(--brand-400)' }}>{stats.totalApps} candidates</strong> in your hiring pipeline.</p>
             </div>
             <button className="btn btn-primary" id="btn-post-job" onClick={() => navigate('/recruiter/jobs')}>
@@ -187,23 +187,26 @@ export default function RecruiterDashboard() {
 
           {/* Stat Cards */}
           <div className="grid-4" style={{ marginBottom: 28 }}>
-            {statCards.map((s, i) => (
-              <div key={i} className="stat-card">
-                <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
-                  <div className="stat-icon" style={{ background: s.grad.replace('var(--grad-brand)', 'linear-gradient(135deg,#3d6eff,#8b5cf6)') }}>
-                    <span style={{ fontSize: '1.3rem' }}>{s.icon}</span>
+            {statCards.map((s, i) => {
+              const Icon = s.icon
+              return (
+                <div key={i} className="stat-card">
+                  <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
+                    <div className="stat-icon" style={{ background: s.grad.replace('var(--grad-brand)', 'linear-gradient(135deg,#3d6eff,#8b5cf6)'), display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff' }}>
+                      <Icon size={20} />
+                    </div>
+                    <Sparkline data={s.data} color={s.sparkColor} />
                   </div>
-                  <Sparkline data={s.data} color={s.sparkColor} />
+                  <div className="stat-value" style={{ background: s.grad, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    {s.value}
+                  </div>
+                  <div className="stat-label">{s.label}</div>
+                  <div className={`stat-change ${s.up ? 'up' : 'down'}`}>
+                    {s.up ? '↑' : '↓'} {s.change} this week
+                  </div>
                 </div>
-                <div className="stat-value" style={{ background: s.grad, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  {s.value}
-                </div>
-                <div className="stat-label">{s.label}</div>
-                <div className={`stat-change ${s.up ? 'up' : 'down'}`}>
-                  {s.up ? '↑' : '↓'} {s.change} this week
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           {/* Charts Row 1 */}

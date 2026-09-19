@@ -7,6 +7,7 @@ import JobsPage from './pages/JobsPage'
 import CandidatesPage from './pages/CandidatesPage'
 import ReportPage from './pages/ReportPage'
 import PipelinePage from './pages/PipelinePage'
+import CandidateFeedbackPage from './pages/CandidateFeedbackPage'
 
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -24,8 +25,15 @@ export default function App() {
         <Route path="/recruiter/report"   element={<ProtectedRoute allowedRoles={['recruiter']}><ReportPage /></ProtectedRoute>} />
         <Route path="/recruiter/pipeline" element={<ProtectedRoute allowedRoles={['recruiter']}><PipelinePage /></ProtectedRoute>} />
         
-        {/* Candidate & Admin Protected Routes */}
-        <Route path="/candidate"          element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard /></ProtectedRoute>} />
+        {/* Candidate Protected Routes */}
+        <Route path="/candidate"              element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="dashboard" /></ProtectedRoute>} />
+        <Route path="/candidate/profile"      element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="resume" /></ProtectedRoute>} />
+        <Route path="/candidate/applications" element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="dashboard" /></ProtectedRoute>} />
+        <Route path="/candidate/interview"    element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="upload" /></ProtectedRoute>} />
+        <Route path="/candidate/feedback"     element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="feedback" /></ProtectedRoute>} />
+        <Route path="/candidate/progress"     element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="progress" /></ProtectedRoute>} />
+        <Route path="/candidate/feedback-dossier" element={<ProtectedRoute allowedRoles={['candidate']}><CandidateFeedbackPage initialTab="pillars" /></ProtectedRoute>} />
+        <Route path="/candidate/settings"     element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="resume" /></ProtectedRoute>} />
         
         <Route path="*"                   element={<Navigate to="/" />} />
       </Routes>

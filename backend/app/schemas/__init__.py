@@ -21,6 +21,18 @@ from app.schemas.application import (
     ApplicationStatusUpdate,
     ApplicationResponse
 )
+from app.schemas.report import (          # Phase 8
+    UnifiedReportResponse,
+    HumanDecisionRequest,
+    HumanDecisionResponse,
+)
+from app.schemas.feedback import (        # Phase 9
+    FeedbackPillar,
+    AttemptProgressionItem,
+    CandidateFeedbackResponse,
+    FeedbackHistoryItem,
+    FeedbackHistoryResponse,
+)
 
 __all__ = [
     "UserRegister",
@@ -37,5 +49,13 @@ __all__ = [
     "CandidateResponse",
     "ApplicationCreate",
     "ApplicationStatusUpdate",
-    "ApplicationResponse"
+    "ApplicationResponse",
+    "UnifiedReportResponse",    # Phase 8
+    "HumanDecisionRequest",     # Phase 8
+    "HumanDecisionResponse",    # Phase 8
+    "FeedbackPillar",           # Phase 9
+    "AttemptProgressionItem",   # Phase 9
+    "CandidateFeedbackResponse",# Phase 9
+    "FeedbackHistoryItem",      # Phase 9
+    "FeedbackHistoryResponse",  # Phase 9
 ]

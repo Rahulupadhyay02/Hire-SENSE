@@ -1,18 +1,24 @@
 import { createContext, useContext, useState } from 'react'
 
 export const ThemeContext = createContext({
-  isDark: true,
-  toggle: () => {},
-  setDark: () => {},
+  isDark: false,
+  toggle: () => { },
+  setDark: () => { },
 })
 
 export function ThemeProvider({ children }) {
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(false)
 
   const toggle = () => {
     setIsDark(prev => {
       const next = !prev
-      document.body.classList.toggle('light-mode', !next)
+      if (next) {
+        document.body.classList.add('dark-mode')
+        document.body.classList.remove('light-mode')
+      } else {
+        document.body.classList.remove('dark-mode')
+        document.body.classList.add('light-mode')
+      }
       return next
     })
   }
@@ -20,8 +26,10 @@ export function ThemeProvider({ children }) {
   const setDark = (dark) => {
     setIsDark(dark)
     if (dark) {
+      document.body.classList.add('dark-mode')
       document.body.classList.remove('light-mode')
     } else {
+      document.body.classList.remove('dark-mode')
       document.body.classList.add('light-mode')
     }
   }

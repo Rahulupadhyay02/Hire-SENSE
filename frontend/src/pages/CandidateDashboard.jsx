@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import { ScoreRing, StatusBadge } from '../components/Charts'
@@ -8,7 +8,9 @@ import client from '../api/client'
 import {
   FileText, UploadCloud, CheckCircle, AlertCircle, ExternalLink,
   Download, Edit3, Briefcase, GraduationCap, Code, Globe, Mail, Phone,
-  MapPin, Clock, X, ChevronRight, Trash2, RefreshCw, Mic, Video, Loader
+  MapPin, Clock, X, ChevronRight, Trash2, RefreshCw, Mic, Video, Loader,
+  CheckCircle2, TrendingUp, MessageSquare, Target, Sparkles, ShieldCheck,
+  ClipboardList, Lightbulb, Cpu, AlertTriangle, ArrowRight
 } from 'lucide-react'
 import InterviewTranscriptModal from '../components/InterviewTranscriptModal'
 import {
@@ -34,9 +36,9 @@ const radarData = [
 ]
 
 const strengthsData = [
-  { label: 'Technical accuracy', desc: 'Correct concepts explained in Python + FastAPI questions', icon: '✅' },
-  { label: 'Answer relevance', desc: 'Stayed on topic in all 3 questions', icon: '✅' },
-  { label: 'Improving filler rate', desc: 'Dropped from 8.7% → 2.9% across attempts', icon: '📈' },
+  { label: 'Technical accuracy', desc: 'Correct concepts explained in Python + FastAPI questions', icon: CheckCircle2 },
+  { label: 'Answer relevance', desc: 'Stayed on topic in all 3 questions', icon: CheckCircle2 },
+  { label: 'Improving filler rate', desc: 'Dropped from 8.7% → 2.9% across attempts', icon: TrendingUp },
 ]
 
 const improvementsData = [
@@ -45,21 +47,21 @@ const improvementsData = [
     current: '2.9%',
     target: '< 2%',
     action: 'Before answering, pause 1-2 seconds. Record yourself and count "um" / "uh".',
-    icon: '💬'
+    icon: MessageSquare
   },
   {
     label: 'Answer structure',
     current: 'Medium',
     target: 'Strong',
-    action: 'Use STAR format: Situation → Task → Action → Result. End with a measurable result.',
-    icon: '📐'
+    action: 'Use STAR format: Situation -> Task -> Action -> Result. End with a measurable result.',
+    icon: Target
   },
   {
     label: 'Speaking pace',
     current: '148 wpm',
     target: '130-145 wpm',
     action: 'Slightly slower delivery helps clarity. Aim for deliberate pausing between points.',
-    icon: '⏱️'
+    icon: Clock
   },
 ]
 
@@ -83,10 +85,25 @@ function ThemedTooltip({ active, payload, label }) {
   )
 }
 
-export default function CandidateDashboard() {
+export default function CandidateDashboard({ initialTab = 'dashboard' }) {
   const navigate = useNavigate()
+  const location = useLocation()
   const { user } = useAuth()
-  const [activeTab, setActiveTab] = useState('resume') // Default to Resume AI tab
+
+  const getTabFromLocation = () => {
+    if (location.pathname === '/candidate/progress') return 'progress'
+    if (location.pathname === '/candidate/feedback') return 'feedback'
+    if (location.pathname === '/candidate/interview') return 'upload'
+    if (location.pathname === '/candidate/profile' || location.pathname === '/candidate/settings') return 'resume'
+    if (location.pathname === '/candidate' || location.pathname === '/candidate/applications' || location.pathname === '/candidate/dashboard') return 'dashboard'
+    return initialTab || 'dashboard'
+  }
+
+  const [activeTab, setActiveTab] = useState(getTabFromLocation)
+
+  useEffect(() => {
+    setActiveTab(getTabFromLocation())
+  }, [location.pathname, initialTab])
 
   // Resume state
   const [resumeData, setResumeData] = useState(null)
@@ -121,14 +138,6 @@ export default function CandidateDashboard() {
   // Phase 7: Communication summary & metrics
   const [commSummary, setCommSummary] = useState(null)
   const [loadingCommSummary, setLoadingCommSummary] = useState(false)
-
-  const tabs = [
-    { key: 'resume', label: '📄 Resume & Profile' },
-    { key: 'dashboard', label: '⬡ Applications' },
-    { key: 'feedback', label: '💬 Feedback' },
-    { key: 'progress', label: '📈 Progress' },
-    { key: 'upload', label: '🎙️ Interview Upload' },
-  ]
 
   // Fetch candidate's resume analysis on load
   useEffect(() => {
@@ -391,7 +400,7 @@ export default function CandidateDashboard() {
   const latestMetrics = commSummary?.latest_metrics
   const activeRadarData = latestMetrics?.radar?.length ? latestMetrics.radar : radarData
   const activeStrengths = latestMetrics?.strengths?.length
-    ? latestMetrics.strengths.map(s => typeof s === 'string' ? { label: s, desc: 'Observable evidence from your interview recording', icon: '✨' } : s)
+    ? latestMetrics.strengths.map(s => typeof s === 'string' ? { label: s, desc: 'Observable evidence from your interview recording', icon: Sparkles } : s)
     : strengthsData
   const activeImprovements = latestMetrics?.improvements?.length ? latestMetrics.improvements : improvementsData
   const activeProgressData = commSummary?.trend?.length
@@ -415,8 +424,20 @@ export default function CandidateDashboard() {
       <Sidebar role="candidate" />
       <div className="main-content">
         <Topbar
-          title="Candidate Portal"
-          subtitle="Manage your AI-parsed resume and application progress"
+          title={
+            activeTab === 'resume' ? 'My Profile & Resume' :
+            activeTab === 'upload' ? 'Interview Submissions' :
+            activeTab === 'feedback' ? 'Communication Feedback' :
+            activeTab === 'progress' ? 'Fluency & Progress Tracking' :
+            'Candidate Dashboard'
+          }
+          subtitle={
+            activeTab === 'resume' ? 'Manage your verified candidate profile and AI-extracted skills' :
+            activeTab === 'upload' ? 'Submit audio or video responses for automated communication analysis' :
+            activeTab === 'feedback' ? 'Transparent speech analytics, STAR structure, and coaching recommendations' :
+            activeTab === 'progress' ? 'Track score progression, filler rate reduction, and pace over time' :
+            'Overview of your applications and interview performance'
+          }
           role="candidate"
         />
 
@@ -424,23 +445,43 @@ export default function CandidateDashboard() {
           {/* Welcome header + quick action */}
           <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
             <div>
-              <h1 className="page-title">Welcome back, {candidateDisplayName} 👋</h1>
+              <h1 className="page-title">Welcome back, {candidateDisplayName}</h1>
               <p className="page-subtitle">
-                {resumeData
-                  ? 'Your profile is active and verified. Recruiters can view your job-ready evidence.'
-                  : 'Upload your PDF resume to generate your structured candidate profile and unlock matching scores.'}
+                {activeTab === 'resume'
+                  ? (resumeData
+                      ? 'Your profile is active and verified. Recruiters can view your job-ready evidence.'
+                      : 'Upload your PDF resume to generate your structured candidate profile and unlock matching scores.')
+                  : activeTab === 'dashboard'
+                  ? 'Track your active applications, match scores, and interview performance.'
+                  : activeTab === 'feedback'
+                  ? 'Detailed speech analytics, coaching tips, and communication highlights.'
+                  : activeTab === 'progress'
+                  ? 'Track your interview performance and fluency improvements over time.'
+                  : 'Submit audio or video interview responses for automated speech and structure analysis.'}
               </p>
             </div>
-            <button
-              className="btn btn-primary"
-              id="btn-upload-resume-quick"
-              onClick={() => {
-                setActiveTab('resume')
-                if (fileInputRef.current) fileInputRef.current.click()
-              }}
-            >
-              <UploadCloud size={16} /> Upload New Resume
-            </button>
+            {activeTab === 'resume' && (
+              <button
+                className="btn btn-primary"
+                id="btn-upload-resume-quick"
+                onClick={() => {
+                  if (fileInputRef.current) fileInputRef.current.click()
+                }}
+              >
+                <UploadCloud size={16} /> Upload New Resume
+              </button>
+            )}
+            {activeTab === 'upload' && (
+              <button
+                className="btn btn-primary"
+                id="btn-upload-interview-quick"
+                onClick={() => {
+                  if (ivFileRef.current) ivFileRef.current.click()
+                }}
+              >
+                <UploadCloud size={16} /> Upload Recording
+              </button>
+            )}
           </div>
 
           {/* Hidden File Input */}
@@ -455,28 +496,6 @@ export default function CandidateDashboard() {
               }
             }}
           />
-
-          {/* Tab Navigation */}
-          <div className="flex gap-2" style={{ marginBottom: 24, overflowX: 'auto', paddingBottom: 4 }}>
-            {tabs.map(t => (
-              <button
-                key={t.key}
-                id={`tab-${t.key}`}
-                className="btn btn-sm"
-                onClick={() => setActiveTab(t.key)}
-                style={{
-                  borderRadius: 'var(--radius-full)',
-                  border: activeTab === t.key ? '1px solid var(--border-brand)' : '1px solid var(--border-subtle)',
-                  background: activeTab === t.key ? 'rgba(61,110,255,0.12)' : 'transparent',
-                  color: activeTab === t.key ? 'var(--brand-400)' : 'var(--text-muted)',
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap'
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
 
           {/* Alert Messages */}
           {errorMsg && (
@@ -592,8 +611,8 @@ export default function CandidateDashboard() {
                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', margin: 0 }}>
                               {extracted.name || candidateDisplayName}
                             </h2>
-                            <span className="badge badge-success" style={{ fontSize: '0.72rem' }}>
-                              ✓ AI Extracted & Verified
+                            <span className="badge badge-success" style={{ fontSize: '0.72rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                              <CheckCircle2 size={12} /> AI Extracted & Verified
                             </span>
                           </div>
                           <div className="flex items-center gap-4" style={{ marginTop: 6, flexWrap: 'wrap', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
@@ -825,8 +844,9 @@ export default function CandidateDashboard() {
                     border: '1px solid rgba(61,110,255,0.2)', borderRadius: 'var(--radius-lg)',
                     fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.5
                   }}>
-                    <strong style={{ color: 'var(--brand-400)' }}>🛡️ Responsible AI & Candidate-in-the-Loop</strong> —
-                    All information above was parsed directly from your uploaded PDF without hallucinations. If any information
+                    <strong style={{ color: 'var(--brand-400)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <ShieldCheck size={16} /> Responsible AI & Candidate-in-the-Loop
+                    </strong> — All information above was parsed directly from your uploaded PDF without hallucinations. If any information
                     was missed or formatted incorrectly by the parser, use the <strong>"Edit Profile"</strong> button above to
                     update your verified data before matching against recruiter job postings.
                   </div>
@@ -859,13 +879,15 @@ export default function CandidateDashboard() {
               {/* Stats */}
               <div className="grid-4" style={{ marginBottom: 24 }}>
                 {[
-                  { label: 'Latest Score', value: '88%', icon: '🎯', color: '#10b981', sub: 'Interview 4 / Att. 4' },
-                  { label: 'Applications', value: 3, icon: '📋', color: '#3d6eff', sub: '1 shortlisted' },
-                  { label: 'Filler Rate', value: '2.9%', icon: '💬', color: '#f59e0b', sub: 'Was 8.7% — improving' },
-                  { label: 'Practice Sessions', value: 4, icon: '🎙️', color: '#8b5cf6', sub: 'Total attempts' },
+                  { label: 'Latest Score', value: '88%', icon: Target, color: '#10b981', sub: 'Interview 4 / Att. 4' },
+                  { label: 'Applications', value: 3, icon: ClipboardList, color: '#3d6eff', sub: '1 shortlisted' },
+                  { label: 'Filler Rate', value: '2.9%', icon: MessageSquare, color: '#f59e0b', sub: 'Was 8.7% — improving' },
+                  { label: 'Practice Sessions', value: 4, icon: Mic, color: '#8b5cf6', sub: 'Total attempts' },
                 ].map(s => (
                   <div key={s.label} className="stat-card">
-                    <div style={{ fontSize: '1.4rem', marginBottom: 12 }}>{s.icon}</div>
+                    <div style={{ marginBottom: 12 }}>
+                      <s.icon size={22} style={{ color: s.color }} />
+                    </div>
                     <div className="stat-value" style={{ fontSize: '1.9rem', color: s.color }}>{s.value}</div>
                     <div className="stat-label">{s.label}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 6 }}>{s.sub}</div>
@@ -961,11 +983,20 @@ export default function CandidateDashboard() {
                     </select>
                   </div>
                   {commSummary?.latest_communication_score != null && (
-                    <div className="flex items-center gap-2">
-                      <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Latest Overall Score:</span>
-                      <span className="badge badge-success" style={{ fontSize: '0.88rem', fontWeight: 800 }}>
-                        🎙️ {commSummary.latest_communication_score}%
-                      </span>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Latest Overall Score:</span>
+                        <span className="badge badge-success" style={{ fontSize: '0.88rem', fontWeight: 800, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                          <Mic size={13} /> {commSummary.latest_communication_score}%
+                        </span>
+                      </div>
+                      <button
+                        className="btn btn-primary"
+                        style={{ fontSize: '0.78rem', padding: '6px 14px', borderRadius: 8, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+                        onClick={() => navigate(`/candidate/feedback-dossier?app_id=${ivSelectedAppId}`)}
+                      >
+                        <ArrowRight size={14} /> Open Full Coaching Dossier
+                      </button>
                     </div>
                   )}
                 </div>
@@ -987,7 +1018,10 @@ export default function CandidateDashboard() {
                   </p>
                   <button
                     className="btn btn-primary"
-                    onClick={() => setActiveTab('upload')}
+                    onClick={() => {
+                      setActiveTab('upload')
+                      navigate('/candidate/interview')
+                    }}
                   >
                     <UploadCloud size={16} /> Submit Interview Response
                   </button>
@@ -998,7 +1032,7 @@ export default function CandidateDashboard() {
                   <div className="phase7-metrics-row">
                     <div className="phase7-metric-card" style={{ borderColor: 'rgba(16,185,129,0.35)' }}>
                       <div className="phase7-metric-top">
-                        <span className="phase7-metric-icon">🎙️</span>
+                        <span className="phase7-metric-icon"><Mic size={18} style={{ color: '#10b981' }} /></span>
                         <span className="phase7-metric-badge" style={{ background: 'rgba(16,185,129,0.15)', color: '#10b981' }}>
                           Overall
                         </span>
@@ -1012,7 +1046,7 @@ export default function CandidateDashboard() {
 
                     <div className="phase7-metric-card">
                       <div className="phase7-metric-top">
-                        <span className="phase7-metric-icon">⏱️</span>
+                        <span className="phase7-metric-icon"><Clock size={18} style={{ color: '#f59e0b' }} /></span>
                         <span className="phase7-metric-badge" style={{
                           background: (latestMetrics?.wpm ?? 0) >= 120 && (latestMetrics?.wpm ?? 0) <= 165 ? 'rgba(16,185,129,0.12)' : 'rgba(245,158,11,0.12)',
                           color: (latestMetrics?.wpm ?? 0) >= 120 && (latestMetrics?.wpm ?? 0) <= 165 ? '#10b981' : '#f59e0b'
@@ -1029,7 +1063,7 @@ export default function CandidateDashboard() {
 
                     <div className="phase7-metric-card">
                       <div className="phase7-metric-top">
-                        <span className="phase7-metric-icon">💬</span>
+                        <span className="phase7-metric-icon"><MessageSquare size={18} style={{ color: '#10b981' }} /></span>
                         <span className="phase7-metric-badge" style={{
                           background: (latestMetrics?.filler_word_rate ?? 0) < 3.5 ? 'rgba(16,185,129,0.12)' : 'rgba(245,158,11,0.12)',
                           color: (latestMetrics?.filler_word_rate ?? 0) < 3.5 ? '#10b981' : '#f59e0b'
@@ -1046,7 +1080,7 @@ export default function CandidateDashboard() {
 
                     <div className="phase7-metric-card">
                       <div className="phase7-metric-top">
-                        <span className="phase7-metric-icon">📐</span>
+                        <span className="phase7-metric-icon"><FileText size={18} style={{ color: 'var(--brand-400)' }} /></span>
                         <span className="phase7-metric-badge" style={{ background: 'rgba(61,110,255,0.12)', color: 'var(--brand-400)' }}>
                           STAR
                         </span>
@@ -1055,12 +1089,12 @@ export default function CandidateDashboard() {
                         {latestMetrics?.structure_score ?? 0}<span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-muted)' }}>/100</span>
                       </div>
                       <div className="phase7-metric-lbl">Answer Structure</div>
-                      <div className="phase7-metric-sub">Context → Task → Action → Result</div>
+                      <div className="phase7-metric-sub">Context &rarr; Task &rarr; Action &rarr; Result</div>
                     </div>
 
                     <div className="phase7-metric-card">
                       <div className="phase7-metric-top">
-                        <span className="phase7-metric-icon">🎯</span>
+                        <span className="phase7-metric-icon"><Target size={18} style={{ color: '#8b5cf6' }} /></span>
                         <span className="phase7-metric-badge" style={{ background: 'rgba(139,92,246,0.12)', color: '#8b5cf6' }}>
                           Skills
                         </span>
@@ -1096,7 +1130,7 @@ export default function CandidateDashboard() {
                     <div className="glass-card" style={{ padding: 24, borderColor: 'rgba(16,185,129,0.25)' }}>
                       <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
                         <div className="flex items-center gap-2">
-                          <span style={{ fontSize: '1.2rem' }}>✨</span>
+                          <Sparkles size={18} style={{ color: '#10b981' }} />
                           <div className="chart-title">What Went Well</div>
                         </div>
                         <span className="badge badge-success" style={{ fontSize: '0.72rem' }}>
@@ -1111,7 +1145,11 @@ export default function CandidateDashboard() {
                           borderRadius: 'var(--radius-lg)'
                         }}>
                           <div className="flex items-center gap-2" style={{ marginBottom: 4 }}>
-                            <span>{s.icon || '✨'}</span>
+                            {typeof s.icon === 'function' ? (
+                              <s.icon size={15} style={{ color: '#10b981' }} />
+                            ) : (
+                              <CheckCircle2 size={15} style={{ color: '#10b981' }} />
+                            )}
                             <span style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--text-primary)' }}>{s.label}</span>
                           </div>
                           <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{s.desc}</p>
@@ -1124,7 +1162,7 @@ export default function CandidateDashboard() {
                   <div className="glass-card" style={{ padding: 24, borderColor: 'rgba(245,158,11,0.25)', marginBottom: 24 }}>
                     <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
                       <div className="flex items-center gap-2">
-                        <span style={{ fontSize: '1.2rem' }}>🎯</span>
+                        <Target size={18} style={{ color: '#f59e0b' }} />
                         <div className="chart-title">Areas to Improve & Coaching Tips</div>
                       </div>
                       <span className="badge badge-warning" style={{ fontSize: '0.72rem' }}>
@@ -1142,7 +1180,11 @@ export default function CandidateDashboard() {
                         }}>
                           <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
                             <div className="flex items-center gap-2">
-                              <span>{item.icon || '💡'}</span>
+                              {typeof item.icon === 'function' ? (
+                                <item.icon size={15} style={{ color: '#f59e0b' }} />
+                              ) : (
+                                <Lightbulb size={15} style={{ color: '#f59e0b' }} />
+                              )}
                               <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>{item.label}</span>
                             </div>
                             <div className="flex gap-1">
@@ -1157,7 +1199,10 @@ export default function CandidateDashboard() {
                             borderLeft: '3px solid rgba(245,158,11,0.5)',
                             lineHeight: 1.45
                           }}>
-                            💡 {item.action}
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
+                              <Lightbulb size={14} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
+                              <span>{item.action}</span>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -1172,7 +1217,9 @@ export default function CandidateDashboard() {
                     borderRadius: 'var(--radius-lg)',
                     fontSize: '0.84rem', color: 'var(--text-secondary)'
                   }}>
-                    <strong style={{ color: 'var(--brand-400)' }}>ℹ️ About this feedback</strong> — All feedback is based strictly on observable speech metrics and text evidence extracted from your interview recording.
+                    <strong style={{ color: 'var(--brand-400)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                      <ShieldCheck size={16} /> About this feedback
+                    </strong> — All feedback is based strictly on observable speech metrics and text evidence extracted from your interview recording.
                     No personality or character assumptions are made. This data is designed for constructive practice and skill development.
                   </div>
                 </>
@@ -1232,7 +1279,10 @@ export default function CandidateDashboard() {
                   </p>
                   <button
                     className="btn btn-primary"
-                    onClick={() => setActiveTab('upload')}
+                    onClick={() => {
+                      setActiveTab('upload')
+                      navigate('/candidate/interview')
+                    }}
                   >
                     <UploadCloud size={16} /> Submit Your First Recording
                   </button>
@@ -1453,10 +1503,15 @@ export default function CandidateDashboard() {
                 borderRadius: 12,
                 fontSize: '0.82rem', color: 'var(--text-secondary)'
               }}>
-                🧠 <strong style={{ color: 'var(--brand-400)' }}>AI Processing</strong> — Speech-to-text
-                transcription runs in the background. Status updates automatically every few seconds.
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                  <Cpu size={15} style={{ color: 'var(--brand-400)' }} />
+                  <strong style={{ color: 'var(--brand-400)' }}>AI Processing</strong>
+                </span> — Speech-to-text transcription runs in the background. Status updates automatically every few seconds.
                 <br />
-                ⚠️ <strong>Note:</strong> AI transcripts may contain errors — always review before use.
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                  <AlertTriangle size={14} style={{ color: '#f59e0b' }} />
+                  <strong>Note:</strong>
+                </span> AI transcripts may contain errors — always review before use.
               </div>
 
               {/* Interview History for selected application */}

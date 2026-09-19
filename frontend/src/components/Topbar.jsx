@@ -56,7 +56,7 @@ export default function Topbar({ title = 'Dashboard', subtitle = '', role = 'rec
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             cursor: 'pointer',
             transition: 'all var(--duration-fast)',
-            color: isDark ? '#f59e0b' : '#3d6eff',
+            color: isDark ? '#f59e0b' : '#2563eb',
             backdropFilter: 'blur(8px)',
           }}
           onMouseOver={e => {

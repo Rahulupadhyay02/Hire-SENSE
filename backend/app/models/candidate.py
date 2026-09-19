@@ -21,6 +21,7 @@ class Candidate(Base):
     user = relationship("User", backref="candidate_profile", uselist=False)
     applications = relationship("Application", back_populates="candidate", cascade="all, delete-orphan")
     resume_analyses = relationship("ResumeAnalysis", back_populates="candidate", cascade="all, delete-orphan", order_by="desc(ResumeAnalysis.created_at)")
+    feedbacks = relationship("Feedback", back_populates="candidate", cascade="all, delete-orphan", order_by="desc(Feedback.created_at)")  # Phase 9
 
     def __repr__(self):
         return f"<Candidate id={self.id} user_id={self.user_id}>"
