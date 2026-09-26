@@ -6,6 +6,7 @@ from app.routers.resumes import router as resumes_router
 from app.routers.interviews import router as interviews_router
 from app.routers.reports import router as reports_router   # Phase 8
 from app.routers.feedback import router as feedback_router # Phase 9
+from app.routers.recruiters import router as recruiters_router
 
 __all__ = [
     "auth_router",
@@ -16,4 +17,5 @@ __all__ = [
     "interviews_router",
     "reports_router",   # Phase 8
     "feedback_router",  # Phase 9
+    "recruiters_router",
 ]

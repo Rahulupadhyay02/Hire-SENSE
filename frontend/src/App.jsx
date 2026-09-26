@@ -8,6 +8,7 @@ import CandidatesPage from './pages/CandidatesPage'
 import ReportPage from './pages/ReportPage'
 import PipelinePage from './pages/PipelinePage'
 import CandidateFeedbackPage from './pages/CandidateFeedbackPage'
+import CandidateJobSearchPage from './pages/CandidateJobSearchPage'
 
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -24,9 +25,11 @@ export default function App() {
         <Route path="/recruiter/candidates" element={<ProtectedRoute allowedRoles={['recruiter']}><CandidatesPage /></ProtectedRoute>} />
         <Route path="/recruiter/report"   element={<ProtectedRoute allowedRoles={['recruiter']}><ReportPage /></ProtectedRoute>} />
         <Route path="/recruiter/pipeline" element={<ProtectedRoute allowedRoles={['recruiter']}><PipelinePage /></ProtectedRoute>} />
+        <Route path="/recruiter/settings" element={<ProtectedRoute allowedRoles={['recruiter']}><RecruiterDashboard initialOpenProfile={true} /></ProtectedRoute>} />
         
         {/* Candidate Protected Routes */}
         <Route path="/candidate"              element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="dashboard" /></ProtectedRoute>} />
+        <Route path="/candidate/jobs"         element={<ProtectedRoute allowedRoles={['candidate']}><CandidateJobSearchPage /></ProtectedRoute>} />
         <Route path="/candidate/profile"      element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="resume" /></ProtectedRoute>} />
         <Route path="/candidate/applications" element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="dashboard" /></ProtectedRoute>} />
         <Route path="/candidate/interview"    element={<ProtectedRoute allowedRoles={['candidate']}><CandidateDashboard initialTab="upload" /></ProtectedRoute>} />

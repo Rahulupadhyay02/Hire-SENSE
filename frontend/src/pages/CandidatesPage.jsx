@@ -310,7 +310,7 @@ export default function CandidatesPage() {
           {/* Stats Cards */}
           <div className="grid-4" style={{ marginBottom: 24 }}>
             <div className="stat-card">
-              <div className="stat-value" style={{ color: '#3d6eff' }}>{totalCount}</div>
+              <div className="stat-value" style={{ color: '#FFFFFF' }}>{totalCount}</div>
               <div className="stat-label">Total Applications</div>
             </div>
             <div className="stat-card">
@@ -411,10 +411,10 @@ export default function CandidatesPage() {
                               {initials}
                             </div>
                             <div>
-                              <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                              <div style={{ fontWeight: 600, color: '#FFFFFF', fontSize: '13.5px' }}>
                                 {app.candidate_name}
                               </div>
-                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                              <div style={{ fontSize: '11.5px', color: '#64748B' }}>
                                 {app.candidate_email}
                               </div>
                             </div>
@@ -423,7 +423,7 @@ export default function CandidatesPage() {
 
                         {/* Job Title */}
                         <td>
-                          <div style={{ fontWeight: 500, color: 'var(--text-primary)' }}>
+                          <div style={{ fontWeight: 500, color: '#E2E8F0', fontSize: '13px' }}>
                             {app.job_title}
                           </div>
                         </td>
@@ -474,6 +474,22 @@ export default function CandidatesPage() {
                               onClick={() => setSelectedApp(app)}
                             >
                               <Eye size={15} />
+                            </button>
+
+                            {/* AI Report */}
+                            <button
+                              className="btn btn-sm"
+                              style={{
+                                padding: '4px 9px', fontSize: '0.72rem',
+                                background: 'rgba(255, 255, 255, 0.08)',
+                                color: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.2)',
+                                display: 'flex', alignItems: 'center', gap: 4,
+                                borderRadius: 6, fontWeight: 600
+                              }}
+                              title="View Full AI Candidate Report"
+                              onClick={() => navigate(`/recruiter/report?applicationId=${app.id}`)}
+                            >
+                              <Sparkles size={12} /> AI Report
                             </button>
 
                             {/* Shortlist button */}

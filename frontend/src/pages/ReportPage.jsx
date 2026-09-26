@@ -20,7 +20,8 @@ import {
 import {
   CheckCircle2, XCircle, AlertTriangle, Mail, FileText, Target, Mic, Scale,
   Wrench, Calendar, Folder, Check, Sparkles, Search, Brain, GraduationCap,
-  Briefcase, Award, TrendingUp, MessageSquare, Info, Pause, X, Loader2
+  Briefcase, Award, TrendingUp, MessageSquare, Info, Pause, X, Loader2,
+  Users, ChevronLeft, ChevronRight, ArrowLeft, ArrowRight
 } from 'lucide-react'
 
 // ── Themed tooltip for charts ─────────────────────────────────────────────────
@@ -113,14 +114,58 @@ function formatBytes(bytes) {
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function ReportPage() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
-  const applicationId = searchParams.get('applicationId')
+  const rawAppId = searchParams.get('applicationId') || searchParams.get('appId') || searchParams.get('id')
+  const [applicationId, setApplicationId] = useState(rawAppId || null)
+
+  const [jobs, setJobs] = useState([])
+  const [allApplications, setAllApplications] = useState([])
+  const [selectedJobId, setSelectedJobId] = useState(null)
+  const [loadingData, setLoadingData] = useState(true)
 
   const [report, setReport] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [loadingReport, setLoadingReport] = useState(false)
+  const [reportError, setReportError] = useState(null)
   const [activeTab, setActiveTab] = useState('overview')
+
+  // Load jobs and applications
+  useEffect(() => {
+    setLoadingData(true)
+    Promise.all([
+      client.get('/jobs').catch(() => ({ data: [] })),
+      client.get('/applications').catch(() => ({ data: [] }))
+    ])
+      .then(([jobsRes, appsRes]) => {
+        const fetchedJobs = jobsRes.data || []
+        const fetchedApps = appsRes.data || []
+        setJobs(fetchedJobs)
+        setAllApplications(fetchedApps)
+
+        // Determine default selectedJobId
+        if (applicationId) {
+          const matchedApp = fetchedApps.find(a => String(a.id) === String(applicationId))
+          if (matchedApp) {
+            setSelectedJobId(matchedApp.job_id)
+          } else if (fetchedJobs.length > 0) {
+            setSelectedJobId(fetchedJobs[0].id)
+          }
+        } else if (fetchedJobs.length > 0) {
+          setSelectedJobId(fetchedJobs[0].id)
+        }
+      })
+      .finally(() => setLoadingData(false))
+  }, [])
+
+  // Sync applicationId with searchParams
+  useEffect(() => {
+    const pId = searchParams.get('applicationId') || searchParams.get('appId') || searchParams.get('id')
+    setApplicationId(pId || null)
+    if (pId && allApplications.length > 0) {
+      const matchedApp = allApplications.find(a => String(a.id) === String(pId))
+      if (matchedApp) setSelectedJobId(matchedApp.job_id)
+    }
+  }, [searchParams, allApplications])
 
   // Decision state
   const [recruiterNotes, setRecruiterNotes] = useState('')
@@ -128,28 +173,66 @@ export default function ReportPage() {
   const [currentStatus, setCurrentStatus] = useState(null)
   const [toast, setToast] = useState(null)
 
-  // ── Load report ───────────────────────────────────────────────────────────
+  // ── Load report when applicationId changes ────────────────────────────────
   const fetchReport = useCallback(async () => {
-    if (!applicationId) {
-      setError('No application ID provided. Go back and select a candidate.')
-      setLoading(false)
-      return
-    }
+    if (!applicationId) return
     try {
-      setLoading(true)
-      setError(null)
+      setLoadingReport(true)
+      setReportError(null)
       const res = await client.get(`/applications/${applicationId}/report`)
       setReport(res.data)
       setCurrentStatus(res.data.current_status)
+      if (res.data.job_id) {
+        setSelectedJobId(res.data.job_id)
+      }
     } catch (err) {
       const msg = err.response?.data?.detail || 'Failed to load report. Please try again.'
-      setError(msg)
+      setReportError(msg)
     } finally {
-      setLoading(false)
+      setLoadingReport(false)
     }
   }, [applicationId])
 
-  useEffect(() => { fetchReport() }, [fetchReport])
+  useEffect(() => {
+    if (applicationId) {
+      fetchReport()
+    } else {
+      setReport(null)
+      setReportError(null)
+    }
+  }, [applicationId, fetchReport])
+
+  // Handlers for switching views and candidates
+  const handleOpenReport = (appId) => {
+    setApplicationId(String(appId))
+    setSearchParams({ applicationId: String(appId) })
+    const matchedApp = allApplications.find(a => String(a.id) === String(appId))
+    if (matchedApp) setSelectedJobId(matchedApp.job_id)
+  }
+
+  const handleBackToGrid = () => {
+    setApplicationId(null)
+    setSearchParams({})
+    setReport(null)
+    setReportError(null)
+  }
+
+  // Active Job and Job Applicants
+  const selectedJob = jobs.find(j => j.id === selectedJobId) || jobs[0]
+  const currentJobApps = allApplications.filter(a => a.job_id === (report?.job_id || selectedJobId || selectedJob?.id))
+  const currentJobAppIndex = currentJobApps.findIndex(a => String(a.id) === String(applicationId))
+
+  const handlePrevCandidate = () => {
+    if (currentJobAppIndex > 0) {
+      handleOpenReport(currentJobApps[currentJobAppIndex - 1].id)
+    }
+  }
+
+  const handleNextCandidate = () => {
+    if (currentJobAppIndex < currentJobApps.length - 1) {
+      handleOpenReport(currentJobApps[currentJobAppIndex + 1].id)
+    }
+  }
 
   // ── Submit human decision ─────────────────────────────────────────────────
   const handleDecision = async (decision) => {
@@ -171,15 +254,352 @@ export default function ReportPage() {
   }
 
   const tabs = ['overview', 'resume', 'matching', 'interview', 'decision']
+  const colors = useChartColors()
 
-  // ── Loading skeleton ───────────────────────────────────────────────────────
-  if (loading) {
+  // ── View 1: Job Profiles Grid & Respective Candidates (Hub Mode) ───────────
+  if (!applicationId) {
+    const selectedJobApplicants = allApplications.filter(a => a.job_id === (selectedJobId || selectedJob?.id))
+
     return (
       <div className="app-layout">
         <Sidebar role="recruiter" />
         <div className="main-content">
-          <Topbar title="AI Candidate Report" subtitle="Loading report…" />
+          <Topbar
+            title="AI Candidate Reports Hub"
+            subtitle="Explore job profiles and candidate evaluations"
+          />
+
           <div className="page-content">
+            {/* Page Header */}
+            <div style={{ marginBottom: 28 }}>
+              <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Sparkles size={24} style={{ color: '#FFFFFF' }} />
+                Job Profiles & AI Reports
+              </h1>
+              <p className="page-subtitle">
+                Select a job posting to view its applicants and inspect in-depth AI evaluations
+              </p>
+            </div>
+
+            {loadingData ? (
+              <div>
+                <div className="grid-3" style={{ marginBottom: 28 }}>
+                  {[1, 2, 3].map(i => <Skeleton key={i} height={180} />)}
+                </div>
+                <div className="grid-2">
+                  {[1, 2].map(i => <Skeleton key={i} height={240} />)}
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* ── Section 1: Jobs Grid ─────────────────────────────────── */}
+                <div style={{ marginBottom: 36 }}>
+                  <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Briefcase size={18} color="#FFFFFF" />
+                      Jobs Created by Recruiter
+                      <span className="badge badge-brand" style={{ marginLeft: 6 }}>
+                        {jobs.length} Positions
+                      </span>
+                    </h3>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                      Click any job card to view its candidate applicants
+                    </span>
+                  </div>
+
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))',
+                    gap: 16
+                  }}>
+                    {jobs.map(job => {
+                      const isSelected = (selectedJobId || selectedJob?.id) === job.id
+                      const jobApps = allApplications.filter(a => a.job_id === job.id)
+                      const shortlistedCount = jobApps.filter(a => a.status === 'Shortlisted').length
+
+                      return (
+                        <div
+                          key={job.id}
+                          onClick={() => setSelectedJobId(job.id)}
+                          className="glass-card"
+                          style={{
+                            padding: 22,
+                            cursor: 'pointer',
+                            borderRadius: 'var(--radius-lg)',
+                            background: isSelected ? 'rgba(255, 255, 255, 0.12)' : 'rgba(16, 23, 38, 0.75)',
+                            border: isSelected ? '2px solid #FFFFFF' : '1px solid rgba(255, 255, 255, 0.07)',
+                            boxShadow: isSelected ? '0 0 24px rgba(255, 255, 255, 0.15)' : 'none',
+                            transition: 'all 0.2s ease',
+                            position: 'relative'
+                          }}
+                        >
+                          {isSelected && (
+                            <span style={{
+                              position: 'absolute', top: 14, right: 14,
+                              background: 'rgba(255, 255, 255, 0.15)', color: '#FFFFFF',
+                              border: '1px solid rgba(255, 255, 255, 0.3)',
+                              borderRadius: 12, fontSize: '0.72rem', padding: '2px 8px', fontWeight: 600
+                            }}>
+                              Selected Role ✓
+                            </span>
+                          )}
+
+                          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            {job.experience || 'Full-time'}
+                          </div>
+
+                          <h4 style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: '1.18rem',
+                            fontWeight: 700,
+                            color: '#FFFFFF',
+                            marginBottom: 14,
+                            paddingRight: isSelected ? 80 : 0
+                          }}>
+                            {job.title}
+                          </h4>
+
+                          {/* Stats Row */}
+                          <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr 1fr',
+                            gap: 8,
+                            padding: '10px 12px',
+                            background: 'rgba(0, 0, 0, 0.25)',
+                            borderRadius: 8,
+                            marginBottom: 14
+                          }}>
+                            <div>
+                              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Applicants</div>
+                              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                                {jobApps.length}
+                              </div>
+                            </div>
+                            <div>
+                              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Avg Match</div>
+                              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: (job.avg_match_score || 0) >= 70 ? '#10b981' : '#f59e0b' }}>
+                                {job.avg_match_score || 0}%
+                              </div>
+                            </div>
+                            <div>
+                              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Shortlisted</div>
+                              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#FFFFFF' }}>
+                                {shortlistedCount}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Required Skills tags */}
+                          <div className="flex gap-1" style={{ flexWrap: 'wrap' }}>
+                            {(job.required_skills || []).slice(0, 4).map(sk => (
+                              <span key={sk} className="skill-tag" style={{ fontSize: '0.7rem', padding: '2px 7px' }}>{sk}</span>
+                            ))}
+                            {(job.required_skills?.length || 0) > 4 && (
+                              <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', padding: '2px 4px' }}>
+                                +{job.required_skills.length - 4}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* ── Section 2: Respective Job Seekers ─────────────────────── */}
+                <div>
+                  <div className="flex items-center justify-between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
+                    <div>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <Users size={18} color="#FFFFFF" />
+                        Applicants for: <span style={{ color: '#FFFFFF' }}>{selectedJob?.title || 'Selected Job'}</span>
+                        <span className="badge badge-brand" style={{ marginLeft: 6 }}>
+                          {selectedJobApplicants.length} {selectedJobApplicants.length === 1 ? 'Applicant' : 'Applicants'}
+                        </span>
+                      </h3>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '4px 0 0' }}>
+                        Click "View Full AI Report" on any candidate to inspect comprehensive match analytics, resume evidence, and interview performance
+                      </p>
+                    </div>
+                  </div>
+
+                  {selectedJobApplicants.length === 0 ? (
+                    <div className="glass-card" style={{ padding: '48px 24px', textAlign: 'center' }}>
+                      <Users size={44} style={{ color: 'var(--text-muted)', margin: '0 auto 12px', opacity: 0.4 }} />
+                      <h4 style={{ color: '#FFFFFF', marginBottom: 6 }}>No Applications Yet</h4>
+                      <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 440, margin: '0 auto' }}>
+                        No job seekers have applied to this role yet. When candidates apply, their AI evaluation cards will appear here.
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                      gap: 16
+                    }}>
+                      {selectedJobApplicants.map(app => {
+                        const score = Math.round(app.match_score || 0)
+                        const initials = (app.candidate_name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+                        return (
+                          <div
+                            key={app.id}
+                            className="glass-card"
+                            style={{
+                              padding: 22,
+                              borderRadius: 'var(--radius-lg)',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'space-between',
+                              gap: 16,
+                              background: 'rgba(16, 23, 38, 0.75)',
+                              border: '1px solid rgba(255, 255, 255, 0.08)',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onMouseOver={e => {
+                              e.currentTarget.style.borderColor = 'rgba(61, 110, 255, 0.4)'
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                            }}
+                            onMouseOut={e => {
+                              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)'
+                              e.currentTarget.style.transform = 'translateY(0)'
+                            }}
+                          >
+                            <div>
+                              {/* Top Row: Avatar, Name, Email, Match Score */}
+                              <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
+                                <div className="flex items-center gap-3">
+                                  <div style={{
+                                    width: 48, height: 48, borderRadius: '50%',
+                                    background: 'linear-gradient(135deg, #FFFFFF, #CBD5E1)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontSize: '1.05rem', fontWeight: 800, color: '#000000', flexShrink: 0
+                                  }}>
+                                    {initials}
+                                  </div>
+                                  <div>
+                                    <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.08rem', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
+                                      {app.candidate_name}
+                                    </h4>
+                                    <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                                      <Mail size={12} /> {app.candidate_email}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Match Score Badge */}
+                                <div style={{
+                                  textAlign: 'center',
+                                  padding: '6px 12px',
+                                  background: score >= 80 ? 'rgba(16, 185, 129, 0.12)' : (score >= 65 ? 'rgba(245, 158, 11, 0.12)' : 'rgba(61, 110, 255, 0.12)'),
+                                  border: `1px solid ${score >= 80 ? 'rgba(16, 185, 129, 0.3)' : (score >= 65 ? 'rgba(245, 158, 11, 0.3)' : 'rgba(61, 110, 255, 0.3)')}`,
+                                  borderRadius: 10,
+                                  flexShrink: 0
+                                }}>
+                                  <div style={{
+                                    fontSize: '1.2rem',
+                                    fontWeight: 800,
+                                    fontFamily: 'var(--font-display)',
+                                    color: score >= 80 ? '#10b981' : (score >= 65 ? '#f59e0b' : '#3d6eff'),
+                                    lineHeight: 1
+                                  }}>
+                                    {score}%
+                                  </div>
+                                  <div style={{ fontSize: '0.62rem', color: 'var(--text-muted)', marginTop: 2, fontWeight: 600 }}>
+                                    MATCH
+                                  </div>
+                                </div>
+                              </div>
+
+                              {/* Details & Status */}
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, flexWrap: 'wrap' }}>
+                                <StatusBadge status={app.status} />
+                                <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                                  {app.candidate_experience || '1-2 years'}
+                                </span>
+                                {app.candidate_education && (
+                                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                    · {app.candidate_education}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Verified Skills */}
+                              <div className="flex gap-1" style={{ flexWrap: 'wrap', marginBottom: 14 }}>
+                                {(app.candidate_skills || []).slice(0, 4).map(sk => (
+                                  <span key={sk} className="skill-tag" style={{ fontSize: '0.72rem', padding: '3px 8px' }}>
+                                    {sk}
+                                  </span>
+                                ))}
+                                {(app.candidate_skills?.length || 0) > 4 && (
+                                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', padding: '3px 4px' }}>
+                                    +{app.candidate_skills.length - 4}
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* Notes */}
+                              {app.notes && (
+                                <p style={{
+                                  fontSize: '0.78rem',
+                                  color: 'var(--text-muted)',
+                                  background: 'rgba(0, 0, 0, 0.2)',
+                                  padding: '8px 10px',
+                                  borderRadius: 6,
+                                  margin: '0 0 14px 0',
+                                  lineHeight: 1.4,
+                                  fontStyle: 'italic'
+                                }}>
+                                  "{app.notes}"
+                                </p>
+                              )}
+                            </div>
+
+                            {/* View AI Report Action */}
+                            <button
+                              className="btn btn-primary"
+                              style={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: 8,
+                                padding: '10px 16px',
+                                fontWeight: 600,
+                                fontSize: '0.86rem'
+                              }}
+                              onClick={() => handleOpenReport(app.id)}
+                            >
+                              <Sparkles size={16} />
+                              <span>View Full AI Report</span>
+                              <ArrowRight size={15} />
+                            </button>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── View 2: Full AI Candidate Report Mode ──────────────────────────────────
+  if (loadingReport || !report) {
+    return (
+      <div className="app-layout">
+        <Sidebar role="recruiter" />
+        <div className="main-content">
+          <Topbar title="AI Candidate Report" subtitle="Loading evaluation report…" />
+          <div className="page-content">
+            <div style={{ marginBottom: 20 }}>
+              <button className="btn btn-secondary btn-sm flex items-center gap-2" onClick={handleBackToGrid}>
+                <ArrowLeft size={16} /> Back to Job Applicants
+              </button>
+            </div>
             <div className="glass-card" style={{ padding: 28, marginBottom: 24 }}>
               <div className="flex items-center gap-4">
                 <Skeleton height={72} width={72} style={{ borderRadius: '50%' }} />
@@ -204,19 +624,18 @@ export default function ReportPage() {
     )
   }
 
-  // ── Error state ────────────────────────────────────────────────────────────
-  if (error) {
+  if (reportError) {
     return (
       <div className="app-layout">
         <Sidebar role="recruiter" />
         <div className="main-content">
-          <Topbar title="AI Candidate Report" subtitle="Error" />
+          <Topbar title="AI Candidate Report" subtitle="Error loading report" />
           <div className="page-content">
             <div className="glass-card" style={{ padding: 40, textAlign: 'center' }}>
               <AlertTriangle size={44} style={{ color: '#f59e0b', margin: '0 auto 16px' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', marginBottom: 12 }}>Could Not Load Report</h3>
-              <div style={{ color: 'var(--text-muted)', marginBottom: 24 }}>{error}</div>
-              <button className="btn btn-primary" onClick={() => navigate(-1)}>Go Back</button>
+              <h3 style={{ fontFamily: 'var(--font-display)', marginBottom: 12, color: '#FFFFFF' }}>Could Not Load Report</h3>
+              <div style={{ color: 'var(--text-muted)', marginBottom: 24 }}>{reportError}</div>
+              <button className="btn btn-primary" onClick={handleBackToGrid}>Back to Job Applicants</button>
             </div>
           </div>
         </div>
@@ -224,7 +643,7 @@ export default function ReportPage() {
     )
   }
 
-  // ── Derived display values ────────────────────────────────────────────────
+  // ── Derived display values for Report Mode ────────────────────────────────
   const ms = report.match_score || {}
   const iv = report.interview_summary || {}
   const re = report.resume_evidence || {}
@@ -232,7 +651,7 @@ export default function ReportPage() {
   const candidateInitials = (report.candidate_name || 'U')
     .split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 
-  // Radar data — prefer interview radar, fallback to match components
+  // Radar data
   const radarData = iv.latest_metrics?.radar?.length
     ? iv.latest_metrics.radar
     : [
@@ -252,9 +671,6 @@ export default function ReportPage() {
   // Skills list from components
   const skillsList = ms.components?.skills || []
 
-  const colors = useChartColors()
-
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="app-layout">
       <Sidebar role="recruiter" />
@@ -266,13 +682,71 @@ export default function ReportPage() {
 
         <div className="page-content">
 
+          {/* ── Breadcrumbs & Navigation Bar ───────────────────────────────── */}
+          <div className="glass-card flex items-center justify-between" style={{
+            padding: '14px 20px',
+            marginBottom: 24,
+            background: 'rgba(16, 23, 38, 0.85)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: 'var(--radius-lg)',
+            flexWrap: 'wrap',
+            gap: 12
+          }}>
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                className="btn btn-secondary btn-sm flex items-center gap-2"
+                onClick={handleBackToGrid}
+                style={{ fontWeight: 600 }}
+              >
+                <ArrowLeft size={16} />
+                <span>Back to Job Applicants</span>
+              </button>
+
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span>Jobs</span>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <strong style={{ color: '#FFFFFF' }}>{report.job_title}</strong>
+                <span style={{ opacity: 0.4 }}>/</span>
+                <span style={{ color: '#FFFFFF', fontWeight: 600 }}>{report.candidate_name}</span>
+              </div>
+            </div>
+
+            {/* Sibling navigation between applicants for this specific job */}
+            {currentJobApps.length > 1 && (
+              <div className="flex items-center gap-2">
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginRight: 4 }}>
+                  Applicant {currentJobAppIndex + 1} of {currentJobApps.length} for this role
+                </span>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handlePrevCandidate}
+                  disabled={currentJobAppIndex <= 0}
+                  style={{ opacity: currentJobAppIndex <= 0 ? 0.4 : 1, cursor: currentJobAppIndex <= 0 ? 'not-allowed' : 'pointer' }}
+                  title="Previous Applicant for this Job"
+                >
+                  <ChevronLeft size={15} /> Prev
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handleNextCandidate}
+                  disabled={currentJobAppIndex >= currentJobApps.length - 1}
+                  style={{ opacity: currentJobAppIndex >= currentJobApps.length - 1 ? 0.4 : 1, cursor: currentJobAppIndex >= currentJobApps.length - 1 ? 'not-allowed' : 'pointer' }}
+                  title="Next Applicant for this Job"
+                >
+                  Next <ChevronRight size={15} />
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* ── Header Card ─────────────────────────────────────────────────── */}
           <div className="glass-card" style={{ padding: 28, marginBottom: 24 }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="candidate-avatar" style={{
                   width: 72, height: 72, fontSize: '1.6rem',
-                  background: 'linear-gradient(135deg, #3d6eff, #8b5cf6)', flexShrink: 0
+                  background: 'linear-gradient(135deg, #FFFFFF, #CBD5E1)',
+                  color: '#000000', flexShrink: 0
                 }}>
                   {candidateInitials}
                 </div>
@@ -328,8 +802,8 @@ export default function ReportPage() {
                     style={{
                       borderRadius: 'var(--radius-full)',
                       border: activeTab === t ? '1px solid var(--border-brand)' : '1px solid var(--border-subtle)',
-                      background: activeTab === t ? 'rgba(37, 99, 235, 0.15)' : 'transparent',
-                      color: activeTab === t ? '#2563eb' : 'var(--text-muted)',
+                      background: activeTab === t ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
+                      color: activeTab === t ? '#FFFFFF' : 'var(--text-muted)',
                       textTransform: 'capitalize', fontWeight: 600,
                       display: 'inline-flex', alignItems: 'center', gap: 6
                     }}
@@ -367,7 +841,7 @@ export default function ReportPage() {
                     <RadarChart data={radarData}>
                       <PolarGrid stroke={colors.polarGrid} />
                       <PolarAngleAxis dataKey="area" tick={{ fill: colors.labelFill, fontSize: 11 }} />
-                      <Radar dataKey="value" stroke="#3d6eff" fill="#3d6eff" fillOpacity={0.15} strokeWidth={2} />
+                      <Radar dataKey="value" stroke="#FFFFFF" fill="#FFFFFF" fillOpacity={0.15} strokeWidth={2} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -672,7 +1146,7 @@ export default function ReportPage() {
                   {iv.latest_metrics && (
                     <div className="grid-4" style={{ marginBottom: 24 }}>
                       {[
-                        { label: 'Word Count',    value: iv.latest_metrics.word_count || 0, icon: FileText, sub: 'words total', color: '#3d6eff' },
+                        { label: 'Word Count',    value: iv.latest_metrics.word_count || 0, icon: FileText, sub: 'words total', color: '#FFFFFF' },
                         { label: 'Filler Rate',   value: `${iv.latest_metrics.filler_word_rate || 0}%`, icon: MessageSquare, sub: `${iv.latest_metrics.filler_count || 0} filler words`, color: '#10b981' },
                         { label: 'Speaking Rate', value: `${iv.latest_metrics.wpm || 0}`, icon: Mic, sub: 'words per minute', color: '#8b5cf6' },
                         { label: 'Comm. Score',   value: `${Math.round(iv.latest_communication_score || 0)}`, icon: Award, sub: 'out of 100', color: '#f59e0b' },
@@ -818,9 +1292,9 @@ export default function ReportPage() {
               <div className="flex items-center gap-3" style={{ marginBottom: 24 }}>
                 <div style={{
                   width: 44, height: 44, borderRadius: 10,
-                  background: 'rgba(37, 99, 235, 0.12)',
+                  background: 'rgba(255, 255, 255, 0.08)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#2563eb'
+                  color: '#FFFFFF'
                 }}>
                   <Scale size={22} />
                 </div>

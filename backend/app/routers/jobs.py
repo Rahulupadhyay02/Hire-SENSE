@@ -24,9 +24,28 @@ def _build_job_response(job: Job, db: Session) -> JobResponse:
         Application.match_score > 0
     ).scalar() or 0.0
 
+    recruiter = job.recruiter
+    company = "HireSense Labs"
+    if "Python" in job.title:
+        company = "NeuralStack AI"
+    elif "ML" in job.title or "AI" in job.title:
+        company = "DeepVision Labs"
+    elif "Cloud" in job.title or "DevOps" in job.title:
+        company = "CloudScale Networks"
+    elif "Data" in job.title:
+        company = "Quantum Analytics"
+    elif "Full Stack" in job.title:
+        company = "OmniFlow Tech"
+    elif recruiter and recruiter.name:
+        company = f"{recruiter.name.split()[0]} Technologies"
+
+    recruiter_name = recruiter.name if recruiter else "Priya (Recruiter)"
+
     return JobResponse(
         id=job.id,
         recruiter_id=job.recruiter_id,
+        recruiter_name=recruiter_name,
+        company_name=company,
         title=job.title,
         description=job.description,
         experience=job.experience,

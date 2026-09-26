@@ -118,7 +118,7 @@ export default function InterviewTranscriptModal({ interview, onClose }) {
                   <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>Filler Rate</div>
                 </div>
                 <div style={{ background: 'var(--bg-card)', padding: '10px 8px', borderRadius: 8, border: '1px solid var(--border-subtle)' }}>
-                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#3d6eff' }}>
+                  <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FFFFFF' }}>
                     {interview.metrics_json?.structure_score ?? '—'}/100
                   </div>
                   <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>STAR Structure</div>

@@ -8,6 +8,7 @@ from app.models.interview import Interview, InterviewStatus
 from app.models.report import Report               # Phase 8
 from app.models.audit_log import AuditLog          # Phase 8
 from app.models.feedback import Feedback           # Phase 9
+from app.models.recruiter_profile import RecruiterProfile
 
 __all__ = [
     "User",
@@ -24,4 +25,5 @@ __all__ = [
     "Report",       # Phase 8
     "AuditLog",     # Phase 8
     "Feedback",     # Phase 9
+    "RecruiterProfile",
 ]

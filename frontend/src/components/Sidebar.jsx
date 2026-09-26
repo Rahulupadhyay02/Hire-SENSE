@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Settings,
   User,
-  ClipboardList,
   Mic,
   MessageSquare,
   LogOut,
@@ -17,21 +16,20 @@ import { useAuth } from '../context/AuthContext'
 
 const navItems = {
   recruiter: [
-    { label: 'Overview', icon: LayoutDashboard, path: '/recruiter', section: 'MAIN' },
-    { label: 'Jobs', icon: Briefcase, path: '/recruiter/jobs', section: 'MAIN' },
-    { label: 'Candidates', icon: Users, path: '/recruiter/candidates', section: 'MAIN', badge: 12 },
-    { label: 'Pipeline', icon: GitPullRequest, path: '/recruiter/pipeline', section: 'MAIN' },
-    { label: 'AI Reports', icon: BarChart2, path: '/recruiter/report', section: 'AI' },
-    { label: 'Analytics', icon: TrendingUp, path: '/recruiter/analytics', section: 'AI' },
-    { label: 'Settings', icon: Settings, path: '/recruiter/settings', section: 'ACCOUNT' },
+    { label: 'Overview', icon: LayoutDashboard, path: '/recruiter' },
+    { label: 'Jobs', icon: Briefcase, path: '/recruiter/jobs' },
+    { label: 'Candidates', icon: Users, path: '/recruiter/candidates' },
+    { label: 'Pipeline', icon: GitPullRequest, path: '/recruiter/pipeline' },
+    { label: 'AI Reports', icon: BarChart2, path: '/recruiter/report' },
+    { label: 'Settings', icon: Settings, path: '/recruiter/settings' },
   ],
   candidate: [
-    { label: 'Dashboard', icon: LayoutDashboard, path: '/candidate', section: 'MAIN' },
-    { label: 'My Profile', icon: User, path: '/candidate/profile', section: 'MAIN' },
-    { label: 'Interview', icon: Mic, path: '/candidate/interview', section: 'MAIN' },
-    { label: 'Feedback', icon: MessageSquare, path: '/candidate/feedback', section: 'AI INSIGHTS' },
-    { label: 'Progress', icon: TrendingUp, path: '/candidate/progress', section: 'AI INSIGHTS' },
-    { label: 'Settings', icon: Settings, path: '/candidate/settings', section: 'ACCOUNT' },
+    { label: 'Dashboard', icon: LayoutDashboard, path: '/candidate' },
+    { label: 'Find Jobs', icon: Briefcase, path: '/candidate/jobs' },
+    { label: 'Interview', icon: Mic, path: '/candidate/interview' },
+    { label: 'Feedback', icon: MessageSquare, path: '/candidate/feedback' },
+    { label: 'Progress', icon: TrendingUp, path: '/candidate/progress' },
+    { label: 'Settings', icon: Settings, path: '/candidate/settings' },
   ],
 }
 
@@ -39,99 +37,117 @@ export default function Sidebar({ role = 'recruiter' }) {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth()
-  const items = navItems[role]
-
-  const sections = [...new Set(items.map(i => i.section))]
+  const items = navItems[role] || navItems.recruiter
 
   return (
-    <aside className="sidebar">
-      {/* Logo */}
-      <div
-        className="sidebar-logo"
+    <aside style={{
+      width: 68,
+      background: '#0D111A',
+      borderRight: '1px solid rgba(255, 255, 255, 0.07)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '20px 0',
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 50,
+    }}>
+      {/* Top Logo Squircle */}
+      <button
         onClick={() => navigate('/')}
-        style={{ cursor: 'pointer' }}
-        title="Back to Landing Page"
+        title="HireSense Home"
+        style={{
+          width: 42,
+          height: 42,
+          borderRadius: 12,
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02))',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 32,
+          cursor: 'pointer',
+          padding: 0,
+          transition: 'all 0.2s ease',
+        }}
+        onMouseOver={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'}
+        onMouseOut={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'}
       >
-        <div className="sidebar-logo-icon" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Briefcase size={20} color="#ffffff" />
-        </div>
-        <div>
-          <div className="sidebar-logo-text">HireSense</div>
-          <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '-2px' }}>
-            {role === 'recruiter' ? 'Recruiter Portal' : 'Candidate Portal'}
-          </div>
-        </div>
+        <img
+          src="/hiresense_logo_white.webp"
+          alt="HireSense"
+          style={{ width: 26, height: 26, objectFit: 'contain' }}
+          onError={e => { e.currentTarget.style.display = 'none' }}
+        />
+      </button>
+
+      {/* Navigation Stack */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center', flex: 1 }}>
+        {items.map(item => {
+          const isActive = location.pathname === item.path ||
+            (item.path !== '/recruiter' && item.path !== '/candidate' && location.pathname.startsWith(item.path))
+          const Icon = item.icon
+
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              title={item.label}
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                border: isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid transparent',
+                color: isActive ? '#FFFFFF' : '#64748B',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                boxShadow: isActive ? '0 0 16px rgba(255, 255, 255, 0.15)' : 'none',
+                transition: 'all 0.2s ease',
+                position: 'relative',
+              }}
+              onMouseOver={e => {
+                if (!isActive) e.currentTarget.style.color = '#CBD5E1'
+              }}
+              onMouseOut={e => {
+                if (!isActive) e.currentTarget.style.color = '#64748B'
+              }}
+            >
+              <Icon size={20} />
+            </button>
+          )
+        })}
       </div>
 
-      {/* Nav */}
-      {sections.map(section => (
-        <div key={section}>
-          <div className="nav-section-label">{section}</div>
-          {items.filter(i => i.section === section).map(item => {
-            const active = location.pathname === item.path ||
-              (item.path === '/candidate' && (location.pathname === '/candidate/applications' || location.pathname === '/candidate/dashboard'))
-            const Icon = item.icon
-            return (
-              <div
-                key={item.path}
-                className={`nav-item ${active ? 'active' : ''}`}
-                onClick={() => navigate(item.path)}
-              >
-                <Icon size={17} style={{ flexShrink: 0, opacity: active ? 1 : 0.8 }} />
-                <span>{item.label}</span>
-                {item.badge && (
-                  <span className="nav-item-badge">{item.badge}</span>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      ))}
-
-      {/* User card at bottom */}
-      <div style={{ marginTop: 'auto', paddingTop: 16 }}>
-        <div className="divider" style={{ margin: '16px 0' }} />
-        <div className="flex items-center gap-3" style={{ padding: '8px 12px' }}>
-          <div className="avatar" style={{ width: 32, height: 32, fontSize: '0.75rem' }}>
-            {user?.name
-              ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-              : (role === 'recruiter' ? 'HR' : 'JD')
-            }
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }} className="truncate">
-              {user?.name || (role === 'recruiter' ? 'Rahul Sharma' : 'Priya Mehta')}
-            </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }} className="truncate">
-              {user?.email || (role === 'recruiter' ? 'HR Manager' : 'Job Seeker')}
-            </div>
-          </div>
-          <button
-            id="sidebar-logout-btn"
-            title="Sign out"
-            onClick={() => {
-              logout()
-              navigate('/login')
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--text-muted)',
-              cursor: 'pointer',
-              padding: 6,
-              borderRadius: 'var(--radius-sm)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'color 0.2s',
-            }}
-            onMouseOver={e => e.currentTarget.style.color = '#f43f5e'}
-            onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
-          >
-            <LogOut size={16} />
-          </button>
-        </div>
-      </div>
+      {/* Bottom LogOut */}
+      <button
+        onClick={() => {
+          logout()
+          navigate('/login')
+        }}
+        title="Sign Out"
+        style={{
+          width: 44,
+          height: 44,
+          borderRadius: 12,
+          background: 'transparent',
+          border: 'none',
+          color: '#64748B',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+        }}
+        onMouseOver={e => e.currentTarget.style.color = '#EF4444'}
+        onMouseOut={e => e.currentTarget.style.color = '#64748B'}
+      >
+        <LogOut size={20} />
+      </button>
     </aside>
   )
 }

@@ -6,6 +6,10 @@ from app.models.application import ApplicationStatus
 class ApplicationCreate(BaseModel):
     job_id: int
     notes: Optional[str] = None
+    skills: Optional[List[str]] = None
+    experience_years: Optional[str] = None
+    education: Optional[str] = None
+    phone: Optional[str] = None
 
 class ApplicationStatusUpdate(BaseModel):
     status: ApplicationStatus

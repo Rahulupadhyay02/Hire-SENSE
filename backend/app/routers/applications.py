@@ -134,16 +134,58 @@ def apply_to_job(
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You have already applied to this job")
         
+    # Update candidate profile if fields provided
+    updated = False
+    if app_in.skills is not None:
+        cand.skills = app_in.skills
+        updated = True
+    if app_in.experience_years:
+        cand.experience_years = app_in.experience_years
+        updated = True
+    if app_in.education:
+        cand.education = app_in.education
+        updated = True
+    if app_in.phone:
+        cand.phone = app_in.phone
+        updated = True
+    if updated:
+        db.commit()
+        db.refresh(cand)
+
+    # Run real-time deep AI match analysis
+    latest_resume = db.query(ResumeAnalysis).filter(
+        ResumeAnalysis.candidate_id == cand.id
+    ).order_by(ResumeAnalysis.created_at.desc()).first()
+
+    eval_result = evaluate_job_candidate_match(job, cand, latest_resume)
+    computed_score = eval_result.get("overall_score", 0.0)
+
     new_app = Application(
         job_id=job.id,
         candidate_id=cand.id,
         status=ApplicationStatus.PENDING,
-        match_score=0.0,
+        match_score=computed_score,
         notes=app_in.notes
     )
     db.add(new_app)
     db.commit()
     db.refresh(new_app)
+
+    # Persist the full explainable MatchScore record for the recruiter
+    ms = MatchScore(
+        application_id=new_app.id,
+        overall_score=eval_result["overall_score"],
+        skills_score=eval_result["skills_score"],
+        experience_score=eval_result["experience_score"],
+        projects_score=eval_result["projects_score"],
+        coverage_score=eval_result["coverage_score"],
+        components_json=eval_result["components"],
+        explanation=eval_result["explanation"],
+        is_overridden=False
+    )
+    db.add(ms)
+    db.commit()
+
     return _format_application(new_app)
 
 

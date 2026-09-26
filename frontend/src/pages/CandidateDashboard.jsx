@@ -10,7 +10,7 @@ import {
   Download, Edit3, Briefcase, GraduationCap, Code, Globe, Mail, Phone,
   MapPin, Clock, X, ChevronRight, Trash2, RefreshCw, Mic, Video, Loader,
   CheckCircle2, TrendingUp, MessageSquare, Target, Sparkles, ShieldCheck,
-  ClipboardList, Lightbulb, Cpu, AlertTriangle, ArrowRight
+  ClipboardList, Lightbulb, Cpu, AlertTriangle, ArrowRight, ArrowLeft
 } from 'lucide-react'
 import InterviewTranscriptModal from '../components/InterviewTranscriptModal'
 import {
@@ -442,47 +442,83 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
         />
 
         <div className="page-content">
-          {/* Welcome header + quick action */}
-          <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
-            <div>
-              <h1 className="page-title">Welcome back, {candidateDisplayName}</h1>
-              <p className="page-subtitle">
-                {activeTab === 'resume'
-                  ? (resumeData
-                      ? 'Your profile is active and verified. Recruiters can view your job-ready evidence.'
-                      : 'Upload your PDF resume to generate your structured candidate profile and unlock matching scores.')
-                  : activeTab === 'dashboard'
-                  ? 'Track your active applications, match scores, and interview performance.'
-                  : activeTab === 'feedback'
-                  ? 'Detailed speech analytics, coaching tips, and communication highlights.'
-                  : activeTab === 'progress'
-                  ? 'Track your interview performance and fluency improvements over time.'
-                  : 'Submit audio or video interview responses for automated speech and structure analysis.'}
-              </p>
+          {/* Back to Dashboard shortcut when viewing profile */}
+          {activeTab === 'resume' && (
+            <div style={{ marginBottom: 14 }}>
+              <button
+                id="btn-back-to-dashboard"
+                onClick={() => navigate('/candidate')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 8,
+                  padding: '6px 14px',
+                  color: '#94A3B8',
+                  fontSize: '0.82rem',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseOver={e => {
+                  e.currentTarget.style.color = '#FFFFFF'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'
+                }}
+                onMouseOut={e => {
+                  e.currentTarget.style.color = '#94A3B8'
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)'
+                }}
+              >
+                <ArrowLeft size={14} /> Back to Dashboard
+              </button>
             </div>
-            {activeTab === 'resume' && (
-              <button
-                className="btn btn-primary"
-                id="btn-upload-resume-quick"
-                onClick={() => {
-                  if (fileInputRef.current) fileInputRef.current.click()
-                }}
-              >
-                <UploadCloud size={16} /> Upload New Resume
-              </button>
-            )}
-            {activeTab === 'upload' && (
-              <button
-                className="btn btn-primary"
-                id="btn-upload-interview-quick"
-                onClick={() => {
-                  if (ivFileRef.current) ivFileRef.current.click()
-                }}
-              >
-                <UploadCloud size={16} /> Upload Recording
-              </button>
-            )}
-          </div>
+          )}
+
+          {/* Welcome header + quick action (for non-dashboard tabs) */}
+          {activeTab !== 'dashboard' && (
+            <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
+              <div>
+                <h1 className="page-title">Welcome back, {candidateDisplayName}</h1>
+                <p className="page-subtitle">
+                  {activeTab === 'resume'
+                    ? (resumeData
+                        ? 'Your profile is active and verified. Recruiters can view your job-ready evidence.'
+                        : 'Upload your PDF resume to generate your structured candidate profile and unlock matching scores.')
+                    : activeTab === 'feedback'
+                    ? 'Detailed speech analytics, coaching tips, and communication highlights.'
+                    : activeTab === 'progress'
+                    ? 'Track your interview performance and fluency improvements over time.'
+                    : 'Submit audio or video interview responses for automated speech and structure analysis.'}
+                </p>
+              </div>
+              {activeTab === 'resume' && (
+                <button
+                  className="btn btn-primary"
+                  id="btn-upload-resume-quick"
+                  onClick={() => {
+                    if (fileInputRef.current) fileInputRef.current.click()
+                  }}
+                >
+                  <UploadCloud size={16} /> Upload New Resume
+                </button>
+              )}
+              {activeTab === 'upload' && (
+                <button
+                  className="btn btn-primary"
+                  id="btn-upload-interview-quick"
+                  onClick={() => {
+                    if (ivFileRef.current) ivFileRef.current.click()
+                  }}
+                >
+                  <UploadCloud size={16} /> Upload Recording
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Hidden File Input */}
           <input
@@ -874,46 +910,385 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
           {/* ══════════════════════════════════════════
               TAB: APPLICATIONS (Original Dashboard)
              ══════════════════════════════════════════ */}
+          {/* ══════════════════════════════════════════
+              TAB: APPLICATIONS (Original Dashboard)
+             ══════════════════════════════════════════ */}
           {activeTab === 'dashboard' && (
             <>
-              {/* Stats */}
-              <div className="grid-4" style={{ marginBottom: 24 }}>
-                {[
-                  { label: 'Latest Score', value: '88%', icon: Target, color: '#10b981', sub: 'Interview 4 / Att. 4' },
-                  { label: 'Applications', value: 3, icon: ClipboardList, color: '#3d6eff', sub: '1 shortlisted' },
-                  { label: 'Filler Rate', value: '2.9%', icon: MessageSquare, color: '#f59e0b', sub: 'Was 8.7% — improving' },
-                  { label: 'Practice Sessions', value: 4, icon: Mic, color: '#8b5cf6', sub: 'Total attempts' },
-                ].map(s => (
-                  <div key={s.label} className="stat-card">
-                    <div style={{ marginBottom: 12 }}>
-                      <s.icon size={22} style={{ color: s.color }} />
+              {/* ── CAREER LAUNCHPAD HERO BANNER ───────────────────────── */}
+              <div style={{
+                position: 'relative',
+                borderRadius: 20,
+                overflow: 'hidden',
+                marginBottom: 28,
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.6)',
+                minHeight: 220,
+                display: 'flex',
+                alignItems: 'stretch',
+              }}>
+                {/* Background Image with Cinematic Overlay */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: "url('/candidate_hero_banner.jpg')",
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center right',
+                  zIndex: 1,
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(90deg, #0B0F17 0%, rgba(11, 15, 23, 0.94) 42%, rgba(11, 15, 23, 0.72) 70%, rgba(11, 15, 23, 0.35) 100%)',
+                  zIndex: 2,
+                }} />
+
+                {/* Banner Content Container */}
+                <div style={{
+                  position: 'relative',
+                  zIndex: 3,
+                  padding: '32px 36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  gap: 32,
+                }}>
+                  {/* Left Content */}
+                  <div style={{ maxWidth: 620 }}>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '5px 14px',
+                      borderRadius: 9999,
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.15)',
+                      backdropFilter: 'blur(12px)',
+                      marginBottom: 16,
+                    }}>
+                      <Sparkles size={14} style={{ color: '#FFFFFF' }} />
+                      <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#FFFFFF' }}>
+                        AI Career Accelerator & Mock Interview Studio
+                      </span>
                     </div>
-                    <div className="stat-value" style={{ fontSize: '1.9rem', color: s.color }}>{s.value}</div>
-                    <div className="stat-label">{s.label}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 6 }}>{s.sub}</div>
+
+                    <h1 style={{
+                      fontSize: '32px',
+                      fontWeight: 800,
+                      color: '#FFFFFF',
+                      letterSpacing: '-0.03em',
+                      lineHeight: 1.15,
+                      margin: '0 0 10px 0',
+                    }}>
+                      Welcome back, {candidateDisplayName}
+                    </h1>
+
+                    <p style={{
+                      fontSize: '14px',
+                      color: '#94A3B8',
+                      lineHeight: 1.5,
+                      margin: '0 0 22px 0',
+                      maxWidth: 540,
+                    }}>
+                      Hone your interview answers with real-time speech analytics, master STAR question structuring, and track verified competencies across active applications.
+                    </p>
+
+                    {/* Action Buttons */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <button
+                        onClick={() => {
+                          setActiveTab('upload')
+                          navigate('/candidate/interview')
+                        }}
+                        id="btn-practice-interview-hero"
+                        style={{
+                          background: '#FFFFFF',
+                          color: '#000000',
+                          border: '1px solid #FFFFFF',
+                          borderRadius: 10,
+                          padding: '11px 24px',
+                          fontSize: '13.5px',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          boxShadow: '0 4px 16px rgba(255, 255, 255, 0.2)',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseOver={e => {
+                          e.currentTarget.style.background = '#E2E8F0';
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseOut={e => {
+                          e.currentTarget.style.background = '#FFFFFF';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        <Mic size={16} /> Practice Mock Interview
+                      </button>
+
+                      <button
+                        onClick={() => navigate('/candidate/jobs')}
+                        id="btn-explore-jobs-hero"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.06)',
+                          color: '#FFFFFF',
+                          border: '1px solid rgba(255, 255, 255, 0.16)',
+                          borderRadius: 10,
+                          padding: '11px 22px',
+                          fontSize: '13.5px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          backdropFilter: 'blur(10px)',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseOver={e => {
+                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)';
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                        }}
+                        onMouseOut={e => {
+                          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.16)';
+                        }}
+                      >
+                        <Briefcase size={16} /> Explore Open Jobs
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right HUD Metric Highlights */}
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 12,
+                    minWidth: 240,
+                    background: 'rgba(13, 17, 26, 0.65)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: 14,
+                    padding: '18px 20px',
+                    backdropFilter: 'blur(16px)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>Readiness Score</span>
+                      <span style={{
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        color: '#FFFFFF',
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        padding: '2px 8px',
+                        borderRadius: 6,
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                      }}>
+                        Job Ready
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '24px', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+                      88% Performance
+                    </div>
+
+                    <div style={{ height: 1, background: 'rgba(255, 255, 255, 0.08)', margin: '2px 0' }} />
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>STAR Structuring</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>86% (Strong)</span>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>Speech Fluidity</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#CBD5E1' }}>148 WPM (Optimal)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="grid-4" style={{ marginBottom: 28 }}>
+                {[
+                  { label: 'Latest Score', value: '88%', icon: Target, trend: '+14% since Att. 1', sub: 'Interview 4 / Att. 4' },
+                  { label: 'Applications', value: ivApplications.length > 0 ? ivApplications.length : 3, icon: ClipboardList, trend: '1 Shortlisted', sub: 'Active in pipeline' },
+                  { label: 'Filler Rate', value: '2.9%', icon: MessageSquare, trend: 'Optimal (<3%)', sub: 'Was 8.7% — improving' },
+                  { label: 'Practice Sessions', value: 4, icon: Mic, trend: 'Att. 4 completed', sub: 'Total AI simulations' },
+                ].map(s => (
+                  <div
+                    key={s.label}
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      borderRadius: 16,
+                      padding: '22px 24px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      backdropFilter: 'blur(10px)',
+                      transition: 'all 0.25s ease',
+                    }}
+                    onMouseOver={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseOut={e => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                      <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#FFFFFF',
+                      }}>
+                        <s.icon size={20} />
+                      </div>
+                      <span style={{
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        color: '#FFFFFF',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        borderRadius: 20,
+                        padding: '3px 9px',
+                      }}>
+                        {s.trend}
+                      </span>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '28px', fontWeight: 800, color: '#FFFFFF', lineHeight: 1, marginBottom: 4 }}>
+                        {s.value}
+                      </div>
+                      <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: 500 }}>
+                        {s.label}
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: 4 }}>
+                        {s.sub}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
 
               {/* Score ring + radar */}
-              <div className="grid-2" style={{ marginBottom: 24 }}>
-                <div className="chart-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 36, gap: 20 }}>
+              <div className="grid-2" style={{ marginBottom: 28 }}>
+                <div className="chart-card" style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: 36,
+                  gap: 20,
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 16,
+                }}>
                   <ScoreRing score={88} size={160} strokeWidth={14} label="Latest Interview Score" />
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: 8 }}>Job: Python Developer — Active Application</div>
+                    <div style={{ fontSize: '0.88rem', color: '#CBD5E1', marginBottom: 8, fontWeight: 500 }}>
+                      Role: Software Engineer — Active Application
+                    </div>
                     <StatusBadge status="Shortlisted" />
                   </div>
                 </div>
 
-                <div className="chart-card">
-                  <div className="chart-header"><div className="chart-title">Communication Competency</div></div>
+                <div className="chart-card" style={{
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: 16,
+                  padding: 24,
+                }}>
+                  <div className="chart-header" style={{ marginBottom: 14 }}>
+                    <div className="chart-title" style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600 }}>
+                      Communication Competency
+                    </div>
+                  </div>
                   <ResponsiveContainer width="100%" height={220}>
                     <RadarChart data={radarData}>
                       <PolarGrid stroke={useChartColors().polarGrid} />
                       <PolarAngleAxis dataKey="area" tick={{ fill: useChartColors().labelFill, fontSize: 11 }} />
-                      <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.15} strokeWidth={2} />
+                      <Radar dataKey="value" stroke="#FFFFFF" fill="#FFFFFF" fillOpacity={0.18} strokeWidth={2} />
                     </RadarChart>
                   </ResponsiveContainer>
+                </div>
+              </div>
+
+              {/* AI Coaching Spotlight */}
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01))',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: 16,
+                padding: '24px 28px',
+                marginBottom: 28,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <Sparkles size={18} style={{ color: '#FFFFFF' }} />
+                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#FFFFFF' }}>
+                      AI Interview Coaching Recommendations
+                    </h3>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setActiveTab('feedback')
+                      navigate('/candidate/feedback')
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      fontSize: '13px',
+                      color: '#94A3B8',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      transition: 'color 0.2s',
+                    }}
+                    onMouseOver={e => e.currentTarget.style.color = '#FFFFFF'}
+                    onMouseOut={e => e.currentTarget.style.color = '#94A3B8'}
+                  >
+                    View detailed dossier <ArrowRight size={14} />
+                  </button>
+                </div>
+
+                <div className="grid-3" style={{ gap: 16 }}>
+                  {improvementsData.map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        borderRadius: 12,
+                        padding: '16px 18px',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                        <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#FFFFFF' }}>
+                          {item.label}
+                        </span>
+                        <span style={{
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: '#000000',
+                          background: '#FFFFFF',
+                          padding: '2px 8px',
+                          borderRadius: 6,
+                        }}>
+                          Target: {item.target}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '12.5px', color: '#94A3B8', margin: 0, lineHeight: 1.45 }}>
+                        {item.action}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
 

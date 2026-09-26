@@ -13,6 +13,7 @@ from app.routers import (
     interviews_router,
     reports_router,       # Phase 8
     feedback_router,      # Phase 9
+    recruiters_router,
 )
 
 @asynccontextmanager
@@ -56,6 +57,7 @@ app.include_router(resumes_router, prefix=settings.API_V1_STR)
 app.include_router(interviews_router, prefix=settings.API_V1_STR)
 app.include_router(reports_router, prefix=settings.API_V1_STR)   # Phase 8
 app.include_router(feedback_router, prefix=settings.API_V1_STR)  # Phase 9
+app.include_router(recruiters_router, prefix=settings.API_V1_STR)
 
 if __name__ == "__main__":
     import uvicorn

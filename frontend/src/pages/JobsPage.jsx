@@ -135,7 +135,7 @@ export default function JobsPage() {
           {/* Stats row */}
           <div className="grid-4" style={{ marginBottom: 28 }}>
             {[
-              { label: 'Active Jobs', value: activeJobsCount, icon: <Briefcase size={20} />, color: '#3d6eff' },
+              { label: 'Active Jobs', value: activeJobsCount, icon: <Briefcase size={20} />, color: '#FFFFFF' },
               { label: 'Total Applications', value: totalAppsCount, icon: <Users size={20} />, color: '#10b981' },
               { label: 'Shortlisted', value: totalShortlisted, icon: <CheckCircle size={20} />, color: '#8b5cf6' },
               { label: 'Avg Match Score', value: `${avgMatch || 75}%`, icon: <Target size={20} />, color: '#f59e0b' },
@@ -186,17 +186,17 @@ export default function JobsPage() {
                       <div className="flex items-center gap-3" style={{ marginBottom: 8 }}>
                         <div style={{
                           width: 42, height: 42, borderRadius: 'var(--radius-md)',
-                          background: 'rgba(37, 99, 235, 0.12)',
+                          background: 'rgba(255, 255, 255, 0.08)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          color: '#2563eb'
+                          color: '#FFFFFF'
                         }}>
                           <Briefcase size={20} />
                         </div>
                         <div>
-                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: '#FFFFFF', letterSpacing: '-0.01em' }}>
                             {job.title}
                           </div>
-                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                          <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 2 }}>
                             Experience: {job.experience} · Status: <span style={{ textTransform: 'capitalize' }}>{job.status}</span>
                           </div>
                         </div>
@@ -213,10 +213,10 @@ export default function JobsPage() {
                       {/* Stats row */}
                       <div className="flex gap-6">
                         <div>
-                          <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
+                          <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#FFFFFF' }}>
                             {job.applications_count || 0}
                           </div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Applications</div>
+                          <div style={{ fontSize: '0.75rem', color: '#94A3B8' }}>Applications</div>
                         </div>
                         <div>
                           <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#10b981' }}>

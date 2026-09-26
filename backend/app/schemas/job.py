@@ -25,6 +25,8 @@ class JobUpdate(BaseModel):
 class JobResponse(JobBase):
     id: int
     recruiter_id: int
+    recruiter_name: Optional[str] = "Recruiter"
+    company_name: Optional[str] = "HireSense Partner"
     created_at: datetime
     updated_at: datetime
     applications_count: int = 0

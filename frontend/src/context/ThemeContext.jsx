@@ -7,7 +7,11 @@ export const ThemeContext = createContext({
 })
 
 export function ThemeProvider({ children }) {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(() => {
+    document.body.classList.add('dark-mode')
+    document.body.classList.remove('light-mode')
+    return true
+  })
 
   const toggle = () => {
     setIsDark(prev => {
@@ -40,6 +44,7 @@ export function ThemeProvider({ children }) {
     </ThemeContext.Provider>
   )
 }
+
 
 export const useTheme = () => useContext(ThemeContext)
 

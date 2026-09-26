@@ -140,9 +140,9 @@ export default function CandidateFeedbackPage({ initialTab = 'pillars' }) {
                 <div className="flex items-center gap-3" style={{ marginBottom: 4 }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: 8,
-                    background: 'rgba(37, 99, 235, 0.12)',
+                    background: 'rgba(255, 255, 255, 0.08)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#2563eb'
+                    color: '#FFFFFF'
                   }}>
                     <MessageSquare size={20} />
                   </div>
@@ -375,9 +375,9 @@ export default function CandidateFeedbackPage({ initialTab = 'pillars' }) {
                           <div className="flex items-center gap-3">
                             <div style={{
                               width: 36, height: 36, borderRadius: 8,
-                              background: 'rgba(37, 99, 235, 0.12)',
+                              background: 'rgba(255, 255, 255, 0.08)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              color: '#2563eb'
+                              color: '#FFFFFF'
                             }}>
                               <Target size={18} />
                             </div>
