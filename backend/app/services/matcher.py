@@ -35,6 +35,108 @@ def _extract_numeric_years(text: Optional[str]) -> float:
         return 0.5
     return 1.0
 
+def _resolve_job_match_formula(formula_data: Any) -> Tuple[List[Dict[str, Any]], Dict[str, float], str]:
+    """
+    Parses and normalizes recruiter custom match formula.
+    Supports list of criteria objects, dict of percentages, or default 4-factor formula.
+    """
+    default_criteria = [
+        {"id": "skills", "label": "Skills", "weight": 45, "description": "Core technical and programming capabilities"},
+        {"id": "experience", "label": "Experience", "weight": 20, "description": "Years of hands-on professional seniority"},
+        {"id": "projects", "label": "Projects", "weight": 20, "description": "Practical portfolio and applied engineering evidence"},
+        {"id": "requirements", "label": "Requirements", "weight": 15, "description": "Strict compliance with mandatory job prerequisites"}
+    ]
+
+    raw_items: List[Dict[str, Any]] = []
+
+    if isinstance(formula_data, dict):
+        if "criteria" in formula_data and isinstance(formula_data["criteria"], list):
+            raw_items = [dict(c) for c in formula_data["criteria"] if isinstance(c, dict)]
+        else:
+            # Map key-value dict e.g. {"skills": 45, "experience": 20, ...}
+            for k, v in formula_data.items():
+                if isinstance(v, (int, float)):
+                    label = k.replace("_", " ").title()
+                    raw_items.append({"id": k, "label": label, "weight": float(v)})
+    elif isinstance(formula_data, list):
+        raw_items = [dict(c) for c in formula_data if isinstance(c, dict)]
+
+    if not raw_items:
+        raw_items = default_criteria
+
+    # Ensure valid weights and normalize
+    valid_items = []
+    total_w = sum(max(0.0, float(item.get("weight", 0))) for item in raw_items)
+    if total_w <= 0.0:
+        total_w = 100.0
+
+    normalized_weights: Dict[str, float] = {}
+    formula_parts: List[str] = []
+
+    for item in raw_items:
+        cid = str(item.get("id") or item.get("label", "item")).lower().replace(" ", "_")
+        label = item.get("label") or cid.title()
+        raw_w = max(0.0, float(item.get("weight", 0)))
+        norm_w = raw_w / total_w
+        pct_display = round(norm_w * 100, 1)
+        if pct_display.is_integer():
+            pct_display = int(pct_display)
+
+        item_copy = {
+            "id": cid,
+            "label": label,
+            "raw_weight": raw_w,
+            "normalized_weight": norm_w,
+            "weight_percent": pct_display,
+            "description": item.get("description", "")
+        }
+        valid_items.append(item_copy)
+        normalized_weights[cid] = round(norm_w, 4)
+        formula_parts.append(f"{pct_display}% {label}")
+
+    formula_display_str = "Overall = " + " + ".join(formula_parts)
+    return valid_items, normalized_weights, formula_display_str
+
+
+def _evaluate_custom_criterion(
+    criterion_id: str,
+    criterion_label: str,
+    candidate: Candidate,
+    latest_resume: Optional[ResumeAnalysis],
+    evidence_corpus: str
+) -> float:
+    """Evaluates custom recruiter criteria against candidate resume and profile."""
+    c_lower = (criterion_id + " " + criterion_label).lower()
+
+    if any(k in c_lower for k in ["cert", "license", "credential"]):
+        cert_data = []
+        if latest_resume and isinstance(latest_resume.extracted_data, dict):
+            cert_data = latest_resume.extracted_data.get("certifications", [])
+        if cert_data:
+            return 95.0
+        if any(w in evidence_corpus.lower() for w in ["certified", "certification", "aws certified", "azure certified", "gcp certified"]):
+            return 85.0
+        return 45.0
+
+    if any(k in c_lower for k in ["edu", "degree", "academics", "university"]):
+        edu_str = (candidate.education or "").lower()
+        if any(w in edu_str for w in ["phd", "doctorate"]):
+            return 100.0
+        if any(w in edu_str for w in ["master", "m.s.", "m.tech", "mba"]):
+            return 92.0
+        if any(w in edu_str for w in ["bachelor", "b.s.", "b.tech", "degree"]):
+            return 85.0
+        return 70.0
+
+    # Keyword presence in resume evidence
+    search_terms = [t for t in criterion_label.lower().split() if len(t) > 2]
+    if not search_terms:
+        return 75.0
+    hits = sum(1 for term in search_terms if term in evidence_corpus.lower())
+    ratio = hits / len(search_terms)
+    return round(min(100.0, max(40.0, 40.0 + ratio * 60.0)), 1)
+
+
 def evaluate_job_candidate_match(
     job: Job,
     candidate: Candidate,
@@ -42,12 +144,7 @@ def evaluate_job_candidate_match(
 ) -> Dict[str, Any]:
     """
     Evaluates fit between a Job and Candidate based strictly on objective merit.
-    
-    SCORING FORMULA:
-    Overall = 0.45 * Skills Match
-            + 0.20 * Experience Match
-            + 0.20 * Project/Evidence Relevance
-            + 0.15 * Requirement Coverage
+    Supports recruiter-configured autonomous Match Formulas and weighting.
             
     ETHICAL & RESPONSIBLE AI GUARDRAILS:
     Sensitive attributes (name, gender, age, photo, email, phone, location)
@@ -226,15 +323,31 @@ def evaluate_job_candidate_match(
     # Strict coverage of required mandatory skills
     coverage_score = min(100.0, (req_matched_count / total_req) * 100.0)
 
-    # Calculate Overall Weighted Score:
-    # 0.45 * Skills + 0.20 * Experience + 0.20 * Projects + 0.15 * Coverage
-    overall_score = (
-        (0.45 * skills_score) +
-        (0.20 * exp_score) +
-        (0.20 * proj_score) +
-        (0.15 * coverage_score)
-    )
-    overall_score = round(max(0.0, min(100.0, overall_score)), 1)
+    # Calculate Overall Weighted Score according to recruiter autonomous formula:
+    formula_data = getattr(job, "match_formula", None)
+    resolved_criteria, normalized_weights, formula_display_str = _resolve_job_match_formula(formula_data)
+
+    # Compute individual scores for each criterion configured by the recruiter
+    raw_scores: Dict[str, float] = {}
+    weighted_sum = 0.0
+    for crit in resolved_criteria:
+        cid = crit["id"].lower()
+        if cid == "skills":
+            sc = skills_score
+        elif cid == "experience":
+            sc = exp_score
+        elif cid == "projects":
+            sc = proj_score
+        elif cid in ["requirements", "coverage"]:
+            sc = coverage_score
+        else:
+            sc = _evaluate_custom_criterion(cid, crit["label"], candidate, latest_resume, evidence_corpus)
+        
+        crit["score"] = round(sc, 1)
+        raw_scores[cid] = round(sc, 1)
+        weighted_sum += (crit["normalized_weight"] * sc)
+
+    overall_score = round(max(0.0, min(100.0, weighted_sum)), 1)
 
     # 5. Build Explainability Breakdown Output
     matched_skills = [s["skill"] for s in skill_evaluations if s["status"] == "matched"]
@@ -247,7 +360,8 @@ def evaluate_job_candidate_match(
         explanation_lines.append(f"• {ev['skill']} ({ev['category']}): {status_icon} — {ev['evidence']}")
 
     explanation_text = (
-        f"HireSense Match Analysis: {overall_score}%\n\n"
+        f"HireSense Match Analysis: {overall_score}%\n"
+        f"Recruiter Match Formula Applied: {formula_display_str}\n\n"
         f"Skill Breakdown:\n" + "\n".join(explanation_lines) + "\n\n"
         f"Experience Assessment: {exp_explanation} (Score: {round(exp_score, 1)}%)\n"
         f"Project & Evidence Relevance: Found {relevant_projects_count} relevant project(s) verifying practical application. (Score: {round(proj_score, 1)}%)\n"
@@ -266,19 +380,25 @@ def evaluate_job_candidate_match(
     )
 
     components_json = {
-        "formula": "Overall = 0.45 × Skills + 0.20 × Experience + 0.20 × Projects + 0.15 × Coverage",
-        "weights": {
-            "skills": 0.45,
-            "experience": 0.20,
-            "projects": 0.20,
-            "coverage": 0.15
-        },
+        "formula": formula_display_str,
+        "weights": normalized_weights,
+        "criteria": [
+            {
+                "id": c["id"],
+                "label": c["label"],
+                "weight_percent": c["weight_percent"],
+                "score": c["score"],
+                "description": c.get("description", "")
+            }
+            for c in resolved_criteria
+        ],
         "scores": {
             "overall": overall_score,
             "skills": round(skills_score, 1),
             "experience": round(exp_score, 1),
             "projects": round(proj_score, 1),
-            "coverage": round(coverage_score, 1)
+            "coverage": round(coverage_score, 1),
+            **raw_scores
         },
         "skills_matrix": skill_evaluations,
         "matched_skills": matched_skills,
@@ -314,5 +434,6 @@ def evaluate_job_candidate_match(
         "projects_score": round(proj_score, 1),
         "coverage_score": round(coverage_score, 1),
         "components_json": components_json,
+        "components": components_json,
         "explanation": explanation_text
     }

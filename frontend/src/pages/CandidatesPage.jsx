@@ -733,62 +733,76 @@ export default function CandidatesPage() {
                 </div>
               ) : selectedAppMatch ? (
                 <div>
-                  <div style={{
-                    fontSize: '0.72rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    color: 'var(--text-muted)',
-                    marginBottom: 8,
-                    fontWeight: 700
-                  }}>
-                    Scoring Components (0.45×Skills + 0.20×Exp + 0.20×Projects + 0.15×Coverage)
-                  </div>
+                  {(() => {
+                    const comp = selectedAppMatch.components_json || selectedAppMatch.components || {}
+                    const weights = comp.weights || { skills: 0.45, experience: 0.20, projects: 0.20, coverage: 0.15 }
+                    const formulaStr = comp.formula || 'Scoring Components (0.45×Skills + 0.20×Exp + 0.20×Projects + 0.15×Coverage)'
+                    const skillsPct = Math.round((weights.skills ?? 0.45) * 100)
+                    const expPct = Math.round((weights.experience ?? 0.20) * 100)
+                    const projPct = Math.round((weights.projects ?? 0.20) * 100)
+                    const covPct = Math.round(((weights.requirements ?? weights.coverage) ?? 0.15) * 100)
 
-                  <div className="grid-2" style={{ gap: '10px 16px', marginBottom: 16 }}>
-                    {/* Skills (45%) */}
-                    <div>
-                      <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
-                        <span style={{ color: 'var(--text-secondary)' }}>Skills Match (45%)</span>
-                        <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.skills_score}%</strong>
-                      </div>
-                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.skills_score)}%`, background: 'var(--brand-400)', borderRadius: 3 }} />
-                      </div>
-                    </div>
+                    return (
+                      <>
+                        <div style={{
+                          fontSize: '0.72rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          color: '#94A3B8',
+                          marginBottom: 8,
+                          fontWeight: 700
+                        }}>
+                          Recruiter Formula: {formulaStr}
+                        </div>
 
-                    {/* Experience (20%) */}
-                    <div>
-                      <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
-                        <span style={{ color: 'var(--text-secondary)' }}>Experience Match (20%)</span>
-                        <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.experience_score}%</strong>
-                      </div>
-                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.experience_score)}%`, background: '#10b981', borderRadius: 3 }} />
-                      </div>
-                    </div>
+                        <div className="grid-2" style={{ gap: '10px 16px', marginBottom: 16 }}>
+                          {/* Skills */}
+                          <div>
+                            <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
+                              <span style={{ color: 'var(--text-secondary)' }}>Skills Match ({skillsPct}%)</span>
+                              <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.skills_score}%</strong>
+                            </div>
+                            <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.skills_score)}%`, background: 'var(--brand-400)', borderRadius: 3 }} />
+                            </div>
+                          </div>
 
-                    {/* Projects (20%) */}
-                    <div>
-                      <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
-                        <span style={{ color: 'var(--text-secondary)' }}>Project Evidence (20%)</span>
-                        <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.projects_score}%</strong>
-                      </div>
-                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.projects_score)}%`, background: '#8b5cf6', borderRadius: 3 }} />
-                      </div>
-                    </div>
+                          {/* Experience */}
+                          <div>
+                            <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
+                              <span style={{ color: 'var(--text-secondary)' }}>Experience Match ({expPct}%)</span>
+                              <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.experience_score}%</strong>
+                            </div>
+                            <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.experience_score)}%`, background: '#10b981', borderRadius: 3 }} />
+                            </div>
+                          </div>
 
-                    {/* Coverage (15%) */}
-                    <div>
-                      <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
-                        <span style={{ color: 'var(--text-secondary)' }}>Requirement Coverage (15%)</span>
-                        <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.coverage_score}%</strong>
-                      </div>
-                      <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
-                        <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.coverage_score)}%`, background: '#06b6d4', borderRadius: 3 }} />
-                      </div>
-                    </div>
-                  </div>
+                          {/* Projects */}
+                          <div>
+                            <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
+                              <span style={{ color: 'var(--text-secondary)' }}>Project Evidence ({projPct}%)</span>
+                              <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.projects_score}%</strong>
+                            </div>
+                            <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.projects_score)}%`, background: '#8b5cf6', borderRadius: 3 }} />
+                            </div>
+                          </div>
+
+                          {/* Coverage */}
+                          <div>
+                            <div className="flex justify-between" style={{ fontSize: '0.75rem', marginBottom: 4 }}>
+                              <span style={{ color: 'var(--text-secondary)' }}>Requirement Coverage ({covPct}%)</span>
+                              <strong style={{ color: 'var(--text-primary)' }}>{selectedAppMatch.coverage_score}%</strong>
+                            </div>
+                            <div style={{ height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
+                              <div style={{ height: '100%', width: `${Math.min(100, selectedAppMatch.coverage_score)}%`, background: '#06b6d4', borderRadius: 3 }} />
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  })()}
 
                   {/* Itemized Explainability Matrix */}
                   {selectedAppMatch.components?.skills_matrix && (

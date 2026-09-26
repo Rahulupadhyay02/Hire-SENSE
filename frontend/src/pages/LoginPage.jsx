@@ -58,7 +58,12 @@ export default function LoginPage() {
       const dest = (loggedUser.role === 'recruiter' || loggedUser.role === 'admin') ? '/recruiter' : '/candidate'
       navigate(dest)
     } catch (err) {
-      const msg = err.response?.data?.detail || 'Authentication failed. Please check your credentials.'
+      let msg = 'Authentication failed. Please check your credentials.'
+      if (err.response?.data?.detail) {
+        msg = err.response.data.detail
+      } else if (!err.response || err.code === 'ERR_NETWORK') {
+        msg = 'Cannot connect to HireSense backend server (http://localhost:8000). Please ensure the backend is running.'
+      }
       setError(msg)
     } finally {
       setLoading(false)

@@ -6,8 +6,11 @@ from app.database import get_db
 from app.models.user import User, UserRole
 from app.models.job import Job, JobStatus
 from app.models.application import Application, ApplicationStatus
-from app.schemas.job import JobCreate, JobUpdate, JobResponse
+from app.models.match_score import MatchScore
+from app.models.resume_analysis import ResumeAnalysis
+from app.schemas.job import JobCreate, JobUpdate, JobResponse, get_default_match_formula
 from app.schemas.application import ApplicationResponse
+from app.services.matcher import evaluate_job_candidate_match
 from app.utils.deps import get_current_user, require_recruiter
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
@@ -52,6 +55,7 @@ def _build_job_response(job: Job, db: Session) -> JobResponse:
         required_skills=job.required_skills or [],
         preferred_skills=job.preferred_skills or [],
         status=job.status,
+        match_formula=job.match_formula or get_default_match_formula(),
         created_at=job.created_at,
         updated_at=job.updated_at,
         applications_count=total_apps,
@@ -65,7 +69,7 @@ def create_job(
     current_user: User = Depends(require_recruiter),
     db: Session = Depends(get_db)
 ):
-    """Create a new job posting (Recruiter or Admin only)"""
+    """Create a new job posting with custom recruiter Match Formula (Recruiter or Admin only)"""
     new_job = Job(
         recruiter_id=current_user.id,
         title=job_in.title.strip(),
@@ -73,7 +77,8 @@ def create_job(
         experience=job_in.experience.strip(),
         required_skills=job_in.required_skills,
         preferred_skills=job_in.preferred_skills or [],
-        status=job_in.status
+        status=job_in.status,
+        match_formula=job_in.match_formula or get_default_match_formula()
     )
     db.add(new_job)
     db.commit()
@@ -98,7 +103,7 @@ def list_jobs(
 
 @router.get("/{job_id}", response_model=JobResponse)
 def get_job(job_id: int, db: Session = Depends(get_db)):
-    """Get single job posting details"""
+    """Get single job posting details including its Match Formula"""
     job = db.query(Job).filter(Job.id == job_id).first()
     if not job:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Job not found")
@@ -111,7 +116,7 @@ def update_job(
     current_user: User = Depends(require_recruiter),
     db: Session = Depends(get_db)
 ):
-    """Update a job posting (Recruiter owner or Admin)"""
+    """Update a job posting and its Match Formula (Recruiter owner or Admin)"""
     job = db.query(Job).filter(Job.id == job_id).first()
     if not job:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Job not found")
@@ -131,6 +136,71 @@ def update_job(
         job.preferred_skills = job_in.preferred_skills
     if job_in.status is not None:
         job.status = job_in.status
+    if job_in.match_formula is not None:
+        job.match_formula = job_in.match_formula
+
+        # Recalculate applicants' scores under this job so updated formula takes immediate effect
+        for app in job.applications:
+            resume = db.query(ResumeAnalysis).filter(
+                ResumeAnalysis.candidate_id == app.candidate_id
+            ).order_by(ResumeAnalysis.created_at.desc()).first()
+            eval_res = evaluate_job_candidate_match(job, app.candidate, resume)
+            app.match_score = eval_res["overall_score"]
+            ms = db.query(MatchScore).filter(MatchScore.application_id == app.id).first()
+            if ms:
+                ms.overall_score = eval_res["overall_score"]
+                ms.skills_score = eval_res["skills_score"]
+                ms.experience_score = eval_res["experience_score"]
+                ms.projects_score = eval_res["projects_score"]
+                ms.coverage_score = eval_res["coverage_score"]
+                ms.components_json = eval_res["components_json"]
+                ms.explanation = eval_res["explanation"]
+
+    db.commit()
+    db.refresh(job)
+    return _build_job_response(job, db)
+
+@router.post("/{job_id}/recalculate-matches", response_model=JobResponse)
+def recalculate_job_matches(
+    job_id: int,
+    current_user: User = Depends(require_recruiter),
+    db: Session = Depends(get_db)
+):
+    """Explicitly recalculate match scores for all applicants to this job using its current Match Formula"""
+    job = db.query(Job).filter(Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Job not found")
+    if current_user.role != UserRole.ADMIN and job.recruiter_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to modify this job")
+
+    for app in job.applications:
+        resume = db.query(ResumeAnalysis).filter(
+            ResumeAnalysis.candidate_id == app.candidate_id
+        ).order_by(ResumeAnalysis.created_at.desc()).first()
+        eval_res = evaluate_job_candidate_match(job, app.candidate, resume)
+        app.match_score = eval_res["overall_score"]
+        ms = db.query(MatchScore).filter(MatchScore.application_id == app.id).first()
+        if ms:
+            ms.overall_score = eval_res["overall_score"]
+            ms.skills_score = eval_res["skills_score"]
+            ms.experience_score = eval_res["experience_score"]
+            ms.projects_score = eval_res["projects_score"]
+            ms.coverage_score = eval_res["coverage_score"]
+            ms.components_json = eval_res["components_json"]
+            ms.explanation = eval_res["explanation"]
+        else:
+            ms = MatchScore(
+                application_id=app.id,
+                overall_score=eval_res["overall_score"],
+                skills_score=eval_res["skills_score"],
+                experience_score=eval_res["experience_score"],
+                projects_score=eval_res["projects_score"],
+                coverage_score=eval_res["coverage_score"],
+                components_json=eval_res["components_json"],
+                explanation=eval_res["explanation"],
+                is_overridden=False
+            )
+            db.add(ms)
 
     db.commit()
     db.refresh(job)

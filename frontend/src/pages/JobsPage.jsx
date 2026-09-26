@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import Topbar from '../components/Topbar'
 import { StatusBadge } from '../components/Charts'
+import MatchFormulaEditor, { DEFAULT_CRITERIA } from '../components/MatchFormulaEditor'
 import client from '../api/client'
-import { Plus, X, Briefcase, Users, CheckCircle, Target, AlertCircle } from 'lucide-react'
+import { Plus, X, Briefcase, Users, CheckCircle, Target, AlertCircle, Sliders, Sparkles, Check, RefreshCw } from 'lucide-react'
 
 export default function JobsPage() {
   const navigate = useNavigate()
@@ -15,13 +16,20 @@ export default function JobsPage() {
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState('')
 
+  // Tuning formula on existing job modal
+  const [editingFormulaJob, setEditingFormulaJob] = useState(null)
+  const [tuningFormula, setTuningFormula] = useState(null)
+  const [savingFormula, setSavingFormula] = useState(false)
+  const [tuningSuccess, setTuningSuccess] = useState('')
+
   const [form, setForm] = useState({
     title: '',
     experience: '1-3 years',
     requiredSkills: '',
     preferredSkills: '',
     description: '',
-    status: 'active'
+    status: 'active',
+    match_formula: { criteria: DEFAULT_CRITERIA }
   })
 
   const fetchJobs = async () => {
@@ -72,7 +80,8 @@ export default function JobsPage() {
         experience: form.experience.trim(),
         required_skills: reqSkills,
         preferred_skills: prefSkills,
-        status: form.status
+        status: form.status,
+        match_formula: form.match_formula
       }
       const res = await client.post('/jobs', payload)
       setJobs(prev => [res.data, ...prev])
@@ -83,13 +92,50 @@ export default function JobsPage() {
         requiredSkills: '',
         preferredSkills: '',
         description: '',
-        status: 'active'
+        status: 'active',
+        match_formula: { criteria: DEFAULT_CRITERIA }
       })
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to create job posting.')
     } finally {
       setCreating(false)
     }
+  }
+
+  const handleOpenTuneFormula = (job) => {
+    setEditingFormulaJob(job)
+    setTuningFormula(job.match_formula || { criteria: DEFAULT_CRITERIA })
+    setTuningSuccess('')
+    setError('')
+  }
+
+  const handleSaveTunedFormula = async () => {
+    if (!editingFormulaJob || !tuningFormula) return
+    setSavingFormula(true)
+    setError('')
+    try {
+      const res = await client.put(`/jobs/${editingFormulaJob.id}`, {
+        match_formula: tuningFormula
+      })
+      // Update local jobs list
+      setJobs(prev => prev.map(j => (j.id === editingFormulaJob.id ? res.data : j)))
+      setTuningSuccess('Match Formula updated! All candidate scores for this job have been automatically recalculated.')
+      setTimeout(() => {
+        setEditingFormulaJob(null)
+        setTuningSuccess('')
+      }, 1600)
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to update match formula.')
+    } finally {
+      setSavingFormula(false)
+    }
+  }
+
+  const getFormulaSummary = (formula) => {
+    if (!formula || !formula.criteria || formula.criteria.length === 0) {
+      return '45% Skills · 20% Exp · 20% Proj · 15% Req'
+    }
+    return formula.criteria.map(c => `${c.weight}% ${c.label}`).join(' · ')
   }
 
   const filteredJobs = jobs.filter(j => {
@@ -109,7 +155,7 @@ export default function JobsPage() {
     <div className="app-layout">
       <Sidebar role="recruiter" />
       <div className="main-content">
-        <Topbar title="Job Postings" subtitle="Manage open roles and applicant pipelines" />
+        <Topbar title="Job Postings" subtitle="Manage open roles, custom match formulas, and applicant pipelines" />
 
         <div className="page-content">
           {/* Header */}
@@ -180,9 +226,9 @@ export default function JobsPage() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {filteredJobs.map(job => (
-                <div key={job.id} className="glass-card" style={{ padding: 24 }}>
-                  <div className="flex items-center justify-between">
-                    <div style={{ flex: 1 }}>
+                <div key={job.id} className="glass-card" style={{ padding: 24, position: 'relative' }}>
+                  <div className="flex items-center justify-between" style={{ flexWrap: 'wrap', gap: 16 }}>
+                    <div style={{ flex: '1 1 540px' }}>
                       <div className="flex items-center gap-3" style={{ marginBottom: 8 }}>
                         <div style={{
                           width: 42, height: 42, borderRadius: 'var(--radius-md)',
@@ -201,6 +247,25 @@ export default function JobsPage() {
                           </div>
                         </div>
                         <StatusBadge status={job.status} />
+                      </div>
+
+                      {/* Recruiter Autonomous Match Formula Chip */}
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        padding: '4px 10px',
+                        borderRadius: 6,
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        fontSize: '0.74rem',
+                        color: '#CBD5E1',
+                        marginBottom: 12
+                      }}>
+                        <span style={{ color: '#FFFFFF', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <Sliders size={12} /> Match Formula:
+                        </span>
+                        <span>{getFormulaSummary(job.match_formula)}</span>
                       </div>
 
                       {/* Skills */}
@@ -239,9 +304,18 @@ export default function JobsPage() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2" style={{ alignSelf: 'flex-start' }}>
                       <button
                         className="btn btn-secondary btn-sm"
+                        id={`btn-formula-${job.id}`}
+                        onClick={() => handleOpenTuneFormula(job)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 6 }}
+                        title="Tune Match Formula weights and recalculate candidate scores"
+                      >
+                        <Sliders size={14} /> Tune Formula
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm"
                         id={`btn-candidates-${job.id}`}
                         onClick={() => navigate(`/recruiter/candidates?jobId=${job.id}`)}
                       >
@@ -274,19 +348,115 @@ export default function JobsPage() {
         </div>
       </div>
 
-      {/* Create Job Modal */}
+      {/* ── Tune Formula Modal for Existing Job ── */}
+      {editingFormulaJob && (
+        <div style={{
+          position: 'fixed', inset: 0,
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(10px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1050, padding: 20
+        }}>
+          <div className="glass-card" style={{
+            width: '100%', maxWidth: 680, maxHeight: '90vh', overflowY: 'auto',
+            padding: 32, position: 'relative'
+          }}>
+            <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: '#FFFFFF' }}>
+                  Tune Match Formula
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: 2 }}>
+                  Role: <strong style={{ color: '#FFFFFF' }}>{editingFormulaJob.title}</strong>
+                </div>
+              </div>
+              <button
+                className="btn btn-icon btn-ghost"
+                onClick={() => setEditingFormulaJob(null)}
+                style={{ padding: 6 }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {tuningSuccess && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '12px 16px', marginBottom: 16,
+                background: 'rgba(16, 185, 129, 0.15)',
+                border: '1px solid rgba(16, 185, 129, 0.35)',
+                borderRadius: 'var(--radius-md)',
+                color: '#10B981', fontSize: '0.88rem'
+              }}>
+                <Check size={18} />
+                <span>{tuningSuccess}</span>
+              </div>
+            )}
+
+            {error && (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 14px', marginBottom: 16,
+                background: 'rgba(244, 63, 94, 0.12)',
+                border: '1px solid rgba(244, 63, 94, 0.3)',
+                borderRadius: 'var(--radius-md)',
+                color: '#fb7185', fontSize: '0.85rem'
+              }}>
+                <AlertCircle size={16} />
+                <span>{error}</span>
+              </div>
+            )}
+
+            <div style={{ marginBottom: 20 }}>
+              <MatchFormulaEditor
+                value={tuningFormula}
+                onChange={(newFormula) => setTuningFormula(newFormula)}
+              />
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setEditingFormulaJob(null)}
+                disabled={savingFormula}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSaveTunedFormula}
+                disabled={savingFormula}
+              >
+                {savingFormula ? 'Recalculating Match Scores...' : 'Save & Recalculate Candidate Scores'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Create Job Modal with Autonomous Match Formula Section ── */}
       {showModal && (
         <div style={{
           position: 'fixed', inset: 0,
-          background: 'rgba(0, 0, 0, 0.75)',
-          backdropFilter: 'blur(8px)',
+          background: 'rgba(0, 0, 0, 0.8)',
+          backdropFilter: 'blur(10px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 1000, padding: 20
         }}>
-          <div className="glass-card" style={{ width: '100%', maxWidth: 560, padding: 32, position: 'relative' }}>
+          <div className="glass-card" style={{
+            width: '100%', maxWidth: 720, maxHeight: '90vh', overflowY: 'auto',
+            padding: 32, position: 'relative'
+          }}>
             <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.2rem' }}>
-                Create New Job Posting
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: '#FFFFFF' }}>
+                  Create New Job Posting
+                </div>
+                <div style={{ fontSize: '0.8rem', color: '#94A3B8', marginTop: 2 }}>
+                  Define requirements, description, and your custom AI match formula.
+                </div>
               </div>
               <button
                 className="btn btn-icon btn-ghost"
@@ -311,7 +481,7 @@ export default function JobsPage() {
               </div>
             )}
 
-            <form onSubmit={handleCreateJob} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <form onSubmit={handleCreateJob} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div className="form-group">
                 <label className="form-label">Job Title *</label>
                 <input
@@ -369,6 +539,14 @@ export default function JobsPage() {
                 />
               </div>
 
+              {/* ── RECRUITER AUTONOMOUS MATCH FORMULA SECTION ── */}
+              <div className="form-group">
+                <MatchFormulaEditor
+                  value={form.match_formula}
+                  onChange={(newFormula) => setForm({ ...form, match_formula: newFormula })}
+                />
+              </div>
+
               <div className="form-group">
                 <label className="form-label">Job Description *</label>
                 <textarea
@@ -394,7 +572,7 @@ export default function JobsPage() {
                   className="btn btn-primary"
                   disabled={creating}
                 >
-                  {creating ? 'Publishing...' : 'Publish Job'}
+                  {creating ? 'Publishing Role...' : 'Publish Job with Formula'}
                 </button>
               </div>
             </form>

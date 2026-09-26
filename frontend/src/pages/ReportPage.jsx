@@ -1038,7 +1038,7 @@ export default function ReportPage() {
                       border: '1px solid rgba(61,110,255,0.2)',
                       borderRadius: 10, lineHeight: 2
                     }}>
-                      Overall = 0.45 × Skills ({ms.skills_score?.toFixed(1)}%) + 0.20 × Experience ({ms.experience_score?.toFixed(1)}%) + 0.20 × Projects ({ms.projects_score?.toFixed(1)}%) + 0.15 × Requirements ({ms.coverage_score?.toFixed(1)}%)<br />
+                      {ms.components?.formula || ms.components_json?.formula || `Overall = 0.45 × Skills (${ms.skills_score?.toFixed(1)}%) + 0.20 × Experience (${ms.experience_score?.toFixed(1)}%) + 0.20 × Projects (${ms.projects_score?.toFixed(1)}%) + 0.15 × Requirements (${ms.coverage_score?.toFixed(1)}%)`}<br />
                       = <strong>{ms.overall_score?.toFixed(1)}%</strong>
                       {ms.is_overridden && <span style={{ color: '#f59e0b', marginLeft: 12 }}>(Manually overridden)</span>}
                     </div>
@@ -1049,30 +1049,41 @@ export default function ReportPage() {
                     )}
                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
                       <AlertTriangle size={14} color="#f59e0b" />
-                      <span>Scoring weights are starting defaults — validate with real users and revise after testing.</span>
+                      <span>Configured by Recruiter Match Formula — autonomous per-job weighting.</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Component score bars */}
-                <div className="grid-4" style={{ marginBottom: 24 }}>
-                  {[
-                    { label: 'Skills (45%)',       value: ms.skills_score || 0 },
-                    { label: 'Experience (20%)',    value: ms.experience_score || 0 },
-                    { label: 'Projects (20%)',      value: ms.projects_score || 0 },
-                    { label: 'Requirements (15%)',  value: ms.coverage_score || 0 },
-                  ].map(c => (
-                    <div key={c.label} className="stat-card" style={{ padding: 18 }}>
-                      <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 10 }}>{c.label}</div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, color: scoreColor(c.value) }}>
-                        {Math.round(c.value)}%
-                      </div>
-                      <div className="progress-bar" style={{ marginTop: 10 }}>
-                        <div className="progress-fill" style={{ width: `${c.value}%`, background: `linear-gradient(90deg, ${scoreColor(c.value)}, ${scoreColor(c.value)}88)` }} />
-                      </div>
+                {(() => {
+                  const comp = ms.components || ms.components_json || {}
+                  const weights = comp.weights || { skills: 0.45, experience: 0.20, projects: 0.20, coverage: 0.15 }
+                  const sPct = Math.round((weights.skills ?? 0.45) * 100)
+                  const ePct = Math.round((weights.experience ?? 0.20) * 100)
+                  const pPct = Math.round((weights.projects ?? 0.20) * 100)
+                  const rPct = Math.round(((weights.requirements ?? weights.coverage) ?? 0.15) * 100)
+
+                  return (
+                    <div className="grid-4" style={{ marginBottom: 24 }}>
+                      {[
+                        { label: `Skills (${sPct}%)`,       value: ms.skills_score || 0 },
+                        { label: `Experience (${ePct}%)`,    value: ms.experience_score || 0 },
+                        { label: `Projects (${pPct}%)`,      value: ms.projects_score || 0 },
+                        { label: `Requirements (${rPct}%)`,  value: ms.coverage_score || 0 },
+                      ].map(c => (
+                        <div key={c.label} className="stat-card" style={{ padding: 18 }}>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 10 }}>{c.label}</div>
+                          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, color: scoreColor(c.value) }}>
+                            {Math.round(c.value)}%
+                          </div>
+                          <div className="progress-bar" style={{ marginTop: 10 }}>
+                            <div className="progress-fill" style={{ width: `${c.value}%`, background: `linear-gradient(90deg, ${scoreColor(c.value)}, ${scoreColor(c.value)}88)` }} />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  )
+                })()}
 
                 {/* Skill-by-Skill Evidence */}
                 {skillsList.length > 0 && (

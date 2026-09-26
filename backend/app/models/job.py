@@ -20,6 +20,7 @@ class Job(Base):
     required_skills = Column(JSON, nullable=False, default=list)  # list of str e.g. ["Python", "FastAPI"]
     preferred_skills = Column(JSON, nullable=True, default=list)  # list of str e.g. ["Docker", "AWS"]
     status = Column(Enum(JobStatus), default=JobStatus.ACTIVE, nullable=False, index=True)
+    match_formula = Column(JSON, nullable=True, default=dict)  # Custom recruiter formula weights & criteria
     
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

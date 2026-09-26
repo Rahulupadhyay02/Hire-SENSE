@@ -179,7 +179,7 @@ def apply_to_job(
         experience_score=eval_result["experience_score"],
         projects_score=eval_result["projects_score"],
         coverage_score=eval_result["coverage_score"],
-        components_json=eval_result["components"],
+        components_json=eval_result.get("components_json", eval_result.get("components", {})),
         explanation=eval_result["explanation"],
         is_overridden=False
     )

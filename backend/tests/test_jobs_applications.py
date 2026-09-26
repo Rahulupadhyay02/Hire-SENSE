@@ -146,3 +146,59 @@ def test_candidate_cannot_view_other_candidate_application(client, recruiter_hea
     # Candidate 2 attempts to view candidate 1's application
     view_res = client.get(f"/api/v1/applications/{app_id}", headers=candidate_headers_2)
     assert view_res.status_code == status.HTTP_403_FORBIDDEN
+
+def test_recruiter_custom_match_formula_and_recalculation(client, recruiter_headers, candidate_headers):
+    # Recruiter creates job with custom formula (heavy on skills: 70%)
+    custom_formula = {
+        "criteria": [
+            {"id": "skills", "label": "Skills", "weight": 70},
+            {"id": "experience", "label": "Experience", "weight": 10},
+            {"id": "projects", "label": "Projects", "weight": 10},
+            {"id": "requirements", "label": "Requirements", "weight": 10}
+        ]
+    }
+    job_payload = {
+        "title": "Lead Python Core Engineer",
+        "description": "Deep Python architecture and concurrency.",
+        "experience": "5+ years",
+        "required_skills": ["Python", "FastAPI"],
+        "status": "active",
+        "match_formula": custom_formula
+    }
+    job_res = client.post("/api/v1/jobs", json=job_payload, headers=recruiter_headers)
+    assert job_res.status_code == status.HTTP_201_CREATED
+    job_data = job_res.json()
+    assert "match_formula" in job_data
+    job_id = job_data["id"]
+
+    # Candidate applies
+    app_res = client.post("/api/v1/applications", json={"job_id": job_id}, headers=candidate_headers)
+    assert app_res.status_code == status.HTTP_201_CREATED
+    app_data = app_res.json()
+    score_skills_heavy = app_data["match_score"]
+    assert score_skills_heavy > 0
+
+    # Recruiter updates formula to be heavy on experience (70% experience, 10% skills)
+    updated_formula = {
+        "criteria": [
+            {"id": "skills", "label": "Skills", "weight": 10},
+            {"id": "experience", "label": "Experience", "weight": 70},
+            {"id": "projects", "label": "Projects", "weight": 10},
+            {"id": "requirements", "label": "Requirements", "weight": 10}
+        ]
+    }
+    update_res = client.put(
+        f"/api/v1/jobs/{job_id}",
+        json={"match_formula": updated_formula},
+        headers=recruiter_headers
+    )
+    assert update_res.status_code == status.HTTP_200_OK
+
+    # Fetch updated application to confirm new score was recalculated
+    app_updated_res = client.get(f"/api/v1/applications/{app_data['id']}", headers=recruiter_headers)
+    assert app_updated_res.status_code == status.HTTP_200_OK
+    score_exp_heavy = app_updated_res.json()["match_score"]
+
+    # Candidate has ~3.5 yrs experience for a 5+ yr role, so experience-heavy score will differ from skills-heavy
+    assert score_exp_heavy != score_skills_heavy
+

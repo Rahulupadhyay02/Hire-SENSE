@@ -1,7 +1,17 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional
+from pydantic import BaseModel, Field, ConfigDict
+from typing import List, Optional, Any, Dict
 from datetime import datetime
 from app.models.job import JobStatus
+
+def get_default_match_formula():
+    return {
+        "criteria": [
+            {"id": "skills", "label": "Skills", "weight": 45, "description": "Core technical and programming capabilities"},
+            {"id": "experience", "label": "Experience", "weight": 20, "description": "Years of hands-on professional seniority"},
+            {"id": "projects", "label": "Projects", "weight": 20, "description": "Practical portfolio and applied engineering evidence"},
+            {"id": "requirements", "label": "Requirements", "weight": 15, "description": "Strict compliance with mandatory job prerequisites"}
+        ]
+    }
 
 class JobBase(BaseModel):
     title: str = Field(..., min_length=3, max_length=150)
@@ -10,6 +20,7 @@ class JobBase(BaseModel):
     required_skills: List[str] = Field(default_factory=list)
     preferred_skills: Optional[List[str]] = Field(default_factory=list)
     status: JobStatus = JobStatus.ACTIVE
+    match_formula: Optional[Dict[str, Any]] = Field(default_factory=get_default_match_formula)
 
 class JobCreate(JobBase):
     pass
@@ -21,6 +32,7 @@ class JobUpdate(BaseModel):
     required_skills: Optional[List[str]] = None
     preferred_skills: Optional[List[str]] = None
     status: Optional[JobStatus] = None
+    match_formula: Optional[Dict[str, Any]] = None
 
 class JobResponse(JobBase):
     id: int
@@ -33,5 +45,4 @@ class JobResponse(JobBase):
     shortlisted_count: int = 0
     avg_match_score: float = 0.0
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)

@@ -1,12 +1,16 @@
+from pathlib import Path
 from pydantic_settings import BaseSettings
 from typing import List
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent
+_DEFAULT_DB_PATH = _BACKEND_DIR / "hiresense.db"
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "HireSense API"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
     
-    DATABASE_URL: str = "sqlite:///./hiresense.db"
+    DATABASE_URL: str = f"sqlite:///{_DEFAULT_DB_PATH}"
     
     JWT_SECRET: str = "hiresense-super-secure-jwt-secret-key-phase2-2026"
     JWT_ALGORITHM: str = "HS256"
