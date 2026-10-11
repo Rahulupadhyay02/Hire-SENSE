@@ -202,7 +202,7 @@ export default function CandidateJobSearchPage() {
             <div className="flex items-center justify-between" style={{ flexWrap: 'wrap', gap: 16 }}>
               <div>
                 <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <Briefcase size={26} style={{ color: '#FFFFFF' }} />
+                  <Briefcase size={26} style={{ color: 'var(--text-primary)' }} />
                   Discover Verified Job Postings
                 </h1>
                 <p className="page-subtitle">
@@ -253,10 +253,10 @@ export default function CandidateJobSearchPage() {
                   style={{
                     width: '100%',
                     padding: '12px 16px 12px 42px',
-                    background: '#0D111A',
+                    background: 'var(--bg-base)',
                     border: '1px solid rgba(255, 255, 255, 0.12)',
                     borderRadius: 10,
-                    color: '#FFFFFF',
+                    color: 'var(--text-primary)',
                     fontSize: '0.9rem',
                     outline: 'none'
                   }}
@@ -277,10 +277,10 @@ export default function CandidateJobSearchPage() {
                 onChange={e => setSelectedExperience(e.target.value)}
                 style={{
                   padding: '12px 16px',
-                  background: '#0D111A',
+                  background: 'var(--bg-base)',
                   border: '1px solid rgba(255, 255, 255, 0.12)',
                   borderRadius: 10,
-                  color: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   fontSize: '0.88rem',
                   outline: 'none',
                   cursor: 'pointer',
@@ -351,7 +351,7 @@ export default function CandidateJobSearchPage() {
           ) : filteredJobs.length === 0 ? (
             <div className="glass-card" style={{ padding: '60px 24px', textAlign: 'center' }}>
               <Building2 size={48} style={{ color: 'var(--text-muted)', margin: '0 auto 16px', opacity: 0.4 }} />
-              <h3 style={{ color: '#FFFFFF', marginBottom: 8 }}>No Matching Jobs Found</h3>
+              <h3 style={{ color: 'var(--text-primary)', marginBottom: 8 }}>No Matching Jobs Found</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', maxWidth: 460, margin: '0 auto 20px' }}>
                 We couldn't find any job postings matching your current search criteria. Try clearing your search query or skill filter.
               </p>
@@ -393,14 +393,14 @@ export default function CandidateJobSearchPage() {
                           background: 'linear-gradient(135deg, #1e293b, #0f172a)',
                           border: '1px solid rgba(255, 255, 255, 0.12)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '1.15rem', fontWeight: 800, color: '#FFFFFF', flexShrink: 0
+                          fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', flexShrink: 0
                         }}>
                           {companyInitials}
                         </div>
 
                         <div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 }}>
-                            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.02em' }}>
+                            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>
                               {job.company_name || 'HireSense Partner'}
                             </span>
                             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>•</span>
@@ -413,7 +413,7 @@ export default function CandidateJobSearchPage() {
                             fontFamily: 'var(--font-display)',
                             fontSize: '1.3rem',
                             fontWeight: 700,
-                            color: '#FFFFFF',
+                            color: 'var(--text-primary)',
                             margin: 0
                           }}>
                             {job.title}
@@ -468,12 +468,12 @@ export default function CandidateJobSearchPage() {
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                         <Clock size={14} color="var(--text-muted)" />
-                        <span>Experience: <strong style={{ color: '#FFFFFF' }}>{job.experience || '1+ years'}</strong></span>
+                        <span>Experience: <strong style={{ color: 'var(--text-primary)' }}>{job.experience || '1+ years'}</strong></span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                         <MapPin size={14} color="var(--text-muted)" />
-                        <span>Location: <strong style={{ color: '#FFFFFF' }}>Remote / Hybrid</strong></span>
+                        <span>Location: <strong style={{ color: 'var(--text-primary)' }}>Remote / Hybrid</strong></span>
                       </div>
 
                       {/* Skill Match Indicator */}
@@ -512,7 +512,7 @@ export default function CandidateJobSearchPage() {
                           onClick={() => setExpandedJobId(isExpanded ? null : job.id)}
                           style={{
                             background: 'none', border: 'none', padding: 0, marginTop: 6,
-                            color: '#FFFFFF', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer'
+                            color: 'var(--text-primary)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer'
                           }}
                         >
                           {isExpanded ? 'Show less' : 'Read full job description'}
@@ -577,17 +577,17 @@ export default function CandidateJobSearchPage() {
           <div className="glass-card" style={{
             width: '100%', maxWidth: 650, maxHeight: '90vh', overflowY: 'auto',
             padding: 32, position: 'relative',
-            background: '#101726',
+            background: 'var(--bg-surface)',
             border: '1px solid rgba(61, 110, 255, 0.3)',
             borderRadius: 'var(--radius-xl)'
           }}>
             {/* Modal Header */}
             <div className="flex items-center justify-between" style={{ marginBottom: 20, borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: 16 }}>
               <div>
-                <div style={{ fontSize: '0.78rem', color: '#FFFFFF', fontWeight: 700, textTransform: 'uppercase' }}>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-primary)', fontWeight: 700, textTransform: 'uppercase' }}>
                   {applyingJob.company_name}
                 </div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: '#FFFFFF', margin: '4px 0 0' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--text-primary)', margin: '4px 0 0' }}>
                   Apply to {applyingJob.title}
                 </h2>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
@@ -698,7 +698,7 @@ export default function CandidateJobSearchPage() {
                       key={skill}
                       style={{
                         background: 'rgba(255, 255, 255, 0.12)',
-                        color: '#FFFFFF',
+                        color: 'var(--text-primary)',
                         border: '1px solid rgba(255, 255, 255, 0.25)',
                         padding: '3px 8px', borderRadius: 6, fontSize: '0.78rem',
                         display: 'flex', alignItems: 'center', gap: 6
@@ -708,7 +708,7 @@ export default function CandidateJobSearchPage() {
                       <button
                         type="button"
                         onClick={() => handleRemoveSkill(skill)}
-                        style={{ background: 'none', border: 'none', color: '#FFFFFF', cursor: 'pointer', padding: 0 }}
+                        style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: 0 }}
                       >
                         <X size={12} />
                       </button>
@@ -749,7 +749,7 @@ export default function CandidateJobSearchPage() {
                   <div className="flex items-center gap-2">
                     <FileText size={18} color="#FFFFFF" />
                     <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#FFFFFF' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                         {candidateProfile?.resumeFileName || 'Candidate Profile Evidence'}
                       </div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
@@ -826,7 +826,7 @@ export default function CandidateJobSearchPage() {
           <div className="glass-card" style={{
             width: '100%', maxWidth: 540,
             padding: 36, textAlign: 'center',
-            background: '#101726',
+            background: 'var(--bg-surface)',
             border: '1px solid rgba(16, 185, 129, 0.4)',
             borderRadius: 'var(--radius-xl)',
             boxShadow: '0 0 32px rgba(16, 185, 129, 0.2)'
@@ -843,11 +843,11 @@ export default function CandidateJobSearchPage() {
               <CheckCircle2 size={38} />
             </div>
 
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#FFFFFF', marginBottom: 8 }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: 8 }}>
               Application Delivered & Analyzed!
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.5, marginBottom: 24 }}>
-              Your application for <strong style={{ color: '#FFFFFF' }}>{submissionSuccess.job.title}</strong> at <strong style={{ color: '#FFFFFF' }}>{submissionSuccess.job.company_name}</strong> has been received.
+              Your application for <strong style={{ color: 'var(--text-primary)' }}>{submissionSuccess.job.title}</strong> at <strong style={{ color: 'var(--text-primary)' }}>{submissionSuccess.job.company_name}</strong> has been received.
             </p>
 
             {/* AI Fit Snapshot */}
@@ -875,7 +875,7 @@ export default function CandidateJobSearchPage() {
               <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <ShieldCheck size={16} color="#10b981" />
                 <span>
-                  Delivered directly to recruiter <strong style={{ color: '#FFFFFF' }}>{submissionSuccess.job.recruiter_name}</strong> (User ID #{submissionSuccess.job.recruiter_id})
+                  Delivered directly to recruiter <strong style={{ color: 'var(--text-primary)' }}>{submissionSuccess.job.recruiter_name}</strong> (User ID #{submissionSuccess.job.recruiter_id})
                 </span>
               </div>
             </div>

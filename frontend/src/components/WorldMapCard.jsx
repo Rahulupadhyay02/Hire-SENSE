@@ -16,8 +16,8 @@ export default function WorldMapCard() {
     <div style={{ background: '#161924', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: 14, padding: 16, display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <h3 style={{ fontSize: '0.94rem', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>Countries Hired In</h3>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.75rem', color: '#94A3B8' }}>
+        <h3 style={{ fontSize: '0.94rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Countries Hired In</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '0.75rem', color: 'var(--text-muted)' }}>
           <span>Show Map</span>
           <label className="ios-toggle">
             <input
@@ -44,13 +44,13 @@ export default function WorldMapCard() {
                 borderRadius: '8px',
                 padding: '4px 10px',
                 fontSize: '0.74rem',
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
                 pointerEvents: 'none',
                 zIndex: 10
               }}
             >
-              <div style={{ fontWeight: 600, color: '#FFFFFF' }}>{hoveredRegion.name}</div>
+              <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{hoveredRegion.name}</div>
               <div>Members: {hoveredRegion.members} | Pending: {hoveredRegion.pending}</div>
             </div>
           )}
@@ -145,11 +145,11 @@ export default function WorldMapCard() {
             </g>
 
             {/* Glowing Map Hub Markers */}
-            <circle cx="180" cy="130" r="4" fill="#FFFFFF" filter="url(#glowMap)" />
-            <circle cx="490" cy="120" r="3.5" fill="#FFFFFF" filter="url(#glowMap)" />
-            <circle cx="690" cy="225" r="4" fill="#FFFFFF" filter="url(#glowMap)" />
-            <circle cx="780" cy="285" r="3.5" fill="#FFFFFF" filter="url(#glowMap)" />
-            <circle cx="280" cy="300" r="3" fill="#FFFFFF" filter="url(#glowMap)" />
+            <circle cx="180" cy="130" r="4" fill="var(--text-primary)" filter="url(#glowMap)" />
+            <circle cx="490" cy="120" r="3.5" fill="var(--text-primary)" filter="url(#glowMap)" />
+            <circle cx="690" cy="225" r="4" fill="var(--text-primary)" filter="url(#glowMap)" />
+            <circle cx="780" cy="285" r="3.5" fill="var(--text-primary)" filter="url(#glowMap)" />
+            <circle cx="280" cy="300" r="3" fill="var(--text-primary)" filter="url(#glowMap)" />
           </svg>
         </div>
       ) : (
@@ -168,10 +168,10 @@ export default function WorldMapCard() {
                 border: '1px solid rgba(255,255,255,0.05)'
               }}
             >
-              <div style={{ fontSize: '0.8rem', fontWeight: 500, color: '#E2E8F0' }}>{r.name}</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{r.name}</div>
               <div style={{ display: 'flex', gap: '12px', fontSize: '0.78rem' }}>
                 <span style={{ color: '#60A5FA', fontWeight: 600 }}>{r.members} active</span>
-                <span style={{ color: '#94A3B8' }}>{r.pending} pending</span>
+                <span style={{ color: 'var(--text-muted)' }}>{r.pending} pending</span>
               </div>
             </div>
           ))}
@@ -181,14 +181,14 @@ export default function WorldMapCard() {
       {/* Footer Stats Bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#FFFFFF', boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)' }} />
-          <span style={{ fontSize: '0.76rem', color: '#94A3B8' }}>Engagement Team Member</span>
-          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF' }}>642</span>
+          <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--bg-card)', boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)' }} />
+          <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>Engagement Team Member</span>
+          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>642</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#94A3B8' }} />
-          <span style={{ fontSize: '0.76rem', color: '#94A3B8' }}>Pending Hires</span>
-          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF' }}>519</span>
+          <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>Pending Hires</span>
+          <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>519</span>
         </div>
       </div>
     </div>

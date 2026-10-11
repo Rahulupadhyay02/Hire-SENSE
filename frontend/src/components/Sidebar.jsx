@@ -7,12 +7,12 @@ import {
   BarChart2,
   TrendingUp,
   Settings,
-  User,
   Mic,
   MessageSquare,
   LogOut,
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 
 const navItems = {
   recruiter: [
@@ -37,13 +37,15 @@ export default function Sidebar({ role = 'recruiter' }) {
   const navigate = useNavigate()
   const location = useLocation()
   const { user, logout } = useAuth()
+  const { isDark } = useTheme()
   const items = navItems[role] || navItems.recruiter
 
   return (
     <aside style={{
       width: 68,
-      background: '#0D111A',
-      borderRight: '1px solid rgba(255, 255, 255, 0.07)',
+      background: isDark ? 'var(--bg-base)' : '#FFFFFF',
+      borderRight: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.07)' : 'var(--border-default)'}`,
+      boxShadow: isDark ? 'none' : '1px 0 4px rgba(15, 23, 42, 0.03)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -53,17 +55,22 @@ export default function Sidebar({ role = 'recruiter' }) {
       bottom: 0,
       left: 0,
       zIndex: 50,
+      transition: 'background-color 0.2s ease, border-color 0.2s ease',
     }}>
       {/* Top Logo Squircle */}
       <button
         onClick={() => navigate('/')}
         title="HireSense Home"
+        className="sidebar-logo-squircle"
         style={{
           width: 42,
           height: 42,
           borderRadius: 12,
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02))',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
+          background: isDark
+            ? 'linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02))'
+            : 'linear-gradient(135deg, #1E293B, #0F172A)',
+          border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid #334155',
+          boxShadow: isDark ? 'none' : '0 2px 8px rgba(15, 23, 42, 0.18)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -72,8 +79,8 @@ export default function Sidebar({ role = 'recruiter' }) {
           padding: 0,
           transition: 'all 0.2s ease',
         }}
-        onMouseOver={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.35)'}
-        onMouseOut={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'}
+        onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+        onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
       >
         <img
           src="/hiresense_logo_white.webp"
@@ -99,22 +106,30 @@ export default function Sidebar({ role = 'recruiter' }) {
                 width: 44,
                 height: 44,
                 borderRadius: 12,
-                background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
-                border: isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid transparent',
-                color: isActive ? '#FFFFFF' : '#64748B',
+                background: isActive
+                  ? (isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(79, 70, 229, 0.12)')
+                  : 'transparent',
+                border: isActive
+                  ? (isDark ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid rgba(79, 70, 229, 0.25)')
+                  : '1px solid transparent',
+                color: isActive
+                  ? (isDark ? '#FFFFFF' : '#4F46E5')
+                  : 'var(--text-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                boxShadow: isActive ? '0 0 16px rgba(255, 255, 255, 0.15)' : 'none',
+                boxShadow: isActive
+                  ? (isDark ? '0 0 16px rgba(255, 255, 255, 0.15)' : '0 2px 10px rgba(79, 70, 229, 0.15)')
+                  : 'none',
                 transition: 'all 0.2s ease',
                 position: 'relative',
               }}
               onMouseOver={e => {
-                if (!isActive) e.currentTarget.style.color = '#CBD5E1'
+                if (!isActive) e.currentTarget.style.color = isDark ? '#CBD5E1' : '#0F172A'
               }}
               onMouseOut={e => {
-                if (!isActive) e.currentTarget.style.color = '#64748B'
+                if (!isActive) e.currentTarget.style.color = 'var(--text-muted)'
               }}
             >
               <Icon size={20} />
@@ -136,17 +151,21 @@ export default function Sidebar({ role = 'recruiter' }) {
           borderRadius: 12,
           background: 'transparent',
           border: 'none',
-          color: '#64748B',
+          color: 'var(--text-muted)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
           transition: 'all 0.2s ease',
         }}
-        onMouseOver={e => e.currentTarget.style.color = '#EF4444'}
-        onMouseOut={e => e.currentTarget.style.color = '#64748B'}
+        onMouseOver={e => {
+          e.currentTarget.style.color = '#EF4444'
+        }}
+        onMouseOut={e => {
+          e.currentTarget.style.color = 'var(--text-muted)'
+        }}
       >
-        <LogOut size={20} />
+        <LogOut size={18} />
       </button>
     </aside>
   )

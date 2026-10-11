@@ -86,6 +86,7 @@ function ThemedTooltip({ active, payload, label }) {
 }
 
 export default function CandidateDashboard({ initialTab = 'dashboard' }) {
+  const chartColors = useChartColors()
   const navigate = useNavigate()
   const location = useLocation()
   const { user } = useAuth()
@@ -456,7 +457,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   borderRadius: 8,
                   padding: '6px 14px',
-                  color: '#94A3B8',
+                  color: 'var(--text-muted)',
                   fontSize: '0.82rem',
                   fontWeight: 500,
                   cursor: 'pointer',
@@ -944,7 +945,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                 }} />
 
                 {/* Banner Content Container */}
-                <div style={{
+                <div className="dark-hero-surface" style={{
                   position: 'relative',
                   zIndex: 3,
                   padding: '32px 36px',
@@ -967,8 +968,8 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                       backdropFilter: 'blur(12px)',
                       marginBottom: 16,
                     }}>
-                      <Sparkles size={14} style={{ color: '#FFFFFF' }} />
-                      <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#FFFFFF' }}>
+                      <Sparkles size={14} style={{ color: 'var(--text-primary)' }} />
+                      <span style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-primary)' }}>
                         AI Career Accelerator & Mock Interview Studio
                       </span>
                     </div>
@@ -976,7 +977,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                     <h1 style={{
                       fontSize: '32px',
                       fontWeight: 800,
-                      color: '#FFFFFF',
+                      color: 'var(--text-primary)',
                       letterSpacing: '-0.03em',
                       lineHeight: 1.15,
                       margin: '0 0 10px 0',
@@ -986,7 +987,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
 
                     <p style={{
                       fontSize: '14px',
-                      color: '#94A3B8',
+                      color: 'var(--text-muted)',
                       lineHeight: 1.5,
                       margin: '0 0 22px 0',
                       maxWidth: 540,
@@ -1003,8 +1004,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                         }}
                         id="btn-practice-interview-hero"
                         style={{
-                          background: '#FFFFFF',
-                          color: '#000000',
+                          background: '#FFFFFF', color: '#0B0F17',
                           border: '1px solid #FFFFFF',
                           borderRadius: 10,
                           padding: '11px 24px',
@@ -1033,8 +1033,7 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                         onClick={() => navigate('/candidate/jobs')}
                         id="btn-explore-jobs-hero"
                         style={{
-                          background: 'rgba(255, 255, 255, 0.06)',
-                          color: '#FFFFFF',
+                          background: 'rgba(255, 255, 255, 0.08)', color: 'var(--text-primary)',
                           border: '1px solid rgba(255, 255, 255, 0.16)',
                           borderRadius: 10,
                           padding: '11px 22px',
@@ -1075,11 +1074,11 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>Readiness Score</span>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Readiness Score</span>
                       <span style={{
                         fontSize: '11px',
                         fontWeight: 700,
-                        color: '#FFFFFF',
+                        color: 'var(--text-primary)',
                         background: 'rgba(255, 255, 255, 0.1)',
                         padding: '2px 8px',
                         borderRadius: 6,
@@ -1088,20 +1087,20 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                         Job Ready
                       </span>
                     </div>
-                    <div style={{ fontSize: '24px', fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+                    <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                       88% Performance
                     </div>
 
                     <div style={{ height: 1, background: 'rgba(255, 255, 255, 0.08)', margin: '2px 0' }} />
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>STAR Structuring</span>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>86% (Strong)</span>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>STAR Structuring</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>86% (Strong)</span>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '12px', color: '#94A3B8' }}>Speech Fluidity</span>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#CBD5E1' }}>148 WPM (Optimal)</span>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Speech Fluidity</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-secondary)' }}>148 WPM (Optimal)</span>
                     </div>
                   </div>
                 </div>
@@ -1110,31 +1109,81 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
               {/* Stats */}
               <div className="grid-4" style={{ marginBottom: 28 }}>
                 {[
-                  { label: 'Latest Score', value: '88%', icon: Target, trend: '+14% since Att. 1', sub: 'Interview 4 / Att. 4' },
-                  { label: 'Applications', value: ivApplications.length > 0 ? ivApplications.length : 3, icon: ClipboardList, trend: '1 Shortlisted', sub: 'Active in pipeline' },
-                  { label: 'Filler Rate', value: '2.9%', icon: MessageSquare, trend: 'Optimal (<3%)', sub: 'Was 8.7% — improving' },
-                  { label: 'Practice Sessions', value: 4, icon: Mic, trend: 'Att. 4 completed', sub: 'Total AI simulations' },
+                  {
+                    label: 'Latest Score',
+                    value: '88%',
+                    icon: Target,
+                    trend: '+14% since Att. 1',
+                    sub: 'Interview 4 / Att. 4',
+                    iconBg: 'rgba(79, 70, 229, 0.12)',
+                    iconBorder: 'rgba(79, 70, 229, 0.25)',
+                    iconColor: '#4F46E5',
+                    badgeBg: 'rgba(16, 185, 129, 0.12)',
+                    badgeBorder: 'rgba(16, 185, 129, 0.25)',
+                    badgeColor: '#059669',
+                  },
+                  {
+                    label: 'Applications',
+                    value: ivApplications.length > 0 ? ivApplications.length : 3,
+                    icon: ClipboardList,
+                    trend: '1 Shortlisted',
+                    sub: 'Active in pipeline',
+                    iconBg: 'rgba(139, 92, 246, 0.12)',
+                    iconBorder: 'rgba(139, 92, 246, 0.25)',
+                    iconColor: '#7C3AED',
+                    badgeBg: 'rgba(139, 92, 246, 0.12)',
+                    badgeBorder: 'rgba(139, 92, 246, 0.25)',
+                    badgeColor: '#7C3AED',
+                  },
+                  {
+                    label: 'Filler Rate',
+                    value: '2.9%',
+                    icon: MessageSquare,
+                    trend: 'Optimal (<3%)',
+                    sub: 'Was 8.7% — improving',
+                    iconBg: 'rgba(16, 185, 129, 0.12)',
+                    iconBorder: 'rgba(16, 185, 129, 0.25)',
+                    iconColor: '#059669',
+                    badgeBg: 'rgba(16, 185, 129, 0.12)',
+                    badgeBorder: 'rgba(16, 185, 129, 0.25)',
+                    badgeColor: '#059669',
+                  },
+                  {
+                    label: 'Practice Sessions',
+                    value: 4,
+                    icon: Mic,
+                    trend: 'Att. 4 completed',
+                    sub: 'Total AI simulations',
+                    iconBg: 'rgba(245, 158, 11, 0.12)',
+                    iconBorder: 'rgba(245, 158, 11, 0.25)',
+                    iconColor: '#D97706',
+                    badgeBg: 'rgba(245, 158, 11, 0.12)',
+                    badgeBorder: 'rgba(245, 158, 11, 0.25)',
+                    badgeColor: '#D97706',
+                  },
                 ].map(s => (
                   <div
                     key={s.label}
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
-                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border-default)',
                       borderRadius: 16,
                       padding: '22px 24px',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      backdropFilter: 'blur(10px)',
+                      boxShadow: 'var(--shadow-sm)',
                       transition: 'all 0.25s ease',
                     }}
                     onMouseOver={e => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                      e.currentTarget.style.borderColor = 'var(--border-focus)';
                       e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = 'var(--shadow-md)';
                     }}
                     onMouseOut={e => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+                      e.currentTarget.style.borderColor = 'var(--border-default)';
                       e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
@@ -1142,21 +1191,21 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                         width: 44,
                         height: 44,
                         borderRadius: 12,
-                        background: 'rgba(255, 255, 255, 0.06)',
-                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        background: s.iconBg,
+                        border: `1px solid ${s.iconBorder}`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: '#FFFFFF',
+                        color: s.iconColor,
                       }}>
                         <s.icon size={20} />
                       </div>
                       <span style={{
                         fontSize: '11px',
                         fontWeight: 600,
-                        color: '#FFFFFF',
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        color: s.badgeColor,
+                        background: s.badgeBg,
+                        border: `1px solid ${s.badgeBorder}`,
                         borderRadius: 20,
                         padding: '3px 9px',
                       }}>
@@ -1164,13 +1213,13 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                       </span>
                     </div>
                     <div>
-                      <div style={{ fontSize: '28px', fontWeight: 800, color: '#FFFFFF', lineHeight: 1, marginBottom: 4 }}>
+                      <div style={{ fontSize: '28px', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1, marginBottom: 4 }}>
                         {s.value}
                       </div>
-                      <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: 500 }}>
+                      <div style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 600 }}>
                         {s.label}
                       </div>
-                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: 4 }}>
+                      <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: 4 }}>
                         {s.sub}
                       </div>
                     </div>
@@ -1186,13 +1235,14 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                   alignItems: 'center',
                   padding: 36,
                   gap: 20,
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 16,
+                  boxShadow: 'var(--shadow-sm)',
                 }}>
                   <ScoreRing score={88} size={160} strokeWidth={14} label="Latest Interview Score" />
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '0.88rem', color: '#CBD5E1', marginBottom: 8, fontWeight: 500 }}>
+                    <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: 8, fontWeight: 500 }}>
                       Role: Software Engineer — Active Application
                     </div>
                     <StatusBadge status="Shortlisted" />
@@ -1200,21 +1250,22 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                 </div>
 
                 <div className="chart-card" style={{
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-default)',
                   borderRadius: 16,
                   padding: 24,
+                  boxShadow: 'var(--shadow-sm)',
                 }}>
                   <div className="chart-header" style={{ marginBottom: 14 }}>
-                    <div className="chart-title" style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 600 }}>
+                    <div className="chart-title" style={{ color: 'var(--text-primary)', fontSize: '15px', fontWeight: 600 }}>
                       Communication Competency
                     </div>
                   </div>
                   <ResponsiveContainer width="100%" height={220}>
                     <RadarChart data={radarData}>
-                      <PolarGrid stroke={useChartColors().polarGrid} />
-                      <PolarAngleAxis dataKey="area" tick={{ fill: useChartColors().labelFill, fontSize: 11 }} />
-                      <Radar dataKey="value" stroke="#FFFFFF" fill="#FFFFFF" fillOpacity={0.18} strokeWidth={2} />
+                      <PolarGrid stroke={chartColors.gridStroke} />
+                      <PolarAngleAxis dataKey="area" tick={{ fill: chartColors.tickFill, fontSize: 11, fontWeight: 500 }} />
+                      <Radar dataKey="value" stroke="#6366F1" fill="#6366F1" fillOpacity={0.25} strokeWidth={2.5} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1222,16 +1273,17 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
 
               {/* AI Coaching Spotlight */}
               <div style={{
-                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01))',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-default)',
                 borderRadius: 16,
                 padding: '24px 28px',
                 marginBottom: 28,
+                boxShadow: 'var(--shadow-sm)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <Sparkles size={18} style={{ color: '#FFFFFF' }} />
-                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#FFFFFF' }}>
+                    <Sparkles size={18} style={{ color: '#4F46E5' }} />
+                    <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)' }}>
                       AI Interview Coaching Recommendations
                     </h3>
                   </div>
@@ -1244,15 +1296,15 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                       background: 'none',
                       border: 'none',
                       fontSize: '13px',
-                      color: '#94A3B8',
+                      color: 'var(--text-muted)',
                       cursor: 'pointer',
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: 4,
                       transition: 'color 0.2s',
                     }}
-                    onMouseOver={e => e.currentTarget.style.color = '#FFFFFF'}
-                    onMouseOut={e => e.currentTarget.style.color = '#94A3B8'}
+                    onMouseOver={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                    onMouseOut={e => e.currentTarget.style.color = 'var(--text-muted)'}
                   >
                     View detailed dossier <ArrowRight size={14} />
                   </button>
@@ -1263,28 +1315,29 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                     <div
                       key={idx}
                       style={{
-                        background: 'rgba(255, 255, 255, 0.03)',
-                        border: '1px solid rgba(255, 255, 255, 0.06)',
+                        background: 'var(--bg-card-hover)',
+                        border: '1px solid var(--border-default)',
                         borderRadius: 12,
                         padding: '16px 18px',
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                        <span style={{ fontSize: '13.5px', fontWeight: 600, color: '#FFFFFF' }}>
+                        <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--text-primary)' }}>
                           {item.label}
                         </span>
                         <span style={{
                           fontSize: '11px',
-                          fontWeight: 700,
-                          color: '#000000',
-                          background: '#FFFFFF',
+                          fontWeight: 600,
+                          color: 'var(--text-secondary)',
+                          background: 'var(--bg-card)',
+                          border: '1px solid var(--border-default)',
                           padding: '2px 8px',
                           borderRadius: 6,
                         }}>
                           Target: {item.target}
                         </span>
                       </div>
-                      <p style={{ fontSize: '12.5px', color: '#94A3B8', margin: 0, lineHeight: 1.45 }}>
+                      <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
                         {item.action}
                       </p>
                     </div>
@@ -1494,8 +1547,8 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                       </div>
                       <ResponsiveContainer width="100%" height={260}>
                         <RadarChart data={activeRadarData}>
-                          <PolarGrid stroke={useChartColors().polarGrid} />
-                          <PolarAngleAxis dataKey="area" tick={{ fill: useChartColors().labelFill, fontSize: 11 }} />
+                          <PolarGrid stroke='var(--chart-grid)' />
+                          <PolarAngleAxis dataKey="area" tick={{ fill: 'var(--chart-text)', fontSize: 11 }} />
                           <Radar dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.2} strokeWidth={2.5} />
                         </RadarChart>
                       </ResponsiveContainer>
@@ -1686,9 +1739,9 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                               <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                             </linearGradient>
                           </defs>
-                          <CartesianGrid strokeDasharray="3 3" stroke={useChartColors().gridStroke} />
-                          <XAxis dataKey="attempt" tick={{ fill: useChartColors().tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
-                          <YAxis tick={{ fill: useChartColors().tickFill, fontSize: 11 }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                          <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+                          <XAxis dataKey="attempt" tick={{ fill: chartColors.tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
+                          <YAxis tick={{ fill: chartColors.tickFill, fontSize: 11 }} axisLine={false} tickLine={false} domain={[0, 100]} />
                           <Tooltip content={<ThemedTooltip />} />
                           <Area type="monotone" dataKey="score" name="Score" stroke="#10b981" fill="url(#scoreGrad)" strokeWidth={2.5} dot={{ fill: '#10b981', r: 5, strokeWidth: 0 }} />
                         </AreaChart>
@@ -1710,9 +1763,9 @@ export default function CandidateDashboard({ initialTab = 'dashboard' }) {
                       </div>
                       <ResponsiveContainer width="100%" height={220}>
                         <LineChart data={activeProgressData}>
-                          <CartesianGrid strokeDasharray="3 3" stroke={useChartColors().gridStroke} />
-                          <XAxis dataKey="attempt" tick={{ fill: useChartColors().tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
-                          <YAxis tick={{ fill: useChartColors().tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
+                          <CartesianGrid strokeDasharray="3 3" stroke={chartColors.gridStroke} />
+                          <XAxis dataKey="attempt" tick={{ fill: chartColors.tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
+                          <YAxis tick={{ fill: chartColors.tickFill, fontSize: 11 }} axisLine={false} tickLine={false} />
                           <Tooltip content={<ThemedTooltip />} />
                           <Line type="monotone" dataKey="fillerRate" name="Filler %" stroke="#f59e0b" strokeWidth={2.5} dot={{ fill: '#f59e0b', r: 5, strokeWidth: 0 }} />
                         </LineChart>

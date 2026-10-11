@@ -194,14 +194,14 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
               justifyContent: 'center',
               fontSize: '18px',
               fontWeight: 800,
-              color: '#000000',
+              color: 'var(--bg-base)',
               boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
             }}>
               {initials}
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                   {formData.name || 'Recruiter Profile'}
                 </h2>
                 <span style={{
@@ -209,7 +209,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                   fontWeight: 600,
                   background: 'rgba(255, 255, 255, 0.1)',
                   border: '1px solid rgba(255, 255, 255, 0.25)',
-                  color: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   padding: '2px 8px',
                   borderRadius: 20,
                   textTransform: 'uppercase',
@@ -218,7 +218,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                   Verified Recruiter
                 </span>
               </div>
-              <div style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: 3 }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 3 }}>
                 {formData.title} · {formData.company_name}
               </div>
             </div>
@@ -234,7 +234,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
               borderRadius: 10,
               background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#94A3B8',
+              color: 'var(--text-muted)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -311,8 +311,8 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
         }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '60px 0' }}>
-              <Loader2 size={32} className="iv-spin" style={{ color: '#FFFFFF', margin: '0 auto 12px' }} />
-              <p style={{ color: '#94A3B8', fontSize: '0.88rem' }}>Loading recruiter details...</p>
+              <Loader2 size={32} className="iv-spin" style={{ color: 'var(--text-primary)', margin: '0 auto 12px' }} />
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>Loading recruiter details...</p>
             </div>
           ) : (
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -424,7 +424,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                         className="form-input"
                         value={formData.timezone}
                         onChange={e => handleChange('timezone', e.target.value)}
-                        style={{ background: '#131B2E', color: '#FFFFFF' }}
+                        style={{ background: '#131B2E', color: 'var(--text-primary)' }}
                       >
                         <option value="Asia/Kolkata (IST)">Asia/Kolkata (IST - GMT+5:30)</option>
                         <option value="America/New_York (EST)">America/New_York (EST - GMT-5:00)</option>
@@ -508,7 +508,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                         className="form-input"
                         value={formData.company_size}
                         onChange={e => handleChange('company_size', e.target.value)}
-                        style={{ background: '#131B2E', color: '#FFFFFF' }}
+                        style={{ background: '#131B2E', color: 'var(--text-primary)' }}
                       >
                         <option value="1-10 employees">1-10 employees (Early Stage)</option>
                         <option value="11-50 employees">11-50 employees (Seed / Series A)</option>
@@ -583,17 +583,17 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                       <div>
-                        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#FFFFFF' }}>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                           Auto-Shortlist Match Threshold
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#94A3B8' }}>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                           Candidates meeting or exceeding this AI match fit score will be highlighted for immediate review.
                         </div>
                       </div>
                       <div style={{
                         fontSize: '1.2rem',
                         fontWeight: 800,
-                        color: '#FFFFFF',
+                        color: 'var(--text-primary)',
                         background: 'rgba(255, 255, 255, 0.12)',
                         padding: '4px 12px',
                         borderRadius: 8,
@@ -619,7 +619,7 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                       className="form-input"
                       value={formData.default_interview_format}
                       onChange={e => handleChange('default_interview_format', e.target.value)}
-                      style={{ background: '#131B2E', color: '#FFFFFF' }}
+                      style={{ background: '#131B2E', color: 'var(--text-primary)' }}
                     >
                       <option value="Live Coding & System Design">Live Coding & System Design</option>
                       <option value="Async Video Response (HireSense AI)">Async Video Response (HireSense AI)</option>
@@ -646,10 +646,10 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                         style={{ width: 16, height: 16, accentColor: '#FFFFFF' }}
                       />
                       <div>
-                        <div style={{ fontSize: '0.86rem', fontWeight: 600, color: '#FFFFFF' }}>
+                        <div style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                           Instant Notification on Candidate Application
                         </div>
-                        <div style={{ fontSize: '0.76rem', color: '#94A3B8' }}>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
                           Receive immediate notification when a candidate applies and their AI match fit is evaluated.
                         </div>
                       </div>
@@ -672,10 +672,10 @@ export default function RecruiterProfileModal({ isOpen, onClose, onProfileUpdate
                         style={{ width: 16, height: 16, accentColor: '#FFFFFF' }}
                       />
                       <div>
-                        <div style={{ fontSize: '0.86rem', fontWeight: 600, color: '#FFFFFF' }}>
+                        <div style={{ fontSize: '0.86rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                           Automatic AI Dossier & Speech Synthesis
                         </div>
-                        <div style={{ fontSize: '0.76rem', color: '#94A3B8' }}>
+                        <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>
                           Automatically compile deep radar charts and speech analytics for submitted interviews.
                         </div>
                       </div>

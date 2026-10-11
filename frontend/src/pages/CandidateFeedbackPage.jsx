@@ -142,7 +142,7 @@ export default function CandidateFeedbackPage({ initialTab = 'pillars' }) {
                     width: 36, height: 36, borderRadius: 8,
                     background: 'rgba(255, 255, 255, 0.08)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#FFFFFF'
+                    color: 'var(--text-primary)'
                   }}>
                     <MessageSquare size={20} />
                   </div>
@@ -377,7 +377,7 @@ export default function CandidateFeedbackPage({ initialTab = 'pillars' }) {
                               width: 36, height: 36, borderRadius: 8,
                               background: 'rgba(255, 255, 255, 0.08)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              color: '#FFFFFF'
+                              color: 'var(--text-primary)'
                             }}>
                               <Target size={18} />
                             </div>

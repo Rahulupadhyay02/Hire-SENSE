@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 
 const stages = [
-  { label: 'Job Posted', icon: Briefcase, count: 8, color: '#FFFFFF' },
+  { label: 'Job Posted', icon: Briefcase, count: 8, color: 'var(--text-primary)' },
   { label: 'Applied', icon: ClipboardList, count: 140, color: '#06b6d4' },
   { label: 'Resume AI', icon: FileText, count: 120, color: '#8b5cf6' },
   { label: 'Matched', icon: Target, count: 98, color: '#ec4899' },
@@ -24,7 +24,7 @@ const stages = [
 ]
 
 const pipelineCandidates = [
-  { name: 'Priya Mehta', stage: 'Human Review', score: 91, job: 'Python Dev', avatar: 'PM', color: '#FFFFFF' },
+  { name: 'Priya Mehta', stage: 'Human Review', score: 91, job: 'Python Dev', avatar: 'PM', color: 'var(--text-primary)' },
   { name: 'Sneha Patel', stage: 'Human Review', score: 85, job: 'ML Engineer', avatar: 'SP', color: '#8b5cf6' },
   { name: 'Arjun Kumar', stage: 'AI Report', score: 78, job: 'Full Stack', avatar: 'AK', color: '#06b6d4' },
   { name: 'Ananya Singh', stage: 'Interview', score: 73, job: 'Data Analyst', avatar: 'AS', color: '#ec4899' },
@@ -107,13 +107,13 @@ export default function PipelinePage() {
                 return (
                   <div key={stage} style={{
                     flex: 1, minWidth: 220,
-                    background: '#101726',
+                    background: 'var(--bg-surface)',
                     border: '1px solid rgba(255, 255, 255, 0.06)',
                     borderRadius: 14,
                     padding: '18px'
                   }}>
                     <div className="flex items-center justify-between" style={{ marginBottom: 14 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.88rem', color: '#FFFFFF' }}>{stage}</div>
+                      <div style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--text-primary)' }}>{stage}</div>
                       <span className="badge badge-muted">{inStage.length || 8}</span>
                     </div>
 
@@ -147,8 +147,8 @@ export default function PipelinePage() {
                               {c.avatar}
                             </div>
                             <div>
-                              <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#FFFFFF' }}>{c.name}</div>
-                              <div style={{ fontSize: '0.72rem', color: '#94A3B8' }}>{c.job}</div>
+                              <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>{c.name}</div>
+                              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{c.job}</div>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
@@ -169,7 +169,7 @@ export default function PipelinePage() {
                           padding: '16px', background: 'rgba(255,255,255,0.015)',
                           border: '1px dashed rgba(255, 255, 255, 0.08)',
                           borderRadius: 10,
-                          textAlign: 'center', fontSize: '0.78rem', color: '#64748B'
+                          textAlign: 'center', fontSize: '0.78rem', color: 'var(--text-muted)'
                         }}>
                           + candidates
                         </div>

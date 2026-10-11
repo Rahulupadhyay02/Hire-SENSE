@@ -181,7 +181,7 @@ export default function JobsPage() {
           {/* Stats row */}
           <div className="grid-4" style={{ marginBottom: 28 }}>
             {[
-              { label: 'Active Jobs', value: activeJobsCount, icon: <Briefcase size={20} />, color: '#FFFFFF' },
+              { label: 'Active Jobs', value: activeJobsCount, icon: <Briefcase size={20} />, color: 'var(--text-primary)' },
               { label: 'Total Applications', value: totalAppsCount, icon: <Users size={20} />, color: '#10b981' },
               { label: 'Shortlisted', value: totalShortlisted, icon: <CheckCircle size={20} />, color: '#8b5cf6' },
               { label: 'Avg Match Score', value: `${avgMatch || 75}%`, icon: <Target size={20} />, color: '#f59e0b' },
@@ -234,15 +234,15 @@ export default function JobsPage() {
                           width: 42, height: 42, borderRadius: 'var(--radius-md)',
                           background: 'rgba(255, 255, 255, 0.08)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          color: '#FFFFFF'
+                          color: 'var(--text-primary)'
                         }}>
                           <Briefcase size={20} />
                         </div>
                         <div>
-                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: '#FFFFFF', letterSpacing: '-0.01em' }}>
+                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>
                             {job.title}
                           </div>
-                          <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 2 }}>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
                             Experience: {job.experience} · Status: <span style={{ textTransform: 'capitalize' }}>{job.status}</span>
                           </div>
                         </div>
@@ -259,10 +259,10 @@ export default function JobsPage() {
                         background: 'rgba(255, 255, 255, 0.04)',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
                         fontSize: '0.74rem',
-                        color: '#CBD5E1',
+                        color: 'var(--text-secondary)',
                         marginBottom: 12
                       }}>
-                        <span style={{ color: '#FFFFFF', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Sliders size={12} /> Match Formula:
                         </span>
                         <span>{getFormulaSummary(job.match_formula)}</span>
@@ -278,10 +278,10 @@ export default function JobsPage() {
                       {/* Stats row */}
                       <div className="flex gap-6">
                         <div>
-                          <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#FFFFFF' }}>
+                          <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}>
                             {job.applications_count || 0}
                           </div>
-                          <div style={{ fontSize: '0.75rem', color: '#94A3B8' }}>Applications</div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Applications</div>
                         </div>
                         <div>
                           <div style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: '#10b981' }}>
@@ -363,11 +363,11 @@ export default function JobsPage() {
           }}>
             <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: '#FFFFFF' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--text-primary)' }}>
                   Tune Match Formula
                 </div>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: 2 }}>
-                  Role: <strong style={{ color: '#FFFFFF' }}>{editingFormulaJob.title}</strong>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                  Role: <strong style={{ color: 'var(--text-primary)' }}>{editingFormulaJob.title}</strong>
                 </div>
               </div>
               <button
@@ -451,10 +451,10 @@ export default function JobsPage() {
           }}>
             <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
               <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: '#FFFFFF' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--text-primary)' }}>
                   Create New Job Posting
                 </div>
-                <div style={{ fontSize: '0.8rem', color: '#94A3B8', marginTop: 2 }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 2 }}>
                   Define requirements, description, and your custom AI match formula.
                 </div>
               </div>

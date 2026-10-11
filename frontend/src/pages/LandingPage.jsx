@@ -49,7 +49,7 @@ export default function LandingPage() {
   const [previewMode, setPreviewMode] = useState('3d') // '3d' | 'interactive'
 
   return (
-    <div style={{ background: '#07090E', color: '#FFFFFF', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
+    <div className="landing-page-scope" style={{ background: '#07090E', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
       {/* ── Vintage Technical Gray & White Grid Background with Low Fade / Vignette ── */}
       <div className="vintage-grid-bg" aria-hidden="true">
         <div className="vintage-grid-lines" />
@@ -79,15 +79,15 @@ export default function LandingPage() {
               style={{ height: 32, width: 'auto', display: 'block' }}
             />
             <div style={{ height: 18, width: 1, background: 'rgba(255, 255, 255, 0.15)' }} />
-            <div style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500, letterSpacing: '0.01em' }}>
+            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 500, letterSpacing: '0.01em' }}>
               Explainable Talent Intelligence
             </div>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 28, fontSize: '0.88rem' }}>
-            <a href="#laptop-preview" style={{ color: '#94A3B8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>Platform</a>
-            <a href="#capabilities" style={{ color: '#94A3B8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>Capabilities</a>
-            <a href="#compliance" style={{ color: '#94A3B8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>AI Governance</a>
+            <a href="#laptop-preview" style={{ color: 'var(--text-muted)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>Platform</a>
+            <a href="#capabilities" style={{ color: 'var(--text-muted)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>Capabilities</a>
+            <a href="#compliance" style={{ color: 'var(--text-muted)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.target.style.color = '#FFFFFF'} onMouseLeave={e => e.target.style.color = '#94A3B8'}>AI Governance</a>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -131,7 +131,7 @@ export default function LandingPage() {
             fontWeight: 800,
             letterSpacing: '-0.04em',
             lineHeight: 1.15,
-            color: '#FFFFFF',
+            color: 'var(--text-primary)',
             maxWidth: 900,
             margin: '0 auto 20px'
           }}
@@ -145,7 +145,7 @@ export default function LandingPage() {
         <p
           style={{
             fontSize: '1.1rem',
-            color: '#94A3B8',
+            color: 'var(--text-muted)',
             maxWidth: 680,
             margin: '0 auto 36px',
             lineHeight: 1.6
@@ -172,7 +172,7 @@ export default function LandingPage() {
           </button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, fontSize: '0.82rem', color: '#94A3B8' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 32, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <ShieldCheck size={16} color="#10B981" /> NYC Local Law 144 Audited
           </span>
@@ -270,8 +270,8 @@ export default function LandingPage() {
                 <Globe size={18} color="#FFFFFF" />
               </div>
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>Global Talent Network</div>
-                <div style={{ fontSize: '0.92rem', color: '#FFFFFF', fontWeight: 700 }}>642 Active Team Members</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 500 }}>Global Talent Network</div>
+                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', fontWeight: 700 }}>642 Active Team Members</div>
               </div>
             </div>
 
@@ -297,8 +297,8 @@ export default function LandingPage() {
                 <ShieldCheck size={18} color="#10B981" />
               </div>
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>AI Governance & Bias Audited</div>
-                <div style={{ fontSize: '0.92rem', color: '#FFFFFF', fontWeight: 700 }}>NYC LL 144 & EU AI Act</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 500 }}>AI Governance & Bias Audited</div>
+                <div style={{ fontSize: '0.92rem', color: 'var(--text-primary)', fontWeight: 700 }}>NYC LL 144 & EU AI Act</div>
               </div>
             </div>
 
@@ -341,13 +341,13 @@ export default function LandingPage() {
                   alignItems: 'center',
                   gap: 8,
                   fontSize: '0.8rem',
-                  color: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   fontWeight: 600,
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
                   zIndex: 15,
                 }}
               >
-                <Sparkles size={14} style={{ color: '#FFFFFF' }} /> Click image or toggle above to open interactive live sandbox
+                <Sparkles size={14} style={{ color: 'var(--text-primary)' }} /> Click image or toggle above to open interactive live sandbox
               </div>
             </div>
           </div>
@@ -373,7 +373,7 @@ export default function LandingPage() {
                   <Lock size={11} color="#94A3B8" />
                   <span>hiresense.com/home</span>
                 </div>
-                <div style={{ marginLeft: 'auto', fontSize: '0.72rem', color: '#64748B' }}>
+                <div style={{ marginLeft: 'auto', fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                   Mon Jun 22 9:41 AM
                 </div>
               </div>
@@ -391,19 +391,19 @@ export default function LandingPage() {
                           style={{ height: 20, width: 'auto', display: 'block' }}
                         />
                       </div>
-                      <button style={{ background: 'transparent', border: 'none', color: '#64748B', cursor: 'pointer' }}>
+                      <button style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
                         <MoreHorizontal size={16} />
                       </button>
                     </div>
 
                     {/* Nav List */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#1A1E29', borderRadius: 8, color: '#FFFFFF', fontWeight: 600, fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: '#1A1E29', borderRadius: 8, color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.84rem' }}>
                         <Home size={15} color="#FFFFFF" />
                         <span>Home</span>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <Users size={15} />
                           <span>Team</span>
@@ -411,7 +411,7 @@ export default function LandingPage() {
                         <ChevronDown size={12} color="#64748B" />
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <UserPlus size={15} />
                           <span>Hire</span>
@@ -419,7 +419,7 @@ export default function LandingPage() {
                         <ChevronDown size={12} color="#64748B" />
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <CreditCard size={15} />
                           <span>Pay</span>
@@ -427,7 +427,7 @@ export default function LandingPage() {
                         <ChevronDown size={12} color="#64748B" />
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <Award size={15} />
                           <span>Total Rewards</span>
@@ -435,12 +435,12 @@ export default function LandingPage() {
                         <ChevronDown size={12} color="#64748B" />
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <Building2 size={15} />
                         <span>Company</span>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', color: '#94A3B8', fontSize: '0.84rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
                         <Wrench size={15} />
                         <span>Tools and resources</span>
                       </div>
@@ -448,11 +448,11 @@ export default function LandingPage() {
 
                     {/* Sidebar Bottom */}
                     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 12, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 12px', color: '#94A3B8', fontSize: '0.82rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 12px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
                         <Headphones size={14} />
                         <span>Support Center</span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 12px', color: '#94A3B8', fontSize: '0.82rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 12px', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
                         <Settings size={14} />
                         <span>Settings</span>
                       </div>
@@ -464,10 +464,10 @@ export default function LandingPage() {
                     {/* Topbar Header */}
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
                       <div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: '#FFFFFF' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                           Hello, Jacob Jones!
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 2 }}>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
                           Here's what we have for you today
                         </div>
                       </div>
@@ -482,12 +482,12 @@ export default function LandingPage() {
                           <span style={{ position: 'absolute', top: 6, right: 6, width: 5, height: 5, borderRadius: '50%', background: '#EF4444' }} />
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 8px', borderRadius: 10 }}>
-                          <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: '#000000' }}>
+                          <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 700, color: 'var(--bg-base)' }}>
                             JJ
                           </div>
                           <div style={{ textAlign: 'left' }}>
-                            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#FFFFFF', lineHeight: 1.1 }}>Jacob Jones</div>
-                            <div style={{ fontSize: '0.68rem', color: '#64748B' }}>Team</div>
+                            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.1 }}>Jacob Jones</div>
+                            <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Team</div>
                           </div>
                           <ChevronsUpDown size={12} color="#64748B" />
                         </div>
@@ -498,10 +498,10 @@ export default function LandingPage() {
                     {showLaptopBanner && (
                       <div style={{ background: 'linear-gradient(135deg, #1A1E29 0%, #121620 45%, #0B0E17 100%)', border: '1px solid rgba(255, 255, 255, 0.12)', borderRadius: 14, padding: '16px 20px', marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: '0.98rem', color: '#FFFFFF', marginBottom: 4 }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-primary)', marginBottom: 4 }}>
                             Kick Start Your Hiring With HireSense
                           </div>
-                          <div style={{ fontSize: '0.78rem', color: '#94A3B8', maxWidth: 520, lineHeight: 1.4 }}>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', maxWidth: 520, lineHeight: 1.4 }}>
                             Hire, pay, and care for employees and contractors around the world, with compliant agreements, payroll, and
                             benefits. When hiring contractors, there's no HireSense fee for the first month!
                           </div>
@@ -510,7 +510,7 @@ export default function LandingPage() {
                           <button className="btn-primary-blue" style={{ padding: '8px 14px', fontSize: '0.8rem' }} onClick={() => navigate('/recruiter/jobs')}>
                             Start Hiring
                           </button>
-                          <button style={{ background: 'none', border: 'none', color: '#64748B', cursor: 'pointer' }} onClick={() => setShowLaptopBanner(false)}>
+                          <button style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }} onClick={() => setShowLaptopBanner(false)}>
                             <X size={15} />
                           </button>
                         </div>
@@ -520,8 +520,8 @@ export default function LandingPage() {
                     {/* HireSense Tools Strip */}
                     <div style={{ marginBottom: 18 }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                        <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF' }}>HireSense Tools</span>
-                        <span style={{ fontSize: '0.75rem', color: '#64748B', cursor: 'pointer' }}>Help Center</span>
+                        <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>HireSense Tools</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', cursor: 'pointer' }}>Help Center</span>
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 8 }}>
@@ -530,7 +530,7 @@ export default function LandingPage() {
                           <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(245, 158, 11, 0.15)', color: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <Percent size={14} />
                           </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap' }}>Cost Calculator</span>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Cost Calculator</span>
                         </div>
 
                         {/* Country Guides */}
@@ -538,7 +538,7 @@ export default function LandingPage() {
                           <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(6, 182, 212, 0.15)', color: '#06B6D4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <Globe size={14} />
                           </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap' }}>Country Guides</span>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Country Guides</span>
                         </div>
 
                         {/* Start Hiring */}
@@ -546,7 +546,7 @@ export default function LandingPage() {
                           <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(249, 115, 22, 0.15)', color: '#F97316', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <Compass size={14} />
                           </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap' }}>Start Hiring</span>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Start Hiring</span>
                         </div>
 
                         {/* Salary Converter */}
@@ -554,7 +554,7 @@ export default function LandingPage() {
                           <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(168, 85, 247, 0.15)', color: '#A855F7', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <Repeat size={14} />
                           </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap' }}>Salary Converter</span>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Salary Converter</span>
                         </div>
 
                         {/* Salary Insight */}
@@ -562,7 +562,7 @@ export default function LandingPage() {
                           <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(236, 72, 153, 0.15)', color: '#EC4899', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                             <CreditCard size={14} />
                           </div>
-                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap' }}>Salary Insight</span>
+                          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>Salary Insight</span>
                         </div>
                       </div>
                     </div>
@@ -572,25 +572,25 @@ export default function LandingPage() {
                       {/* Left: Company Onboarding + Partners */}
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                         <div style={{ background: '#161924', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 18 }}>
-                          <div style={{ fontWeight: 700, fontSize: '0.94rem', color: '#FFFFFF', marginBottom: 12 }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.94rem', color: 'var(--text-primary)', marginBottom: 12 }}>
                             Company Onboarding
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                             <div style={{ background: '#11131C', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 10, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ fontSize: '0.82rem', color: '#E2E8F0', fontWeight: 500 }}>Complete Company Profile</span>
-                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#FFFFFF', color: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 500 }}>Complete Company Profile</span>
+                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--bg-card)', color: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Check size={12} strokeWidth={3} />
                               </div>
                             </div>
 
                             <div style={{ background: '#11131C', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 10, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ fontSize: '0.82rem', color: '#E2E8F0', fontWeight: 500 }}>Start Hiring</span>
-                              <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: '#CBD5E1', fontSize: '0.72rem', fontWeight: 500, padding: '2px 8px', borderRadius: 9999 }}>New Hire</span>
+                              <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 500 }}>Start Hiring</span>
+                              <span style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: 'var(--text-secondary)', fontSize: '0.72rem', fontWeight: 500, padding: '2px 8px', borderRadius: 9999 }}>New Hire</span>
                             </div>
 
                             <div style={{ background: '#11131C', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 10, padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ fontSize: '0.82rem', color: '#E2E8F0', fontWeight: 500 }}>Add Point of Contact</span>
-                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#FFFFFF', color: '#000000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 500 }}>Add Point of Contact</span>
+                              <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--bg-card)', color: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <Check size={12} strokeWidth={3} />
                               </div>
                             </div>
@@ -598,10 +598,10 @@ export default function LandingPage() {
                         </div>
 
                         <div style={{ background: '#161924', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 18 }}>
-                          <div style={{ fontWeight: 700, fontSize: '0.94rem', color: '#FFFFFF', marginBottom: 6 }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.94rem', color: 'var(--text-primary)', marginBottom: 6 }}>
                             HireSense Partners
                           </div>
-                          <p style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.4, marginBottom: 12 }}>
+                          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.4, marginBottom: 12 }}>
                             We partner with industry leaders and innovators to help you deliver the best employment experience.
                           </p>
                           <button className="btn-primary-blue" style={{ padding: '6px 14px', fontSize: '0.78rem' }}>
@@ -707,8 +707,8 @@ export default function LandingPage() {
             border: '1px solid rgba(255, 255, 255, 0.1)',
             marginBottom: 12,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFFFFF', boxShadow: '0 0 8px rgba(255, 255, 255, 0.7)' }} />
-            <span style={{ fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#CBD5E1' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--bg-card)', boxShadow: '0 0 8px rgba(255, 255, 255, 0.7)' }} />
+            <span style={{ fontSize: '0.74rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
               Global Talent Ecosystem
             </span>
           </div>
@@ -716,14 +716,14 @@ export default function LandingPage() {
           <h3 style={{
             fontSize: '1.25rem',
             fontWeight: 700,
-            color: '#FFFFFF',
+            color: 'var(--text-primary)',
             letterSpacing: '-0.02em',
             margin: '0 0 6px 0',
           }}>
             Trusted by World-Class Tech Enterprises & Leading University Talent Networks
           </h3>
 
-          <p style={{ fontSize: '0.86rem', color: '#94A3B8', margin: 0 }}>
+          <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', margin: 0 }}>
             Over 250,000+ candidates verified and screened across top-tier engineering organizations.
           </p>
         </div>
@@ -746,10 +746,10 @@ export default function LandingPage() {
                 category: 'Cloud & AI',
                 logo: (
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" fill="#FFFFFF" />
-                    <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#FFFFFF" opacity="0.9" />
-                    <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z" fill="#FFFFFF" opacity="0.75" />
-                    <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.93 6.72-4.93z" fill="#FFFFFF" />
+                    <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" fill="var(--text-primary)" />
+                    <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="var(--text-primary)" opacity="0.9" />
+                    <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z" fill="var(--text-primary)" opacity="0.75" />
+                    <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.93 6.72-4.93z" fill="var(--text-primary)" />
                   </svg>
                 )
               },
@@ -758,7 +758,7 @@ export default function LandingPage() {
                 category: 'Enterprise Tech',
                 logo: (
                   <svg viewBox="0 0 23 23" width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#FFFFFF" d="M0 0h10.5v10.5H0zM11.5 0H22v10.5H11.5zM0 11.5h10.5V22H0zM11.5 11.5H22V22H11.5z" />
+                    <path fill="var(--text-primary)" d="M0 0h10.5v10.5H0zM11.5 0H22v10.5H11.5zM0 11.5h10.5V22H0zM11.5 11.5H22V22H11.5z" />
                   </svg>
                 )
               },
@@ -851,14 +851,14 @@ export default function LandingPage() {
                   flexShrink: 0,
                 }}
               >
-                <div style={{ color: '#FFFFFF', display: 'flex', alignItems: 'center' }}>
+                <div style={{ color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}>
                   {corp.logo}
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.2 }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                     {corp.name}
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#94A3B8' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                     {corp.category}
                   </div>
                 </div>
@@ -951,14 +951,14 @@ export default function LandingPage() {
                   flexShrink: 0,
                 }}
               >
-                <div style={{ color: '#FFFFFF', display: 'flex', alignItems: 'center' }}>
+                <div style={{ color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}>
                   {uni.logo}
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#FFFFFF', lineHeight: 1.2 }}>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.2 }}>
                     {uni.name}
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#94A3B8' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                     {uni.role}
                   </div>
                 </div>
@@ -971,13 +971,13 @@ export default function LandingPage() {
       {/* ── Capabilities Section (Auditable Intelligence) ── */}
       <section id="capabilities" style={{ padding: '80px 24px', maxWidth: 1200, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 54 }}>
-          <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
             Auditable Intelligence
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
             Engineered for Maximum Precision and Zero Hallucinations
           </h2>
-          <p style={{ color: '#94A3B8', fontSize: '0.95rem', maxWidth: 640, margin: '12px auto 0', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: 640, margin: '12px auto 0', lineHeight: 1.6 }}>
             Every score, metric, and recommendation is mathematically traceable back to source resume lines or acoustic speech evidence.
           </p>
         </div>
@@ -985,13 +985,13 @@ export default function LandingPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {/* Capability 1 */}
           <div className="dash-card">
-            <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255, 255, 255, 0.08)', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+            <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255, 255, 255, 0.08)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
               <FileText size={20} />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
               Deterministic Resume Grounding
             </h3>
-            <p style={{ fontSize: '0.86rem', color: '#94A3B8', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Extract verified education, experience, and validated skills without synthetic AI fabrications.
               The original resume is always accessible side-by-side as legal evidence.
             </p>
@@ -1002,10 +1002,10 @@ export default function LandingPage() {
             <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', color: '#34D399', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
               <Mic size={20} />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
               Observable Speech Metrics
             </h3>
-            <p style={{ fontSize: '0.86rem', color: '#94A3B8', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Track objective speaking rate (WPM), filler frequency, pause distribution, and STAR methodology alignment.
               Zero pseudoscience: no facial or emotion guessing.
             </p>
@@ -1016,10 +1016,10 @@ export default function LandingPage() {
             <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(168, 85, 247, 0.15)', color: '#C084FC', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
               <Scale size={20} />
             </div>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
               Explainable 4-Factor Matching
             </h3>
-            <p style={{ fontSize: '0.86rem', color: '#94A3B8', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
               Multi-factor scoring: 45% Skills + 20% Experience + 20% Projects + 15% Requirements coverage.
               Every score displays clear matched vs missing concepts.
             </p>
@@ -1055,7 +1055,7 @@ export default function LandingPage() {
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               marginBottom: 20,
             }}>
               <Sparkles size={13} /> Enterprise Talent Acquisition
@@ -1065,7 +1065,7 @@ export default function LandingPage() {
               fontFamily: 'var(--font-display)',
               fontSize: '2.2rem',
               fontWeight: 800,
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               letterSpacing: '-0.03em',
               lineHeight: 1.2,
               marginBottom: 16,
@@ -1073,7 +1073,7 @@ export default function LandingPage() {
               Autonomous Candidate Intelligence With 100% Explainable Grounding
             </h2>
 
-            <p style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.6, marginBottom: 24 }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>
               Say goodbye to black-box candidate ranking. HireSense equips enterprise talent teams with explainable match analytics, side-by-side evidence inspection, and automatic NYC Local Law 144 compliance logs.
             </p>
 
@@ -1085,12 +1085,12 @@ export default function LandingPage() {
                 { title: 'Interview Synthesis & Dossier', desc: 'Acoustic speech rhythm, WPM cadence, and STAR methodology structure synthesized in seconds.' },
               ].map((item, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                  <div style={{ marginTop: 2, color: '#FFFFFF' }}>
+                  <div style={{ marginTop: 2, color: 'var(--text-primary)' }}>
                     <CheckCircle2 size={18} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                    <div style={{ fontSize: '0.82rem', color: '#94A3B8', lineHeight: 1.45 }}>{item.desc}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>{item.title}</div>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>{item.desc}</div>
                   </div>
                 </div>
               ))}
@@ -1099,8 +1099,8 @@ export default function LandingPage() {
             <button
               onClick={() => navigate('/login?role=recruiter')}
               style={{
-                background: '#FFFFFF',
-                color: '#000000',
+                background: 'var(--bg-card)',
+                color: 'var(--bg-base)',
                 border: '1px solid #FFFFFF',
                 borderRadius: 10,
                 padding: '12px 28px',
@@ -1148,13 +1148,13 @@ export default function LandingPage() {
               justifyContent: 'space-between',
             }}>
               <div>
-                <div style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>Enterprise Sourcing Pipeline</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF' }}>Candidate Fit Index: 94.2% Verified</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>Enterprise Sourcing Pipeline</div>
+                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>Candidate Fit Index: 94.2% Verified</div>
               </div>
               <span style={{
                 fontSize: '0.72rem',
                 fontWeight: 700,
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 background: 'rgba(255, 255, 255, 0.12)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: 6,
@@ -1206,13 +1206,13 @@ export default function LandingPage() {
               justifyContent: 'space-between',
             }}>
               <div>
-                <div style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>Mock Interview Studio</div>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF' }}>STAR Structure: 86% · WPM: 148 Optimal</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>Mock Interview Studio</div>
+                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>STAR Structure: 86% · WPM: 148 Optimal</div>
               </div>
               <span style={{
                 fontSize: '0.72rem',
                 fontWeight: 700,
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 background: 'rgba(255, 255, 255, 0.12)',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: 6,
@@ -1237,7 +1237,7 @@ export default function LandingPage() {
               fontWeight: 700,
               letterSpacing: '0.06em',
               textTransform: 'uppercase',
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               marginBottom: 20,
             }}>
               <GraduationCap size={14} /> Students & Jobseekers Launchpad
@@ -1247,7 +1247,7 @@ export default function LandingPage() {
               fontFamily: 'var(--font-display)',
               fontSize: '2.2rem',
               fontWeight: 800,
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               letterSpacing: '-0.03em',
               lineHeight: 1.2,
               marginBottom: 16,
@@ -1255,7 +1255,7 @@ export default function LandingPage() {
               AI Interview Coaching & Transparent Career Acceleration
             </h2>
 
-            <p style={{ fontSize: '0.95rem', color: '#94A3B8', lineHeight: 1.6, marginBottom: 24 }}>
+            <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 24 }}>
               Never submit into an ATS black hole again. Practice realistic mock interviews with instant speech cadence feedback, master the STAR storytelling method, and build a verified candidate dossier recruiters can trust.
             </p>
 
@@ -1267,12 +1267,12 @@ export default function LandingPage() {
                 { title: 'Candidate-in-the-Loop Agency', desc: 'Inspect exactly what the AI extracted from your resume and correct details before applying.' },
               ].map((item, idx) => (
                 <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                  <div style={{ marginTop: 2, color: '#FFFFFF' }}>
+                  <div style={{ marginTop: 2, color: 'var(--text-primary)' }}>
                     <CheckCircle2 size={18} />
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF' }}>{item.title}</div>
-                    <div style={{ fontSize: '0.82rem', color: '#94A3B8', lineHeight: 1.45 }}>{item.desc}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>{item.title}</div>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>{item.desc}</div>
                   </div>
                 </div>
               ))}
@@ -1281,8 +1281,8 @@ export default function LandingPage() {
             <button
               onClick={() => navigate('/login?role=candidate')}
               style={{
-                background: '#FFFFFF',
-                color: '#000000',
+                background: 'var(--bg-card)',
+                color: 'var(--bg-base)',
                 border: '1px solid #FFFFFF',
                 borderRadius: 10,
                 padding: '12px 28px',
@@ -1312,13 +1312,13 @@ export default function LandingPage() {
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: 54 }}>
-          <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
             Competitive Advantage
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
             Why HireSense is Fundamentally Unique
           </h2>
-          <p style={{ color: '#94A3B8', fontSize: '0.95rem', maxWidth: 680, margin: '12px auto 0', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', maxWidth: 680, margin: '12px auto 0', lineHeight: 1.6 }}>
             Traditional ATS platforms rely on brittle keyword filtering and opaque generative AI. HireSense introduces deterministic grounding, explainable metrics, and candidate agency.
           </p>
         </div>
@@ -1334,9 +1334,9 @@ export default function LandingPage() {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(255, 255, 255, 0.02)' }}>
-                <th style={{ padding: '20px 24px', fontSize: '0.85rem', color: '#94A3B8', fontWeight: 600, width: '28%' }}>Dimension</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600, width: '28%' }}>Dimension</th>
                 <th style={{ padding: '20px 24px', fontSize: '0.85rem', color: '#EF4444', fontWeight: 700, width: '36%' }}>Traditional ATS & AI Screeners</th>
-                <th style={{ padding: '20px 24px', fontSize: '0.85rem', color: '#FFFFFF', fontWeight: 700, width: '36%', background: 'rgba(255, 255, 255, 0.05)' }}>HireSense Explainable OS</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 700, width: '36%', background: 'rgba(255, 255, 255, 0.05)' }}>HireSense Explainable OS</th>
               </tr>
             </thead>
             <tbody>
@@ -1376,14 +1376,14 @@ export default function LandingPage() {
                   onMouseOver={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)'}
                   onMouseOut={e => e.currentTarget.style.background = 'transparent'}
                 >
-                  <td style={{ padding: '20px 24px', fontSize: '0.9rem', fontWeight: 700, color: '#FFFFFF' }}>
+                  <td style={{ padding: '20px 24px', fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                     {row.dim}
                   </td>
-                  <td style={{ padding: '20px 24px', fontSize: '0.86rem', color: '#94A3B8', lineHeight: 1.5 }}>
+                  <td style={{ padding: '20px 24px', fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                     <span style={{ color: '#EF4444', marginRight: 6 }}>✕</span> {row.trad}
                   </td>
-                  <td style={{ padding: '20px 24px', fontSize: '0.86rem', color: '#E2E8F0', lineHeight: 1.5, background: 'rgba(255, 255, 255, 0.03)' }}>
-                    <span style={{ color: '#FFFFFF', marginRight: 6, fontWeight: 700 }}>✓</span> {row.hiresense}
+                  <td style={{ padding: '20px 24px', fontSize: '0.86rem', color: 'var(--text-primary)', lineHeight: 1.5, background: 'rgba(255, 255, 255, 0.03)' }}>
+                    <span style={{ color: 'var(--text-primary)', marginRight: 6, fontWeight: 700 }}>✓</span> {row.hiresense}
                   </td>
                 </tr>
               ))}
@@ -1399,10 +1399,10 @@ export default function LandingPage() {
         margin: '0 auto',
       }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
             Proven Performance
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
             What We Deliver Across Global Hiring Pipelines
           </h2>
         </div>
@@ -1417,7 +1417,7 @@ export default function LandingPage() {
             <div
               key={i}
               style={{
-                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01))',
+                background: 'var(--bg-glass)',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 borderRadius: 18,
                 padding: '28px 24px',
@@ -1434,13 +1434,13 @@ export default function LandingPage() {
                 e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
-              <div style={{ fontSize: '3.2rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 12 }}>
+              <div style={{ fontSize: '3.2rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 12 }}>
                 {stat.metric}
               </div>
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 8 }}>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>
                 {stat.label}
               </div>
-              <div style={{ fontSize: '0.82rem', color: '#94A3B8', lineHeight: 1.45 }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
                 {stat.sub}
               </div>
             </div>
@@ -1456,10 +1456,10 @@ export default function LandingPage() {
         borderTop: '1px solid rgba(255, 255, 255, 0.08)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
             Social Proof
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: '#FFFFFF' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
             Trusted by Talent Leaders and Candidates Alike
           </h2>
         </div>
@@ -1500,7 +1500,7 @@ export default function LandingPage() {
                 justifyContent: 'space-between',
               }}
             >
-              <p style={{ fontSize: '0.92rem', color: '#CBD5E1', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 24 }}>
+              <p style={{ fontSize: '0.92rem', color: 'var(--text-secondary)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 24 }}>
                 "{testi.quote}"
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1509,7 +1509,7 @@ export default function LandingPage() {
                   height: 42,
                   borderRadius: '50%',
                   background: 'linear-gradient(135deg, #FFFFFF, #CBD5E1)',
-                  color: '#000000',
+                  color: 'var(--bg-base)',
                   fontSize: '0.85rem',
                   fontWeight: 800,
                   display: 'flex',
@@ -1519,8 +1519,8 @@ export default function LandingPage() {
                   {testi.initials}
                 </div>
                 <div>
-                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: '#FFFFFF' }}>{testi.author}</div>
-                  <div style={{ fontSize: '0.78rem', color: '#94A3B8' }}>{testi.role} · {testi.company}</div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-primary)' }}>{testi.author}</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>{testi.role} · {testi.company}</div>
                 </div>
               </div>
             </div>
@@ -1561,7 +1561,7 @@ export default function LandingPage() {
               fontFamily: 'var(--font-display)',
               fontSize: '2.8rem',
               fontWeight: 800,
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               letterSpacing: '-0.03em',
               marginBottom: 16,
             }}>
@@ -1569,7 +1569,7 @@ export default function LandingPage() {
             </h2>
             <p style={{
               fontSize: '1.05rem',
-              color: '#94A3B8',
+              color: 'var(--text-muted)',
               maxWidth: 640,
               margin: '0 auto 32px',
               lineHeight: 1.6,
@@ -1581,8 +1581,8 @@ export default function LandingPage() {
               <button
                 onClick={() => navigate('/login?role=recruiter')}
                 style={{
-                  background: '#FFFFFF',
-                  color: '#000000',
+                  background: 'var(--bg-card)',
+                  color: 'var(--bg-base)',
                   border: '1px solid #FFFFFF',
                   borderRadius: 10,
                   padding: '14px 30px',
@@ -1605,7 +1605,7 @@ export default function LandingPage() {
                 onClick={() => navigate('/login?role=candidate')}
                 style={{
                   background: 'rgba(255, 255, 255, 0.06)',
-                  color: '#FFFFFF',
+                  color: 'var(--text-primary)',
                   border: '1px solid rgba(255, 255, 255, 0.18)',
                   borderRadius: 10,
                   padding: '14px 26px',
@@ -1652,17 +1652,17 @@ export default function LandingPage() {
                   alt="HireSense"
                   style={{ height: 28, width: 'auto', display: 'block' }}
                 />
-                <span style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 600 }}>Explainable Talent OS</span>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>Explainable Talent OS</span>
               </div>
-              <p style={{ fontSize: '0.85rem', color: '#64748B', lineHeight: 1.6, maxWidth: 300 }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 300 }}>
                 Autonomous talent intelligence, deterministic resume parsing, and observable speech analytics engineered for ethical global hiring.
               </p>
             </div>
 
             {/* Column 1: Solutions */}
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 16 }}>Solutions</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: '#94A3B8' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>Solutions</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                 <span style={{ cursor: 'pointer' }} onClick={() => navigate('/login?role=recruiter')}>Enterprise Recruiting</span>
                 <span style={{ cursor: 'pointer' }} onClick={() => navigate('/login?role=recruiter')}>Startup Velocity Sourcing</span>
                 <span style={{ cursor: 'pointer' }} onClick={() => navigate('/login?role=candidate')}>Student Career Acceleration</span>
@@ -1672,8 +1672,8 @@ export default function LandingPage() {
 
             {/* Column 2: Governance & Compliance */}
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 16 }}>AI Governance</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: '#94A3B8' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>AI Governance</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                 <span>NYC Local Law 144 Audited</span>
                 <span>EEOC Four-Fifths Compliant</span>
                 <span>Zero Generative Hallucination</span>
@@ -1683,8 +1683,8 @@ export default function LandingPage() {
 
             {/* Column 3: Platform */}
             <div>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 16 }}>Platform</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: '#94A3B8' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 16 }}>Platform</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: '0.82rem', color: 'var(--text-muted)' }}>
                 <span style={{ cursor: 'pointer' }} onClick={() => navigate('/login')}>Recruiter Portal</span>
                 <span style={{ cursor: 'pointer' }} onClick={() => navigate('/login')}>Candidate Portal</span>
                 <span>API Documentation</span>
@@ -1702,7 +1702,7 @@ export default function LandingPage() {
             flexWrap: 'wrap',
             gap: 16,
             fontSize: '0.78rem',
-            color: '#64748B',
+            color: 'var(--text-muted)',
           }}>
             <div>&copy; 2026 HireSense Systems Inc. All rights reserved.</div>
             <div style={{ display: 'flex', gap: 24 }}>

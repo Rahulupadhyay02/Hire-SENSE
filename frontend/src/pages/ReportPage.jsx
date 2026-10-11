@@ -85,7 +85,7 @@ function Skeleton({ height = 20, width = '100%', style = {} }) {
   return (
     <div style={{
       height, width,
-      background: 'linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%)',
+      background: 'var(--bg-glass)',
       backgroundSize: '200% 100%',
       animation: 'shimmer 1.5s infinite',
       borderRadius: 8,
@@ -273,7 +273,7 @@ export default function ReportPage() {
             {/* Page Header */}
             <div style={{ marginBottom: 28 }}>
               <h1 className="page-title" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Sparkles size={24} style={{ color: '#FFFFFF' }} />
+                <Sparkles size={24} style={{ color: 'var(--text-primary)' }} />
                 Job Profiles & AI Reports
               </h1>
               <p className="page-subtitle">
@@ -295,7 +295,7 @@ export default function ReportPage() {
                 {/* ── Section 1: Jobs Grid ─────────────────────────────────── */}
                 <div style={{ marginBottom: 36 }}>
                   <div className="flex items-center justify-between" style={{ marginBottom: 16 }}>
-                    <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 8 }}>
                       <Briefcase size={18} color="#FFFFFF" />
                       Jobs Created by Recruiter
                       <span className="badge badge-brand" style={{ marginLeft: 6 }}>
@@ -336,7 +336,7 @@ export default function ReportPage() {
                           {isSelected && (
                             <span style={{
                               position: 'absolute', top: 14, right: 14,
-                              background: 'rgba(255, 255, 255, 0.15)', color: '#FFFFFF',
+                              background: 'rgba(255, 255, 255, 0.15)', color: 'var(--text-primary)',
                               border: '1px solid rgba(255, 255, 255, 0.3)',
                               borderRadius: 12, fontSize: '0.72rem', padding: '2px 8px', fontWeight: 600
                             }}>
@@ -352,7 +352,7 @@ export default function ReportPage() {
                             fontFamily: 'var(--font-display)',
                             fontSize: '1.18rem',
                             fontWeight: 700,
-                            color: '#FFFFFF',
+                            color: 'var(--text-primary)',
                             marginBottom: 14,
                             paddingRight: isSelected ? 80 : 0
                           }}>
@@ -383,7 +383,7 @@ export default function ReportPage() {
                             </div>
                             <div>
                               <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Shortlisted</div>
-                              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#FFFFFF' }}>
+                              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                                 {shortlistedCount}
                               </div>
                             </div>
@@ -410,9 +410,9 @@ export default function ReportPage() {
                 <div>
                   <div className="flex items-center justify-between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
                     <div>
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Users size={18} color="#FFFFFF" />
-                        Applicants for: <span style={{ color: '#FFFFFF' }}>{selectedJob?.title || 'Selected Job'}</span>
+                        Applicants for: <span style={{ color: 'var(--text-primary)' }}>{selectedJob?.title || 'Selected Job'}</span>
                         <span className="badge badge-brand" style={{ marginLeft: 6 }}>
                           {selectedJobApplicants.length} {selectedJobApplicants.length === 1 ? 'Applicant' : 'Applicants'}
                         </span>
@@ -426,7 +426,7 @@ export default function ReportPage() {
                   {selectedJobApplicants.length === 0 ? (
                     <div className="glass-card" style={{ padding: '48px 24px', textAlign: 'center' }}>
                       <Users size={44} style={{ color: 'var(--text-muted)', margin: '0 auto 12px', opacity: 0.4 }} />
-                      <h4 style={{ color: '#FFFFFF', marginBottom: 6 }}>No Applications Yet</h4>
+                      <h4 style={{ color: 'var(--text-primary)', marginBottom: 6 }}>No Applications Yet</h4>
                       <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 440, margin: '0 auto' }}>
                         No job seekers have applied to this role yet. When candidates apply, their AI evaluation cards will appear here.
                       </p>
@@ -472,12 +472,12 @@ export default function ReportPage() {
                                     width: 48, height: 48, borderRadius: '50%',
                                     background: 'linear-gradient(135deg, #FFFFFF, #CBD5E1)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    fontSize: '1.05rem', fontWeight: 800, color: '#000000', flexShrink: 0
+                                    fontSize: '1.05rem', fontWeight: 800, color: 'var(--bg-base)', flexShrink: 0
                                   }}>
                                     {initials}
                                   </div>
                                   <div>
-                                    <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.08rem', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
+                                    <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.08rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
                                       {app.candidate_name}
                                     </h4>
                                     <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
@@ -633,7 +633,7 @@ export default function ReportPage() {
           <div className="page-content">
             <div className="glass-card" style={{ padding: 40, textAlign: 'center' }}>
               <AlertTriangle size={44} style={{ color: '#f59e0b', margin: '0 auto 16px' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', marginBottom: 12, color: '#FFFFFF' }}>Could Not Load Report</h3>
+              <h3 style={{ fontFamily: 'var(--font-display)', marginBottom: 12, color: 'var(--text-primary)' }}>Could Not Load Report</h3>
               <div style={{ color: 'var(--text-muted)', marginBottom: 24 }}>{reportError}</div>
               <button className="btn btn-primary" onClick={handleBackToGrid}>Back to Job Applicants</button>
             </div>
@@ -705,9 +705,9 @@ export default function ReportPage() {
               <div style={{ color: 'var(--text-muted)', fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span>Jobs</span>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <strong style={{ color: '#FFFFFF' }}>{report.job_title}</strong>
+                <strong style={{ color: 'var(--text-primary)' }}>{report.job_title}</strong>
                 <span style={{ opacity: 0.4 }}>/</span>
-                <span style={{ color: '#FFFFFF', fontWeight: 600 }}>{report.candidate_name}</span>
+                <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{report.candidate_name}</span>
               </div>
             </div>
 
@@ -746,7 +746,7 @@ export default function ReportPage() {
                 <div className="candidate-avatar" style={{
                   width: 72, height: 72, fontSize: '1.6rem',
                   background: 'linear-gradient(135deg, #FFFFFF, #CBD5E1)',
-                  color: '#000000', flexShrink: 0
+                  color: 'var(--bg-base)', flexShrink: 0
                 }}>
                   {candidateInitials}
                 </div>
@@ -841,7 +841,7 @@ export default function ReportPage() {
                     <RadarChart data={radarData}>
                       <PolarGrid stroke={colors.polarGrid} />
                       <PolarAngleAxis dataKey="area" tick={{ fill: colors.labelFill, fontSize: 11 }} />
-                      <Radar dataKey="value" stroke="#FFFFFF" fill="#FFFFFF" fillOpacity={0.15} strokeWidth={2} />
+                      <Radar dataKey="value" stroke="#6366F1" fill="#6366F1" fillOpacity={0.25} strokeWidth={2.5} />
                     </RadarChart>
                   </ResponsiveContainer>
                 </div>
@@ -1157,7 +1157,7 @@ export default function ReportPage() {
                   {iv.latest_metrics && (
                     <div className="grid-4" style={{ marginBottom: 24 }}>
                       {[
-                        { label: 'Word Count',    value: iv.latest_metrics.word_count || 0, icon: FileText, sub: 'words total', color: '#FFFFFF' },
+                        { label: 'Word Count',    value: iv.latest_metrics.word_count || 0, icon: FileText, sub: 'words total', color: 'var(--text-primary)' },
                         { label: 'Filler Rate',   value: `${iv.latest_metrics.filler_word_rate || 0}%`, icon: MessageSquare, sub: `${iv.latest_metrics.filler_count || 0} filler words`, color: '#10b981' },
                         { label: 'Speaking Rate', value: `${iv.latest_metrics.wpm || 0}`, icon: Mic, sub: 'words per minute', color: '#8b5cf6' },
                         { label: 'Comm. Score',   value: `${Math.round(iv.latest_communication_score || 0)}`, icon: Award, sub: 'out of 100', color: '#f59e0b' },
@@ -1188,7 +1188,7 @@ export default function ReportPage() {
                           <RadarChart data={iv.latest_metrics.radar}>
                             <PolarGrid stroke={colors.polarGrid} />
                             <PolarAngleAxis dataKey="area" tick={{ fill: colors.labelFill, fontSize: 11 }} />
-                            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.15} strokeWidth={2} />
+                            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25} strokeWidth={2.5} />
                           </RadarChart>
                         </ResponsiveContainer>
                       </div>
@@ -1305,7 +1305,7 @@ export default function ReportPage() {
                   width: 44, height: 44, borderRadius: 10,
                   background: 'rgba(255, 255, 255, 0.08)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#FFFFFF'
+                  color: 'var(--text-primary)'
                 }}>
                   <Scale size={22} />
                 </div>

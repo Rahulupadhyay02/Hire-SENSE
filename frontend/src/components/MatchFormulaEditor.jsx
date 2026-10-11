@@ -147,7 +147,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
               width: 28, height: 28, borderRadius: 8,
               background: 'rgba(255, 255, 255, 0.1)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#FFFFFF'
+              color: 'var(--text-primary)'
             }}>
               <Sliders size={16} />
             </div>
@@ -155,13 +155,13 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
               fontFamily: 'var(--font-display)',
               fontSize: '1.05rem',
               fontWeight: 700,
-              color: '#FFFFFF',
+              color: 'var(--text-primary)',
               margin: 0
             }}>
               Recruiter Match Formula & Weights
             </h3>
           </div>
-          <p style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 4, marginBottom: 0 }}>
+          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 4, marginBottom: 0 }}>
             You are the boss of this job's evaluation. Tune factor percentages or add custom criteria. All candidates will be scored strictly by your formula.
           </p>
         </div>
@@ -214,7 +214,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
 
       {/* Quick Presets Bar */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
-        <span style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           Presets:
         </span>
         {PRESETS.map(preset => (
@@ -288,7 +288,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
             <div style={{ minWidth: 160, flex: '0 0 auto' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: item.color }} />
-                <span style={{ fontWeight: 600, color: '#FFFFFF', fontSize: '0.88rem' }}>
+                <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.88rem' }}>
                   {item.label}
                 </span>
                 {item.isCustom && (
@@ -304,7 +304,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
                   </span>
                 )}
               </div>
-              <div style={{ fontSize: '0.72rem', color: '#64748B', marginTop: 2, paddingLeft: 16 }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: 2, paddingLeft: 16 }}>
                 {item.description}
               </div>
             </div>
@@ -341,7 +341,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
                     background: 'rgba(0, 0, 0, 0.4)',
                     border: '1px solid rgba(255, 255, 255, 0.15)',
                     borderRadius: 6,
-                    color: '#FFFFFF',
+                    color: 'var(--text-primary)',
                     fontWeight: 700,
                     fontSize: '0.85rem',
                     textAlign: 'right'
@@ -352,7 +352,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
                   right: 8,
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  color: '#94A3B8',
+                  color: 'var(--text-muted)',
                   fontSize: '0.75rem',
                   pointerEvents: 'none'
                 }}>
@@ -367,7 +367,7 @@ export default function MatchFormulaEditor({ value, onChange, compact = false })
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: '#64748B',
+                  color: 'var(--text-muted)',
                   cursor: 'pointer',
                   padding: 6,
                   borderRadius: 4,

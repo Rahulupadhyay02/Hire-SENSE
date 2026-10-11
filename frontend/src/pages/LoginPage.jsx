@@ -1,13 +1,11 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, ArrowLeft, AlertCircle, Briefcase, User, Sparkles, ShieldCheck, CheckCircle2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
 
 export default function LoginPage() {
   const navigate = useNavigate()
   const { login, register, logout } = useAuth()
-  const { setDark } = useTheme()
 
   const [tab, setTab] = useState('login')
   const [role, setRole] = useState('recruiter')
@@ -15,10 +13,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', password: '' })
-
-  useLayoutEffect(() => {
-    setDark(true)
-  }, [setDark])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -84,7 +78,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-page">
+    <div className="auth-page auth-page-scope">
       {/* ── Vintage Technical Gray & White Grid Background with Low Fade / Vignette ── */}
       <div className="vintage-grid-bg" aria-hidden="true">
         <div className="vintage-grid-lines" />
@@ -105,7 +99,7 @@ export default function LoginPage() {
               style={{ height: 34, width: 'auto', display: 'block' }}
             />
             <div style={{ height: 20, width: 1, background: 'rgba(255, 255, 255, 0.15)' }} />
-            <div style={{ fontSize: '0.74rem', color: '#94A3B8', fontWeight: 500, letterSpacing: '0.01em' }}>
+            <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: 500, letterSpacing: '0.01em' }}>
               Explainable Talent Intelligence
             </div>
           </div>
@@ -117,7 +111,7 @@ export default function LoginPage() {
             fontWeight: 800,
             letterSpacing: '-0.03em',
             lineHeight: 1.18,
-            color: '#FFFFFF',
+            color: 'var(--text-primary)',
             marginBottom: 12
           }}>
             Next-Gen Hiring, <br />
@@ -126,7 +120,7 @@ export default function LoginPage() {
             </span>
           </h1>
 
-          <p style={{ color: '#94A3B8', marginBottom: 24, lineHeight: 1.6, maxWidth: 480, fontSize: '0.92rem' }}>
+          <p style={{ color: 'var(--text-muted)', marginBottom: 24, lineHeight: 1.6, maxWidth: 480, fontSize: '0.92rem' }}>
             Audit-proof candidate evaluation, real-time speech acoustic metrics, and unbiased scoring designed for modern high-velocity talent teams.
           </p>
 
@@ -159,12 +153,12 @@ export default function LoginPage() {
                 alignItems: 'center',
                 gap: 8,
                 fontSize: '0.78rem',
-                color: '#FFFFFF',
+                color: 'var(--text-primary)',
                 fontWeight: 600,
                 boxShadow: '0 10px 25px rgba(0,0,0,0.6)'
               }}
             >
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#FFFFFF', boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--bg-card)', boxShadow: '0 0 8px rgba(255, 255, 255, 0.6)' }} />
               94% AI Talent Match Precision
             </div>
 
@@ -233,7 +227,7 @@ export default function LoginPage() {
                   boxShadow: '0 10px 20px rgba(0,0,0,0.35)'
                 }}
               >
-                <p style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: 10, fontStyle: 'italic', lineHeight: 1.4 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 10, fontStyle: 'italic', lineHeight: 1.4 }}>
                   {t.text}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -242,20 +236,20 @@ export default function LoginPage() {
                       width: 26,
                       height: 26,
                       borderRadius: '50%',
-                      background: '#FFFFFF',
+                      background: 'var(--bg-card)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontSize: '0.72rem',
                       fontWeight: 700,
-                      color: '#000000'
+                      color: 'var(--bg-base)'
                     }}
                   >
                     {t.name.charAt(0)}
                   </div>
                   <div>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#FFFFFF' }}>{t.name}</div>
-                    <div style={{ fontSize: '0.68rem', color: '#64748B' }}>{t.role}</div>
+                    <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-primary)' }}>{t.name}</div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>{t.role}</div>
                   </div>
                 </div>
               </div>
@@ -270,7 +264,7 @@ export default function LoginPage() {
           {/* Back Link */}
           <button
             className="btn btn-ghost btn-sm"
-            style={{ marginBottom: 24, paddingLeft: 0, color: '#94A3B8', display: 'inline-flex', alignItems: 'center', gap: 6, background: 'transparent', border: 'none', cursor: 'pointer' }}
+            style={{ marginBottom: 24, paddingLeft: 0, color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: 6, background: 'transparent', border: 'none', cursor: 'pointer' }}
             onClick={() => navigate('/')}
             onMouseEnter={e => e.currentTarget.style.color = '#FFFFFF'}
             onMouseLeave={e => e.currentTarget.style.color = '#94A3B8'}
@@ -278,10 +272,10 @@ export default function LoginPage() {
             <ArrowLeft size={14} /> Back to home
           </button>
 
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 700, color: '#FFFFFF', marginBottom: 6 }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
             {tab === 'login' ? 'Welcome back' : 'Create account'}
           </h3>
-          <p style={{ fontSize: '0.88rem', color: '#94A3B8', marginBottom: 24 }}>
+          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: 24 }}>
             {tab === 'login' ? 'Sign in to your HireSense account' : 'Join HireSense and get started'}
           </p>
 
@@ -418,7 +412,7 @@ export default function LoginPage() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: '#64748B'
+                    color: 'var(--text-muted)'
                   }}
                 >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -430,7 +424,7 @@ export default function LoginPage() {
               <div style={{ textAlign: 'right', marginTop: -4 }}>
                 <a
                   href="#"
-                  style={{ fontSize: '0.8rem', color: '#CBD5E1', textDecoration: 'none' }}
+                  style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', textDecoration: 'none' }}
                   onClick={e => e.preventDefault()}
                 >
                   Forgot password?
@@ -466,7 +460,7 @@ export default function LoginPage() {
               borderRadius: 14
             }}
           >
-            <div style={{ fontSize: '0.74rem', color: '#FFFFFF', marginBottom: 10, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: '0.74rem', color: 'var(--text-primary)', marginBottom: 10, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6, letterSpacing: '0.04em' }}>
               <Sparkles size={13} color="#FFFFFF" />
               <span>PRE-FILL DEMO ACCOUNT</span>
             </div>
@@ -480,7 +474,7 @@ export default function LoginPage() {
                   borderRadius: 8,
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   background: '#151824',
-                  color: '#E2E8F0',
+                  color: 'var(--text-primary)',
                   fontSize: '0.78rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -501,7 +495,7 @@ export default function LoginPage() {
                   borderRadius: 8,
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   background: '#151824',
-                  color: '#E2E8F0',
+                  color: 'var(--text-primary)',
                   fontSize: '0.78rem',
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -522,7 +516,7 @@ export default function LoginPage() {
                   borderRadius: 8,
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   background: '#151824',
-                  color: '#E2E8F0',
+                  color: 'var(--text-primary)',
                   fontSize: '0.78rem',
                   fontWeight: 600,
                   cursor: 'pointer',
